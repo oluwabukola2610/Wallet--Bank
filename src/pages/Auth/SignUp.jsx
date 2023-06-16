@@ -91,7 +91,7 @@ const SignUp = () => {
                 placeholder="First Name"
                 onChange={handleInput}
                 name="firstName"
-                className="w-full px-3 py-2 border border-gray-300 text-gray-800  placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-800  placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
               />
             </div>
             <div className="w-1/2 ml-2 mb-2">
@@ -108,7 +108,7 @@ const SignUp = () => {
                 value={user.lastName}
                 onChange={handleInput}
                 name="lastName"
-                className="w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
               />
             </div>
           </div>
@@ -128,7 +128,7 @@ const SignUp = () => {
               onChange={handleInput}
               onFocus={() => setShowEmailMessage(true)}
               onBlur={() => setShowEmailMessage(false)}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
             />
             {showEmailMessage && (
               <p className="text-sm text-red-400 mb-2">
@@ -150,7 +150,7 @@ const SignUp = () => {
               value={user.phone}
               name="phone"
               onChange={handleInput}
-              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
             />
           </div>
           <div>
@@ -168,7 +168,7 @@ const SignUp = () => {
                 id="password"
                 placeholder="••••••••"
                 onChange={handlePasswordChange} // Invoke handlePasswordChange instead of handleInput
-                className="w-full px-4 text-gray-800 placeholder:text-gray-900 text-sm focus:outline-none"
+                className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"
               />
               <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (

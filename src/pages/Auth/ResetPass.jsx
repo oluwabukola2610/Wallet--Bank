@@ -60,7 +60,7 @@ const ResetPass = () => {
                 placeholder="••••••••"
                 onChange={handleInput}
                 value={user.password}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-900 text-sm  focus:outline-none"
+                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
               />
               <div onClick={togglePassword} className=" text-grayText px-4">
                 {passwordType === "password" ? (
@@ -86,7 +86,7 @@ const ResetPass = () => {
                 placeholder="••••••••"
                 onChange={hsndleRestInput}
                 value={confirmPass}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-900 text-sm  focus:outline-none"
+                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
               />
               <div onClick={togglePassword} className=" text-grayText px-4">
                 {passwordType === "password" ? (

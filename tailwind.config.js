@@ -6,7 +6,8 @@ export default {
       colors: {
         primary: "#1F6AEC",
         grayText: "#6D7A98",
-        bgGray:'#DEE3EB'
+        bgGray:'#DEE3EB',
+        faded:'#F1F4F8'
       },
     },
   },

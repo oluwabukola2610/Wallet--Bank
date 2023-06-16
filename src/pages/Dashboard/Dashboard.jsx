@@ -27,16 +27,16 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
-      });
+      })
   };
-  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
+  const currentUser = localStorage.getItem("keyuserinfo");
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav  />
       <header className="mt-3">
-        <div className="flex flex-col md:flex-row justify-between  items-center py-3">
-          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
+        <div className="flex flex-col md:flex-row justify-between  items-center py-3 capitalize">
+          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex">
             Hello {currentUser.firstName}👋🏽
           </h1>
           <div className="flex space-x-4">

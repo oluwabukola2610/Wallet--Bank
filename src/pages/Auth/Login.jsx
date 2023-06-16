@@ -60,7 +60,7 @@ const Login = () => {
               name="email"
               value={user.email}
               onChange={handleInput}
-              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
             />
           </div>
 
@@ -79,7 +79,7 @@ const Login = () => {
                 placeholder="••••••••"
                 value={user.password}
                 onChange={handleInput}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-900 text-sm  focus:outline-none"
+                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
               />
               <div onClick={togglePassword} className=" text-grayText px-4">
                 {passwordType === "password" ? (
