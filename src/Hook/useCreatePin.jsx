@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const useCreatePin = () => {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
-  
+
   const handleCreatePin = (e) => {
     e.preventDefault();
     // Validate the OTP code
@@ -14,17 +14,17 @@ const useCreatePin = () => {
       toast.warning("please enter your pin");
       return;
     }
-    const userId = window.location.pathname.split('/').pop(); // Extract the user ID from the URL
-    console.log(userId);
-    console.log(code);
-    const pin = {code};
+    const userId = window.location.pathname.split("/").pop(); // Extract the user ID from the URL
+    const pin = { code };
     console.log(pin);
     const pindata = { pin: code, id: userId };
     console.log(pindata); // Make an API call to validate the OTP
-    axios.post(
-      `https://bank-app-backend-server.onrender.com/api/v1/trans/create_pin/${userId}`,
-      pindata
-    ).then((response) => {
+    axios
+      .post(
+        `https://bank-app-backend-server.onrender.com/api/v1/trans/create_pin/${userId}`,
+        pindata
+      )
+      .then((response) => {
         if (response.status === 200) {
           toast.success("Transaction pin created succesfully");
           setTimeout(() => {
@@ -39,7 +39,7 @@ const useCreatePin = () => {
           console.error(error);
           toast.warning("An error occurred. Please try again later.");
         }
-      })
+      });
   };
 
   return { code, setCode, handleCreatePin };

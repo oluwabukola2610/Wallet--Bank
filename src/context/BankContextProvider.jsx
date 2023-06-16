@@ -43,13 +43,11 @@ const BankContextProvider = ({ children }) => {
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log(response);
           toast.success("Registration successful, check your email for otp");
           window.localStorage.setItem("email", JSON.stringify(user.email));
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
-          console.log("Registration successful");
         }
         // setuser to empty string
       })
@@ -57,7 +55,6 @@ const BankContextProvider = ({ children }) => {
         if (error.response && error.response.status === 400) {
           toast.warning("Email is already being used");
         } else {
-          console.error(error);
           toast.warning("An error occurred. Please try again later.");
         }
       })
@@ -84,14 +81,12 @@ const BankContextProvider = ({ children }) => {
         logindata
       )
       .then((response) => {
-        console.log(response )
         if (response.status === 201) {
           toast.success("Login Successful!");
           setTimeout(() => {
             navigate("/wallet");
           }, 2000);
           const tokenData = response.data.data;
-          console.log(tokenData);
           window.localStorage.setItem("token", tokenData);
           window.localStorage.setItem("isLoggedIn", true);
         } else {
@@ -106,7 +101,6 @@ const BankContextProvider = ({ children }) => {
         if (error.response && error.response.status === 400) {
           toast.warning("Email is not registered");
         } else {
-          console.error(error);
           toast.warning("An error occurred. Please try again later.");
         }
       })
@@ -115,34 +109,8 @@ const BankContextProvider = ({ children }) => {
       });
   };
 
-  const [userData, setUserData] = useState("");
 
-  const handleDashboard = () => {
-    const token = window.localStorage.getItem("token");
-    console.log(token);
-    const usertoken = { token };
-    console.log(usertoken);
 
-    axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
-        usertoken
-      )
-      .then((data) => {
-        console.log(data);
-        const userData = data.data.myuserdata;
-        setUserData(userData);
-        console.log(userData);
-        localStorage.setItem("keyuserinfo", JSON.stringify(userData));
-      })
-      .catch((error) => {
-        console.log("Error fetching data:", error);
-      });
-    const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
-    console.log(currentUser);
-    const userId = currentUser._id;
-    console.log(userId);
-  };
 
   const contextValue = {
     handleRegister,
@@ -151,8 +119,6 @@ const BankContextProvider = ({ children }) => {
     handleLogin,
     setUser,
     isLoading,
-    handleDashboard,
-    userData,
   };
 
   return (

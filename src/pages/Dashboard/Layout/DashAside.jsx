@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo/Union.png";
 import { FiLogOut } from "react-icons/fi";
 import Transaction from "../Transaction";
@@ -6,6 +6,7 @@ import Dashboard from "../Dashboard";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
 
 function DashAside() {
+  const navigate = useNavigate()
   const location = useLocation();
 
   const shouldRenderNavbar =
@@ -14,6 +15,10 @@ function DashAside() {
   if (!shouldRenderNavbar) {
     return null;
   }
+  const handleLogOut =()=>{
+      localStorage.clear();
+      navigate('/')
+    }
 
   return (
     <div className="max-w-[1640px] mx-auto flex flex-col lg:flex-row ">
@@ -54,7 +59,7 @@ function DashAside() {
               size={20}
             />
             <button
-              type="submit"
+            onClick={handleLogOut}
               className=" border-[1.5px] border-gray-300 text-gray-300 rounded-lg py-2 px-4 "
             >
               Log Out

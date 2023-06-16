@@ -51,8 +51,6 @@ const useSignupOtp = () => {
         userOtp
       )
       .then((response) => {
-        console.log(response);
-        console.log(userOtp);
         if (response.status === 200) {
           // OTP validation successful
           toast.success("OTP verified successfully");

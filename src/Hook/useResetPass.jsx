@@ -31,19 +31,16 @@ const useResetPass = () => {
       return;
     }
     const userId = window.location.pathname.split('/')[2]; // Extract the user ID from the URL
-    const token = window.location.pathname.split('/')[3]; // Extract the token from the URL
-    console.log(userId)
-    console.log(token);
-    const newpassData = { password: user.password, id: userId, usertoken: token };
+    const userToken = window.location.pathname.split('/')[3]; // Extract the token from the URL
+    const newpassData = { password: user.password, id: userId, token: userToken };
     // Make the API request to reset the password
     axios
       .post(
-        `https://bank-app-backend-server.onrender.com/api/v1/auth/pass_reset/${userId}/${token}`,
+        `https://bank-app-backend-server.onrender.com/api/v1/auth/pass_reset/${userId}/${userToken}`,
        newpassData
       )
       .then((response) => {
         if (response.status === 200) {
-          console.log(response);
           toast.success("Password reset successful");
           // Perform any necessary actions after successful password reset
         }

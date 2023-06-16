@@ -1,25 +1,45 @@
 import group1 from "../../assets/group1.png";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import TransferForm from "./component/TransferForm";
 import FundsForm from "./component/FundsForm";
 import DashNav from "./component/DashNav";
-import { BankContext } from "../../context/BankContextProvider";
+import axios from "axios";
 const Dashboard = () => {
   const [toggleTranser, settoggleTranser] = useState(false);
   const [toggleFunds, settoggleFunds] = useState(false);
-  const { handleDashboard } = useContext(BankContext);
 
   useEffect(() => {
-    handleDashboard()
+    handleDashboard();
   }, []);
+
+  const handleDashboard = () => {
+    const token = window.localStorage.getItem("token");
+    const usertoken = { token };
+
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
+        usertoken
+      )
+      .then((response) => {
+        const userData = response.data.myuserdata;
+        localStorage.setItem("keyuserinfo", JSON.stringify(userData));
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
+  };
+  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
+  const userfirstName = currentUser.firstName;
+
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav />
       <header className="mt-3">
         <div className="flex flex-col md:flex-row justify-between  items-center py-3">
           <h1 className="hidden font-semibold text-xl md:text-2xl md:flex">
-            Hello Omo👋🏽
+            Hello {userfirstName}👋🏽
           </h1>
           <div className="flex space-x-4">
             <button
