@@ -3,29 +3,63 @@ import DashNav from "./component/DashNav";
 const Transaction = () => {
   const transactions = [
     {
-      walletType: "Dollar",
-
-      date: "2023-06-01",
-      status: "declined",
-      amount: 100,
+      date: "2023-06-02",
+      status: "sucesss",
+      amount: "NGN 200",
+      walletType: "Naira",
     },
-    { date: "2023-06-02", status: "sucesss", amount: 50, walletType: "Naira" },
     {
       walletType: "Dollar",
 
       date: "2023-06-01",
-      status: "declined",
-      amount: 100,
+      status: "failed",
+      amount: "USD 500",
     },
-    { date: "2023-06-02", status: "sucesss", amount: 50, walletType: "Naira" },
+    {
+      date: "2023-06-02",
+      status: "sucesss",
+      amount: "NGN 200",
+      walletType: "Naira",
+    },
+    {
+      walletType: "Dollar",
+      amount: "USD 300",
+
+      date: "2023-06-01",
+      status: "failed",
+    },
+    {
+      date: "2023-06-02",
+      status: "sucesss",
+      amount: "NGN 140",
+      walletType: "Naira",
+    },
     {
       walletType: "Dollar",
 
       date: "2023-06-01",
-      status: "declined",
-      amount: 100,
+      status: "failed",
+      amount: "USD 100",
     },
-    { date: "2023-06-02", status: "sucesss", amount: 50, walletType: "Naira" },
+    {
+      date: "2023-06-02",
+      status: "sucesss",
+      amount: "NGN 100",
+      walletType: "Naira",
+    },
+    {
+      date: "2023-06-02",
+      status: "sucesss",
+      amount: "NGN 200",
+      walletType: "Naira",
+    },
+    {
+      walletType: "Dollar",
+
+      date: "2023-06-01",
+      status: "sucesss",
+      amount: "USD 500",
+    },
     // Add more transactions as needed
   ];
   return (
@@ -56,7 +90,7 @@ const Transaction = () => {
               <tr key={index} className="hover:bg-faded duration-300">
                 <td className="px-6 py-4 whitespace-no-wrap">
                   <div className="text-sm leading-5 text-gray-900">
-                    {transaction.walletType}
+                    {transaction.walletType} Account
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">
@@ -64,12 +98,13 @@ const Transaction = () => {
                     {transaction.date}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap">
-                  <div className="text-sm leading-5 text-gray-900">
+                <td
+                  className="px-6 py-4 whitespace-no-wrap "
+                >
+                  <div className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${ transaction.status === "failed" ? "bg-red-100 text-red-300" : "bg-green-200 text-green-400"}`}>
                     {transaction.status}
                   </div>
                 </td>
-
                 <td className="px-6 py-4 whitespace-no-wrap">
                   <div className="text-sm leading-5 text-gray-900">
                     {transaction.amount}
