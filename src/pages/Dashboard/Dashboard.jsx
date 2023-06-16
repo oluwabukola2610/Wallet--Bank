@@ -4,40 +4,29 @@ import { AiOutlineClose } from "react-icons/ai";
 import TransferForm from "./component/TransferForm";
 import FundsForm from "./component/FundsForm";
 import DashNav from "./component/DashNav";
-import axios from "axios";
+import useHandledashbord from "../../Hook/useHandledashbord";
 const Dashboard = () => {
   const [toggleTranser, settoggleTranser] = useState(false);
   const [toggleFunds, settoggleFunds] = useState(false);
+  const {handleDashboard} = useHandledashbord()
+  const [name, setName] = useState()
   useEffect(() => {
     handleDashboard();
+    const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
+    if (storedUserData) {
+      const { firstName } = storedUserData;
+      setName(`${firstName}`)
+    }
   }, []);
 
-  const handleDashboard = () => {
-    const token = window.localStorage.getItem("token");
-    const usertoken = { token };
-
-    axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
-        usertoken
-      )
-      .then((response) => {
-        const userData = response.data.myuserdata;
-        localStorage.setItem("keyuserinfo", JSON.stringify(userData));
-      })
-      .catch((error) => {
-        console.log("Error fetching data:", error);
-      })
-  };
-  const currentUser = localStorage.getItem("keyuserinfo");
-
+ 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav  />
       <header className="mt-3">
         <div className="flex flex-col md:flex-row justify-between  items-center py-3 capitalize">
-          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex">
-            Hello {currentUser.firstName}👋🏽
+          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
+            Hello {name}👋🏽
           </h1>
           <div className="flex space-x-4">
             <button

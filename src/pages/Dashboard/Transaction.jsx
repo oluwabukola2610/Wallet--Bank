@@ -34,26 +34,26 @@ const Transaction = () => {
 
       <div className="overflow-x-auto mt-6">
         <table className="min-w-full">
-          <thead className="bg-faded">
-            <tr>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+          <thead className="">
+            <tr className="bg-faded">
+              <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Wallet Type
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Transaction Date
               </th>
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
 
-              <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3  text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Amount
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {transactions.map((transaction, index) => (
-              <tr key={index}>
+              <tr key={index} className="hover:bg-faded duration-300">
                 <td className="px-6 py-4 whitespace-no-wrap">
                   <div className="text-sm leading-5 text-gray-900">
                     {transaction.walletType}
