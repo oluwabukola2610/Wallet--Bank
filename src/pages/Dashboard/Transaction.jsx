@@ -5,7 +5,7 @@ const Transaction = () => {
     {
       date: "2023-06-02",
       status: "sucesss",
-      amount: "NGN 200",
+      amount: "₦ 200",
       walletType: "Naira",
     },
     {
@@ -13,17 +13,17 @@ const Transaction = () => {
 
       date: "2023-06-01",
       status: "failed",
-      amount: "USD 500",
+      amount: "$ 500",
     },
     {
       date: "2023-06-02",
       status: "sucesss",
-      amount: "NGN 200",
+      amount: "₦ 200",
       walletType: "Naira",
     },
     {
       walletType: "Dollar",
-      amount: "USD 300",
+      amount: "$ 300",
 
       date: "2023-06-01",
       status: "failed",
@@ -31,7 +31,7 @@ const Transaction = () => {
     {
       date: "2023-06-02",
       status: "sucesss",
-      amount: "NGN 140",
+      amount: "₦ 140",
       walletType: "Naira",
     },
     {
@@ -39,18 +39,18 @@ const Transaction = () => {
 
       date: "2023-06-01",
       status: "failed",
-      amount: "USD 100",
+      amount: "$ 100",
     },
     {
       date: "2023-06-02",
       status: "sucesss",
-      amount: "NGN 100",
+      amount: "₦ 100",
       walletType: "Naira",
     },
     {
       date: "2023-06-02",
       status: "sucesss",
-      amount: "NGN 200",
+      amount: "₦ 200",
       walletType: "Naira",
     },
     {
@@ -58,7 +58,7 @@ const Transaction = () => {
 
       date: "2023-06-01",
       status: "sucesss",
-      amount: "USD 500",
+      amount: "$ 500",
     },
     // Add more transactions as needed
   ];
