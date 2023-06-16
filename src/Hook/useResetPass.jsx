@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import { BankContext } from "../context/BankContextProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const useResetPass = () => {
   const { user } = useContext(BankContext);
   const [confirmPass, setConfirmPass] = useState("");
   const [passwordType, setPasswordType] = useState("password");
+  const navigate = useNavigate()
   const togglePassword = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -42,6 +44,7 @@ const useResetPass = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Password reset successful");
+          navigate('/login')
           // Perform any necessary actions after successful password reset
         }
       })

@@ -8,7 +8,6 @@ import axios from "axios";
 const Dashboard = () => {
   const [toggleTranser, settoggleTranser] = useState(false);
   const [toggleFunds, settoggleFunds] = useState(false);
-
   useEffect(() => {
     handleDashboard();
   }, []);
@@ -30,15 +29,15 @@ const Dashboard = () => {
         console.log("Error fetching data:", error);
       });
   };
-
+  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-      <DashNav />
+      <DashNav  />
       <header className="mt-3">
         <div className="flex flex-col md:flex-row justify-between  items-center py-3">
-          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex">
-            Hello omo👋🏽
+          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
+            Hello {currentUser.firstName}👋🏽
           </h1>
           <div className="flex space-x-4">
             <button
