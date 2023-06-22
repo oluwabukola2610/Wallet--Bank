@@ -8,7 +8,7 @@ import useHandledashbord from "../../Hook/useHandledashbord";
 const Dashboard = () => {
   const [toggleTranser, settoggleTranser] = useState(false);
   const [toggleFunds, settoggleFunds] = useState(false);
-  const { handleDashboard, setTranasaction } = useHandledashbord();
+  const { handleDashboard, setUserTranasaction } = useHandledashbord();
   const [name, setName] = useState();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
       setName(`${firstName}`);
     }
     setTimeout(() => {
-      setTranasaction();
+      setUserTranasaction();
     }, 3000);
   }, []);
 

@@ -19,21 +19,25 @@ const useHandledashbord = () => {
         console.log("Error fetching data:", error);
       });
   };
-  const setTranasaction = () => {
+  const setUserTranasaction = () => {
     const walletType = "naira&usd";
-    const getUserId = localStorage.getItem("keyuserinfo");
+    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
     const userId = getUserId._id;
-    axios.post(
-      "http://bank-app-backend-server.onrender.com/api/v1/wallet/create/",
-      { walletType, userId }
-    ).then((response)=>{
-      console.log(response)
-    }).catch((error)=>{
-      console.log(error)
-    })
+    const dashboardData = { walletType, userId };
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/wallet/create/",
+        dashboardData
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  return { handleDashboard, setTranasaction };
+  return { handleDashboard, setUserTranasaction };
 };
 
 export default useHandledashbord;

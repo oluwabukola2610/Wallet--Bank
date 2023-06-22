@@ -3,12 +3,14 @@ import useHandleTransfer from "../../../Hook/useHandleTransfer";
 const FundsForm = () => {
   const {
     handleCurrencyChange,
-    handleInput,
-    handleTransact,
     selectedCurrency,
     handleFundsForm,
+    setFundsInput,
+    fundsInput,
   } = useHandleTransfer();
-
+  const handleInput = (event) => {
+    setFundsInput(event.target.value);
+  };
   return (
     <div>
       <h2 className="text-2xl p-4 border-b border-b-slate-300 shadow-sm">
@@ -67,7 +69,7 @@ const FundsForm = () => {
             name="amount"
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
             onChange={handleInput}
-            value={handleTransact.amount}
+            value={fundsInput}
           />
         </div>
 

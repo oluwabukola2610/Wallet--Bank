@@ -4,7 +4,7 @@ const TransferForm = () => {
   const {
     handleCurrencyChange,
     handleInput,
-    handleTransact,
+    transferInput,
     selectedCurrency,
     handleTransferForm,
   } = useHandleTransfer();
@@ -64,7 +64,7 @@ const TransferForm = () => {
             id="accountNumber"
             placeholder="23456788901"
             name="accountNum"
-            value={handleTransact.accountNum}
+            value={transferInput.accountNum}
             onChange={handleInput}
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
           />
@@ -81,7 +81,7 @@ const TransferForm = () => {
             id="amount"
             placeholder="₦ 00.00"
             name="amount"
-            value={handleTransact.amount}
+            value={transferInput.amount}
             onChange={handleInput}
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
           />
@@ -98,7 +98,7 @@ const TransferForm = () => {
             id="pin"
             placeholder="****"
             name="pin"
-            value={handleTransact.pin}
+            value={transferInput.pin}
             onChange={handleInput}
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
           />
