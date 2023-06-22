@@ -8,21 +8,24 @@ import useHandledashbord from "../../Hook/useHandledashbord";
 const Dashboard = () => {
   const [toggleTranser, settoggleTranser] = useState(false);
   const [toggleFunds, settoggleFunds] = useState(false);
-  const {handleDashboard} = useHandledashbord()
-  const [name, setName] = useState()
+  const { handleDashboard, setTranasaction } = useHandledashbord();
+  const [name, setName] = useState();
+
   useEffect(() => {
     handleDashboard();
     const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
     if (storedUserData) {
       const { firstName } = storedUserData;
-      setName(`${firstName}`)
+      setName(`${firstName}`);
     }
+    setTimeout(() => {
+      setTranasaction();
+    }, 3000);
   }, []);
 
- 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-      <DashNav  />
+      <DashNav />
       <header className="mt-3">
         <div className="flex flex-col md:flex-row justify-between  items-center py-3 capitalize">
           <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
