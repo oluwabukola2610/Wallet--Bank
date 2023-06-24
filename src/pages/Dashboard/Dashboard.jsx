@@ -27,7 +27,9 @@ const Dashboard = () => {
       const { firstName } = storedUserData;
       setName(firstName);
     }
-    setuserWallet();
+    setTimeout(() => {
+      setuserWallet();
+    }, 2000);
     fetchUserTransactions();
   }, []);
 
@@ -87,76 +89,69 @@ const Dashboard = () => {
       </header>
 
       <main>
-        {transactions ? (
-          transactions.length > 0 ? (
-            <>
-              <div className="overflow-x-auto mt-6">
-                <table className="min-w-full">
-                  <thead className="">
-                    <tr className="bg-faded">
-                      <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Wallet
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Transaction Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-6 py-3  text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Amount
-                      </th>
+        {transactions.length > 0 ? (
+          <>
+            <div className="overflow-x-auto mt-6">
+              <table className="min-w-full">
+                <thead className="">
+                  <tr className="bg-faded">
+                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Wallet
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Transaction Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3  text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {transactions.slice(0, 3).map((transaction, index) => (
+                    <tr key={index} className="hover:bg-faded duration-300">
+                      <td className="px-4 py-4 whitespace-no-wrap">
+                        <div className="text-sm leading-5 text-gray-900">
+                          {transaction.walletType} Account
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        <div className="text-sm leading-5 text-gray-900">
+                          {formatTimestamp(transaction.timestamp)}{" "}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        <div
+                          className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
+                            transaction.paymentStatus === "failed"
+                              ? "bg-red-100 text-red-300"
+                              : transaction.paymentStatus === "pending"
+                              ? "bg-yellow-100 text-yellow-500"
+                              : "bg-green-200 text-green-400"
+                          }`}
+                        >
+                          {transaction.paymentStatus}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        <div className="text-sm leading-5 text-gray-900">
+                          {transaction.amount}
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {transactions.slice(0, 3).map((transaction, index) => (
-                      <tr key={index} className="hover:bg-faded duration-300">
-                        <td className="px-4 py-4 whitespace-no-wrap">
-                          <div className="text-sm leading-5 text-gray-900">
-                            {transaction.walletType} Account
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-no-wrap">
-                          <div className="text-sm leading-5 text-gray-900">
-                            {formatTimestamp(transaction.timestamp)}{" "}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-no-wrap">
-                          <div
-                            className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
-                              transaction.paymentStatus === "failed"
-                                ? "bg-red-100 text-red-300"
-                                : transaction.paymentStatus === "pending"
-                                ? "bg-yellow-100 text-yellow-500"
-                                : "bg-green-200 text-green-400"
-                            }`}
-                          >
-                            {transaction.paymentStatus}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-no-wrap">
-                          <div className="text-sm leading-5 text-gray-900">
-                            {transaction.amount}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <Link
-                to="/transactions"
-                className="text-blue-300 font-semibold text-center pt-10 flex justify-center"
-              >
-                View All
-              </Link>
-            </>
-          ) : (
-            <p className="text-blue-400 font-extrabold text-3xl pt-12">
-              {" "}
-              Loading....
-            </p>
-          )
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Link
+              to="/transactions"
+              className="text-blue-300 font-semibold text-center pt-10 flex justify-center"
+            >
+              View All
+            </Link>
+          </>
         ) : (
           <div className="flex justify-center items-center mt-8">
             <img src={group1} alt="" />
