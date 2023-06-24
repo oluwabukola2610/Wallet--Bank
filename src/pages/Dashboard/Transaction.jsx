@@ -1,67 +1,13 @@
+import { useEffect } from "react";
+import useHandledashbord from "../../Hook/useHandledashbord";
 import DashNav from "./component/DashNav";
 
 const Transaction = () => {
-  const transactions = [
-    {
-      date: "2023-06-02",
-      status: "sucesss",
-      amount: "₦ 200",
-      walletType: "Naira",
-    },
-    {
-      walletType: "Dollar",
+  const { transactions, fetchUserTransactions ,formatTimestamp } = useHandledashbord();
+  useEffect(() => {
+    fetchUserTransactions();
+  }, []);
 
-      date: "2023-06-01",
-      status: "failed",
-      amount: "$ 500",
-    },
-    {
-      date: "2023-06-02",
-      status: "sucesss",
-      amount: "₦ 200",
-      walletType: "Naira",
-    },
-    {
-      walletType: "Dollar",
-      amount: "$ 300",
-
-      date: "2023-06-01",
-      status: "failed",
-    },
-    {
-      date: "2023-06-02",
-      status: "sucesss",
-      amount: "₦ 140",
-      walletType: "Naira",
-    },
-    {
-      walletType: "Dollar",
-
-      date: "2023-06-01",
-      status: "failed",
-      amount: "$ 100",
-    },
-    {
-      date: "2023-06-02",
-      status: "sucesss",
-      amount: "₦ 100",
-      walletType: "Naira",
-    },
-    {
-      date: "2023-06-02",
-      status: "sucesss",
-      amount: "₦ 200",
-      walletType: "Naira",
-    },
-    {
-      walletType: "Dollar",
-
-      date: "2023-06-01",
-      status: "sucesss",
-      amount: "$ 500",
-    },
-    // Add more transactions as needed
-  ];
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav />
@@ -71,7 +17,7 @@ const Transaction = () => {
           <thead className="">
             <tr className="bg-faded">
               <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Wallet Type
+                Wallet 
               </th>
               <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Transaction Date
@@ -95,14 +41,20 @@ const Transaction = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">
                   <div className="text-sm leading-5 text-gray-900">
-                    {transaction.date}
+                  {formatTimestamp(transaction.timestamp)}{" "}
                   </div>
                 </td>
-                <td
-                  className="px-6 py-4 whitespace-no-wrap "
-                >
-                  <div className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${ transaction.status === "failed" ? "bg-red-100 text-red-300" : "bg-green-200 text-green-400"}`}>
-                    {transaction.status}
+                <td className="px-6 py-4 whitespace-no-wrap ">
+                  <div
+                    className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
+                      transaction.paymentStatus === "failed"
+                        ? "bg-red-100 text-red-300"
+                        : transaction.paymentStatus === "pending"
+                        ? "bg-yellow-100 text-yellow-500"
+                        : "bg-green-200 text-green-400"
+                    }`}
+                  >
+                    {transaction.paymentStatus}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">
