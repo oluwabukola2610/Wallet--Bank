@@ -1,26 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 const DashNav = () => {
   const [initials, setInitials] = useState("");
+  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
 
   useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
     if (storedUserData) {
+      const { firstName, lastName } = storedUserData;
       const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
       setInitials(initials);
     }
-  }, []);
-
-  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-  const { firstName, lastName } = storedUserData || {};
+  }, [storedUserData]);
 
   return (
     <nav className="flex items-center justify-end space-x-4">
       <IoMdNotificationsOutline size={25} />
       {storedUserData && (
         <p className="capitalize">
-          {firstName} {lastName}
+          {storedUserData.firstName} {storedUserData.lastName}
         </p>
       )}
       {initials && (

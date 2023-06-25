@@ -1,13 +1,16 @@
+import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const useHandleTransfer = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [transferInput, setTransferInput] = useState({
     amount: "",
     accountNum: "",
     pin: "",
   });
+
   const handleInput = (event) => {
     const { name, value } = event.target;
     setTransferInput((prevUser) => ({
@@ -20,11 +23,56 @@ const useHandleTransfer = () => {
     setSelectedCurrency(event.target.value);
   };
 
- 
   const handleTransferForm = (event) => {
     event.preventDefault();
-    console.log(transferInput, selectedCurrency);
-    // Perform further actions with the selected values
+
+    setIsLoading(true);
+    if (
+      !transferInput.accountNum ||
+      !transferInput.amount ||
+      !transferInput.pin ||
+      !selectedCurrency
+    ) {
+      toast.warning("Please enter all required fields");
+      setIsLoading(false);
+      return;
+    }
+
+    // Validate account number
+    if (!/^\d{10}$/.test(transferInput.accountNum)) {
+      toast.warning("Account number should be 10 digits");
+      setIsLoading(false);
+      return;
+    }
+
+    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
+    const userId = getUserId._id;
+
+    const userTransferData = {
+      amount: transferInput.amount,
+      receiverId: transferInput.accountNum,
+      pin: transferInput.pin,
+      walletType: selectedCurrency,
+    };
+
+    axios
+      .post(
+        `https://bank-app-backend-server.onrender.com/api/v1/wallet/transfer/${userId}`,
+        userTransferData
+      )
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          toast.warning(error.response.data.error);
+        } else {
+          console.log(error);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return {
@@ -33,6 +81,7 @@ const useHandleTransfer = () => {
     transferInput,
     selectedCurrency,
     handleTransferForm,
+    isLoading,
   };
 };
 

@@ -1,20 +1,62 @@
+import { ToastContainer } from "react-toastify";
 import useHandleTransfer from "../../../Hook/useHandleTransfer";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TransferForm = () => {
+  const [warningMessage, setWarningMessage] = useState(false);
+  const inputRef = useRef(null); // Ref for the PIN input element
+
   const {
     handleCurrencyChange,
     handleInput,
     transferInput,
     selectedCurrency,
     handleTransferForm,
+    isLoading,
   } = useHandleTransfer();
+  const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
+
+  const handleBlur = () => {
+    // Set a slight delay before setting the warning message to false
+    setTimeout(() => {
+      setWarningMessage(false);
+    }, 200);
+  };
+
+
+  const handleFocus = () => {
+    setWarningMessage(true);
+    inputRef.current.focus();
+  };
+
+  const navigateToCreatePin = () => {
+    if (currentUser) {
+      const userId = currentUser._id;
+      navigate(`/create-pin/${userId}`);
+    }
+  };
+
   return (
     <div>
       <h2 className="text-2xl p-4 border-b border-b-slate-300 shadow-sm">
-        Transfer{" "}
+        Transfer
       </h2>
       <p className="text-sm px-4 mt-6">Select Wallet Type to Transfer From</p>
-
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        newestOnTop={false}
+        autoClose={1000}
+        rtl={false}
+        draggable
+        style={{
+          top: "10%",
+          transform: "translateY(-50%)",
+          width: "fit-content",
+        }}
+      />
       <form onSubmit={handleTransferForm} className="px-6 mt-3 space-y-4">
         <div className="flex items-center space-x-16">
           <span className="">
@@ -38,11 +80,11 @@ const TransferForm = () => {
             <input
               id="dollar"
               type="radio"
-              value="dollar"
+              value="usd"
               name="currency"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
               onChange={handleCurrencyChange}
-              checked={selectedCurrency === "dollar"}
+              checked={selectedCurrency === "usd"}
             />
             <label
               htmlFor="dollar"
@@ -57,7 +99,7 @@ const TransferForm = () => {
             htmlFor="accountNumber"
             className="block mb-1 text-sm font-medium text-grayText"
           >
-            Account Number{" "}
+            Account Number
           </label>
           <input
             type="number"
@@ -66,7 +108,7 @@ const TransferForm = () => {
             name="accountNum"
             value={transferInput.accountNum}
             onChange={handleInput}
-            className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+            className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
           />
         </div>
         <div>
@@ -74,7 +116,7 @@ const TransferForm = () => {
             htmlFor="amount"
             className="block mb-1 text-sm font-medium text-grayText"
           >
-            Amount{" "}
+            Amount
           </label>
           <input
             type="number"
@@ -83,7 +125,7 @@ const TransferForm = () => {
             name="amount"
             value={transferInput.amount}
             onChange={handleInput}
-            className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+            className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
           />
         </div>
         <div>
@@ -91,7 +133,7 @@ const TransferForm = () => {
             htmlFor="pin"
             className="block mb-1 text-sm font-medium text-grayText"
           >
-            pin{" "}
+            PIN
           </label>
           <input
             type="number"
@@ -99,12 +141,36 @@ const TransferForm = () => {
             placeholder="****"
             name="pin"
             value={transferInput.pin}
-            onChange={handleInput}
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+            onChange={handleInput}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
           />
+          {warningMessage && (
+            <div>
+              {currentUser && currentUser.transactionPin === 1111 ? (
+                <div>
+                  <p className="text-sm">
+                    Please create a PIN before proceeding:
+                  </p>
+                  <button
+                    onClick={navigateToCreatePin}
+                    className="text-primary text-sm font-bold cursor-pointer"
+                  >
+                    Create PIN
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          )}
         </div>
-        <button className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark">
-          Transfer
+        <button
+          disabled={isLoading}
+          className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+        >
+          {isLoading ? "Sending..." : "Transfer"}
         </button>
       </form>
     </div>

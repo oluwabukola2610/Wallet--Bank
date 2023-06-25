@@ -1,6 +1,7 @@
 import group1 from "../../assets/group1.png";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { BeatLoader } from "react-spinners";
 import TransferForm from "./component/TransferForm";
 import FundsForm from "./component/FundsForm";
 import DashNav from "./component/DashNav";
@@ -10,6 +11,8 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [toggleTransfer, setToggleTransfer] = useState(false);
   const [toggleFunds, setToggleFunds] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const {
     handleDashboard,
     setuserWallet,
@@ -18,28 +21,28 @@ const Dashboard = () => {
     transactions,
     formatTimestamp,
   } = useHandledashbord();
-  const [name, setName] = useState("");
 
   useEffect(() => {
     handleDashboard();
-    const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-    if (storedUserData) {
-      const { firstName } = storedUserData;
-      setName(firstName);
-    }
+
     setTimeout(() => {
       setuserWallet();
     }, 2000);
-    fetchUserTransactions();
-  }, []);
 
+    fetchUserTransactions().then(() => {
+      setLoading(false);
+    });
+  }, []);
+  // to get the name from localStorage
+  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
+  const { firstName } = storedUserData || {};
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav />
       <header className="mt-3">
         <div className="flex flex-col md:flex-row justify-between items-center py-3 capitalize">
           <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
-            Hello {name}👋🏽
+            Hello {firstName}👋🏽
           </h1>
           <div className="flex space-x-4">
             <button
@@ -89,7 +92,11 @@ const Dashboard = () => {
       </header>
 
       <main>
-        {transactions.length > 0 ? (
+        {loading ? (
+          <div className="flex justify-center items-center py-8">
+            <BeatLoader color="#000000" size={15} />
+          </div>
+        ) : transactions.length > 0 ? (
           <>
             <div className="overflow-x-auto mt-6">
               <table className="min-w-full">
@@ -97,6 +104,9 @@ const Dashboard = () => {
                   <tr className="bg-faded">
                     <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       Wallet
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Transaction Type
                     </th>
                     <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       Transaction Date
@@ -111,10 +121,15 @@ const Dashboard = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {transactions.slice(0, 3).map((transaction, index) => (
-                    <tr key={index} className="hover:bg-faded duration-300">
+                    <tr key={index} className="hover:bg-faded/60 duration-300">
                       <td className="px-4 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">
                           {transaction.walletType} Account
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        <div className="text-sm leading-5 text-green-600">
+                          Deposit
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
