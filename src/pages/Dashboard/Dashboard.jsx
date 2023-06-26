@@ -128,9 +128,15 @@ const Dashboard = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
-                        <div className="text-sm leading-5 text-green-600">
-                          Deposit
-                        </div>
+                      <div
+                      className={`text-sm leading-5  ${
+                        transaction.transactionType === "Deposit"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {transaction.transactionType}
+                    </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">

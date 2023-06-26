@@ -77,7 +77,7 @@ function DashAside() {
             <p className="text-gray-400 text-md cursor-pointer"
               onClick={NaviageTo}
             >
-              Create pin
+              Reset Pin
             </p>
           </div>
 
