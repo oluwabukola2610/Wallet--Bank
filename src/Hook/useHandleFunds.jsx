@@ -39,6 +39,7 @@ const useHandleFunds = () => {
           toast.error(message);
         } else {
           toast.success(message);
+          window.location.reload(); // Reload the page
         }
       })
       .catch((error) => {

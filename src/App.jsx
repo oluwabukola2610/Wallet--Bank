@@ -9,6 +9,7 @@ import ResetPass from "./pages/Auth/ResetPass";
 import Checkinbox from "./pages/Auth/Checkinbox";
 import CreatePin from "./pages/Auth/CreatePin";
 import BankContextProvider from "./context/BankContextProvider";
+import ResetPin from "./pages/Auth/ResetPin";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/resetCheck-inbox" element={<Checkinbox />} />
         <Route path="/reset-password/:id/:token" element={<ResetPass />} />
         <Route path="/create-pin/:id" element={<CreatePin />} />
+        <Route path="/reset-pin" element={<ResetPin />} />
         <Route path="/*" element={<DashAside />} />{" "}
         {/* Add a catch-all route for DashNav */}
       </Routes>

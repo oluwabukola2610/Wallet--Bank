@@ -33,9 +33,15 @@ const Dashboard = () => {
       setLoading(false);
     });
   }, []);
+  const sortedTransactions = transactions.sort((a, b) => {
+    // Sort the transactions based on the timestamp in descending order
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
+
   // to get the name from localStorage
   const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
   const { firstName } = storedUserData || {};
+
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
       <DashNav />
@@ -120,7 +126,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {transactions.slice(0, 3).map((transaction, index) => (
+                  {sortedTransactions.slice(0, 3).map((transaction, index) => (
                     <tr key={index} className="hover:bg-faded/60 duration-300">
                       <td className="px-4 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">
@@ -128,15 +134,15 @@ const Dashboard = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
-                      <div
-                      className={`text-sm leading-5  ${
-                        transaction.transactionType === "Deposit"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {transaction.transactionType}
-                    </div>
+                        <div
+                          className={`text-sm leading-5  ${
+                            transaction.transactionType === "Deposit"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {transaction.transactionType}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">

@@ -1,4 +1,5 @@
 import {
+  Link,
   NavLink,
   Route,
   Routes,
@@ -25,15 +26,6 @@ function DashAside() {
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
-  };
-  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
-
-  const NaviageTo = () => {
-    if (currentUser) {
-      console.log(currentUser);
-      const userId = currentUser._id;
-      navigate(`/create-pin/${userId}`);
-    }
   };
 
   return (
@@ -74,11 +66,12 @@ function DashAside() {
               className="md:flex items-center md:mr-3 text-white hidden"
               size={20}
             />
-            <p className="text-gray-400 text-md cursor-pointer"
-              onClick={NaviageTo}
+            <Link
+              to="/reset-pin"
+              className="text-gray-400 text-md cursor-pointer"
             >
               Reset Pin
-            </p>
+            </Link>
           </div>
 
           <div className="flex items-center">

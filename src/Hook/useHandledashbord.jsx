@@ -32,7 +32,7 @@ const useHandledashbord = () => {
         dashboardData
       )
       .then((response) => {
-        setUserData(response.data);
+        setUserData(response.data)
       })
       .catch((error) => {
         console.log(error);

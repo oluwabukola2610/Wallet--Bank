@@ -62,6 +62,7 @@ const useHandleTransfer = () => {
       )
       .then((response) => {
         toast.success(response.data.message);
+        window.location.reload(); // Reload the page
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {

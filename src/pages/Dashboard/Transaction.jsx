@@ -13,6 +13,10 @@ const Transaction = () => {
       setLoading(false);
     });
   }, []);
+  const sortedTransactions = transactions.sort((a, b) => {
+    // Sort the transactions based on the timestamp in descending order
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
@@ -45,7 +49,7 @@ const Transaction = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {transactions.map((transaction, index) => (
+              {sortedTransactions.map((transaction, index) => (
                 <tr key={index} className="hover:bg-faded/60 duration-300">
                   <td className="px-6 py-4 whitespace-no-wrap">
                     <div className="text-sm leading-5 text-gray-900">

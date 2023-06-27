@@ -1,17 +1,9 @@
-// import { useEffect } from "react";
 import logo from "../../assets/logo/Union-preview.png";
 import box from "../../assets/Group.png";
-// import { useNavigate } from "react-router-dom";
 
 const Checkinbox = () => {
-// const navigate = useNavigate()
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       navigate("/reset-password");
-//     }, 5000);
 
-//     return () => clearTimeout(timeout);
-//   }, [navigate]);
+
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
       <nav className="py-3">
