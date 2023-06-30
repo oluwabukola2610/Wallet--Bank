@@ -3,6 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useSignupOtp from "../../Hook/useSignupOtp";
 import logo from "../../assets/logo/Union-preview.png";
 import OtpInput from "react18-input-otp";
+import { useEffect } from "react";
 
 const SignupOtp = () => {
   const {
@@ -15,7 +16,12 @@ const SignupOtp = () => {
     isLoading,
     formatTime,
   } = useSignupOtp();
-
+  useEffect(() => {
+    // Submit otp automatically once input is upto 4.
+    if (code.length === 4) {
+      handleOtpSubmit(new Event("submit"));
+    }
+  }, [code]);
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
       <nav className="py-3">

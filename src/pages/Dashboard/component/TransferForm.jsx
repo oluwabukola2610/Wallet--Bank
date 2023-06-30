@@ -136,7 +136,7 @@ const TransferForm = () => {
             PIN
           </label>
           <input
-            type="number"
+            type="password"
             id="pin"
             placeholder="****"
             name="pin"

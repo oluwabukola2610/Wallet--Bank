@@ -3,8 +3,15 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo/Union-preview.png";
 import OtpInput from "react18-input-otp";
 import useResetPin from "../../Hook/useResetPin";
+import { useEffect } from "react";
 const ResetPin = () => {
   const { code, setCode, handleResetPin } = useResetPin();
+  useEffect(() => {
+    // Submit otp automatically once input is upto 4.
+    if (code.length === 4) {
+      handleResetPin(new Event("submit"));
+    }
+  }, [code]);
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
       <nav className="py-3">
