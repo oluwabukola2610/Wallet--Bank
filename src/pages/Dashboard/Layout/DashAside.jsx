@@ -1,16 +1,14 @@
-import {
-  NavLink,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import logo from "../../../assets/logo/Union.png";
 import Transaction from "../Transaction";
 import Dashboard from "../Dashboard";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
-import {FaUserCircle} from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import { MdOutlineContactSupport } from "react-icons/md";
+import { useState } from "react";
 
 function DashAside() {
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const location = useLocation();
 
   const shouldRenderNavbar =
@@ -19,7 +17,6 @@ function DashAside() {
   if (!shouldRenderNavbar) {
     return null;
   }
-
 
   return (
     <div className="max-w-[1640px] mx-auto flex flex-col lg:flex-row ">
@@ -54,48 +51,35 @@ function DashAside() {
             <AiOutlineTransaction className="mr-3" size={20} />
             <span className="hidden md:flex"> Transactions</span>
           </NavLink>
-          {/* <div className="flex items-center">
-            <GiWallet
-              className="md:flex items-center md:mr-3 text-white hidden"
-              size={20}
-            />
-            <Link
-              to="/reset-pin"
-              className="text-gray-400 text-md cursor-pointer"
-            >
-              Reset Pin
-            </Link>
-          </div> */}
           <div className="flex items-center">
             <FaUserCircle
               className="mr-2 flex items-center md:mr-3 text-gray-400 "
               size={20}
             />
-           <NavLink
-            exact={true.toString()}
-            to="/user-profile"
-            className={({ isActive }) =>
-              !isActive
-                ? " font-bold flex text-md items-center text-gray-400"
-                : "text-gray-100 hover:text-white text-md flex items-center"
-            }
+            <NavLink
+              exact={true.toString()}
+              to="/user-profile"
+              className={({ isActive }) =>
+                !isActive
+                  ? " font-bold flex text-md items-center text-gray-400"
+                  : "text-gray-100 hover:text-white text-md flex items-center"
+              }
             >
-             Profile
+              Profile
             </NavLink>
           </div>
-
-          {/* <div className="flex items-center">
-            <FiLogOut
-              className="md:flex items-center mr-3 text-white hidden"
+          <div className="flex items-center">
+            <MdOutlineContactSupport
+              className="mr-2 flex items-center md:mr-3 text-gray-400 "
               size={20}
             />
             <button
-              onClick={handleLogOut}
-              className=" border-[1.5px] border-gray-300 text-gray-300 rounded-lg py-1 px-2 text-md "
+              onClick={() => setIsHelpModalOpen(true)}
+             className=" font-bold flex text-md items-center text-gray-400"
             >
-              Log Out
+              Help & Support
             </button>
-          </div> */}
+          </div>
         </nav>
       </aside>
       <div className="flex-1">
@@ -105,6 +89,58 @@ function DashAside() {
           <Route path="/transactions" element={<Transaction />} />
         </Routes>
       </div>
+      {/* Render the Help & Support modal */}
+      {isHelpModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Help & Support</h2>
+            {/* Add your form or content for Help & Support here */}
+
+            <form
+              action="https://getform.io/f/bc8a3574-0432-490a-80a4-8d93d3d8c55e"
+              method="POST"
+            >
+              <div className="mb-4">
+                <label htmlFor="subject" className="block font-medium mb-2">
+                  Subject:
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  className="w-full border border-gray-300 rounded-md p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="message" className="block font-medium mb-2">
+                  Message:
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  className="w-full border border-gray-300 rounded-md p-2"
+                  rows={4}
+                ></textarea>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsHelpModalOpen(false)} // Close the modal on button click
+                  className="px-4 py-2 bg-gray-800 text-white rounded-md"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
