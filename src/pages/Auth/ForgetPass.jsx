@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactLoading from "react-loading";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -103,9 +104,15 @@ const ForgetPass = () => {
 
           <button
             disabled={isLoading}
-            className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+            className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
           >
-            {isLoading ? "Loading....." : "Recover Password"}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ReactLoading type="spin" height={"28px"} width={"28px"} />
+              </div>
+            ) : (
+              "Recover Password"
+            )}
           </button>
           <p className="py-4  text-center text-sm text-grayText">
             <Link to="/login" className="text-primary font-bold">

@@ -1,20 +1,16 @@
 import {
-  Link,
   NavLink,
   Route,
   Routes,
   useLocation,
-  useNavigate,
 } from "react-router-dom";
 import logo from "../../../assets/logo/Union.png";
-import { FiLogOut } from "react-icons/fi";
 import Transaction from "../Transaction";
 import Dashboard from "../Dashboard";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
-import { GiWallet } from "react-icons/gi";
+import {FaUserCircle} from "react-icons/fa";
 
 function DashAside() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const shouldRenderNavbar =
@@ -23,10 +19,7 @@ function DashAside() {
   if (!shouldRenderNavbar) {
     return null;
   }
-  const handleLogOut = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+
 
   return (
     <div className="max-w-[1640px] mx-auto flex flex-col lg:flex-row ">
@@ -46,7 +39,7 @@ function DashAside() {
             }
           >
             <AiOutlineHome className=" mr-2" size={20} />
-            <span className="hidden md:flex">Home</span>
+            <span className="hidden md:flex">Dashboard</span>
           </NavLink>
 
           <NavLink
@@ -61,7 +54,7 @@ function DashAside() {
             <AiOutlineTransaction className="mr-3" size={20} />
             <span className="hidden md:flex"> Transactions</span>
           </NavLink>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <GiWallet
               className="md:flex items-center md:mr-3 text-white hidden"
               size={20}
@@ -72,9 +65,26 @@ function DashAside() {
             >
               Reset Pin
             </Link>
+          </div> */}
+          <div className="flex items-center">
+            <FaUserCircle
+              className="mr-2 flex items-center md:mr-3 text-gray-400 "
+              size={20}
+            />
+           <NavLink
+            exact={true.toString()}
+            to="/user-profile"
+            className={({ isActive }) =>
+              !isActive
+                ? " font-bold flex text-md items-center text-gray-400"
+                : "text-gray-100 hover:text-white text-md flex items-center"
+            }
+            >
+             Profile
+            </NavLink>
           </div>
 
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <FiLogOut
               className="md:flex items-center mr-3 text-white hidden"
               size={20}
@@ -85,7 +95,7 @@ function DashAside() {
             >
               Log Out
             </button>
-          </div>
+          </div> */}
         </nav>
       </aside>
       <div className="flex-1">

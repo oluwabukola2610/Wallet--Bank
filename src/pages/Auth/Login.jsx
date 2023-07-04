@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useContext, useState } from "react";
+import ReactLoading from "react-loading";
 import { BankContext } from "../../context/BankContextProvider";
 import { ToastContainer } from "react-toastify";
 const Login = () => {
@@ -97,9 +98,15 @@ const Login = () => {
           </div>
           <button
             disabled={isLoading}
-            className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+            className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
           >
-            {isLoading ? "Login in....." : "Login"}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ReactLoading type="spin" height={"28px"} width={"28px"} />
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
           <p className="py-4 text-sm text-grayText">
             Don’t have an account? {""}

@@ -1,5 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import useHandleFunds from "../../../Hook/useHandleFunds";
+import ReactLoading from "react-loading";
 import { useState } from "react";
 
 const FundsForm = () => {
@@ -98,11 +99,17 @@ const FundsForm = () => {
           )}
         </div>
         <button
-          disabled={isLoading}
-          className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
-        >
-          {isLoading ? "Funding.." : "Fund Wallet"}
-        </button>
+            disabled={isLoading}
+            className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ReactLoading type="spin" height={"28px"} width={"28px"} />
+              </div>
+            ) : (
+              "Fund Wallet"
+            )}
+          </button>
       </form>
     </div>
   );

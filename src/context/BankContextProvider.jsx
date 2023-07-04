@@ -98,11 +98,7 @@ const BankContextProvider = ({ children }) => {
         });
       })
       .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          toast.warning("Email is not registered");
-        } else {
-          toast.warning("An error occurred. Please try again later.");
-        }
+        toast.warning(error.response.data.error)
       })
       .finally(() => {
         setIsLoading(false); // Set isLoading back to false when the API request is complete

@@ -5,6 +5,8 @@ import { useContext, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { BankContext } from "../../context/BankContextProvider";
+import ReactLoading from "react-loading";
+
 const SignUp = () => {
   const { handleRegister, handleInput, user, isLoading } =
     useContext(BankContext);
@@ -12,11 +14,9 @@ const SignUp = () => {
   const [showEmailMessage, setShowEmailMessage] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
+    setPasswordType((prevType) =>
+      prevType === "password" ? "text" : "password"
+    );
   };
   const checkPasswordStrength = (password) => {
     // Define your password strength criteria and update the password strength level accordingly
@@ -199,9 +199,15 @@ const SignUp = () => {
           </div>
           <button
             disabled={isLoading}
-            className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+            className=" w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
           >
-            {isLoading ? "Registering.." : "Create Account"}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ReactLoading type="spin" height={"28px"} width={"28px"} />
+              </div>
+            ) : (
+              "Create Account"
+            )}
           </button>
           <p className="pt-4 text-sm text-grayText">
             Already have an account?{" "}

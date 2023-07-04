@@ -2,6 +2,7 @@ import { ToastContainer } from "react-toastify";
 import useHandleTransfer from "../../../Hook/useHandleTransfer";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactLoading from "react-loading";
 
 const TransferForm = () => {
   const [warningMessage, setWarningMessage] = useState(false);
@@ -24,7 +25,6 @@ const TransferForm = () => {
       setWarningMessage(false);
     }, 200);
   };
-
 
   const handleFocus = () => {
     setWarningMessage(true);
@@ -168,9 +168,15 @@ const TransferForm = () => {
         </div>
         <button
           disabled={isLoading}
-          className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+          className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
         >
-          {isLoading ? "Sending..." : "Transfer"}
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <ReactLoading type="spin" height={"28px"} width={"28px"} />
+            </div>
+          ) : (
+            "Transfer Funds"
+          )}
         </button>
       </form>
     </div>
