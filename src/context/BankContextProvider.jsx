@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 export const BankContext = createContext();
 
 const BankContextProvider = ({ children }) => {
-  
   const navigate = useNavigate();
   const [user, setUser] = useState({
     firstName: "",
@@ -33,6 +32,9 @@ const BankContextProvider = ({ children }) => {
     if (!user.firstName || !user.lastName || !user.email || !user.password) {
       toast.error("Please fill in all fields");
       return;
+    }
+    if (user.password.length <= 6) {
+      toast.error("password must be at least 6 characters");
     }
 
     setIsLoading(true);
@@ -98,15 +100,12 @@ const BankContextProvider = ({ children }) => {
         });
       })
       .catch((error) => {
-        toast.warning(error.response.data.error)
+        toast.warning(error.response.data.error);
       })
       .finally(() => {
         setIsLoading(false); // Set isLoading back to false when the API request is complete
       });
   };
-
-
-
 
   const contextValue = {
     handleRegister,

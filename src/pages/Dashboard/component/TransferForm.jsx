@@ -61,7 +61,7 @@ const TransferForm = () => {
         <div className="flex items-center space-x-16">
           <span className="">
             <input
-              id="naira"
+              id="naira1"
               type="radio"
               value="naira"
               name="currency"
@@ -70,7 +70,7 @@ const TransferForm = () => {
               checked={selectedCurrency === "naira"}
             />
             <label
-              htmlFor="naira"
+              htmlFor="naira1"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Naira
@@ -78,7 +78,7 @@ const TransferForm = () => {
           </span>
           <span className="">
             <input
-              id="dollar"
+              id="dollar1"
               type="radio"
               value="usd"
               name="currency"
@@ -87,7 +87,7 @@ const TransferForm = () => {
               checked={selectedCurrency === "usd"}
             />
             <label
-              htmlFor="dollar"
+              htmlFor="dollar1"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Dollar
@@ -96,14 +96,14 @@ const TransferForm = () => {
         </div>
         <div>
           <label
-            htmlFor="accountNumber"
+            htmlFor="accountNumber1"
             className="block mb-1 text-sm font-medium text-grayText"
           >
             Account Number
           </label>
           <input
             type="number"
-            id="accountNumber"
+            id="accountNumber1"
             placeholder="23456788901"
             name="accountNum"
             value={transferInput.accountNum}
@@ -113,14 +113,14 @@ const TransferForm = () => {
         </div>
         <div>
           <label
-            htmlFor="amount"
+            htmlFor="amount1"
             className="block mb-1 text-sm font-medium text-grayText"
           >
             Amount
           </label>
           <input
             type="number"
-            id="amount"
+            id="amount1"
             placeholder="₦ 00.00"
             name="amount"
             value={transferInput.amount}

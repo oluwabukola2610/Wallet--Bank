@@ -2,6 +2,7 @@ import { useState } from "react";
 import logo from "../../../assets/logo/Union-preview.png";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
+import axios from "axios";
 
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -15,7 +16,28 @@ const UserProfile = () => {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
-    // You can also upload the file to the server at this point
+    const userId = storedUserData._id;
+
+    const formData = new FormData();
+    formData.append("Myuserimage", file);
+    axios
+      .post(
+        `https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`,
+        formData
+      )
+      .then((response) => {
+        // Handle response from the server
+        console.log(response);
+        const updatedUserData = {
+          ...storedUserData,
+          userImage: response.data.image,
+        };
+        localStorage.setItem("keyuserinfo", JSON.stringify(updatedUserData));
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
   };
 
   const handleEditClick = () => {
@@ -45,7 +67,6 @@ const UserProfile = () => {
               src={selectedImage || "placeholder-image-url"}
               size="80"
               round={true}
-              
               className="mx-auto mb-2 bg-primary"
             />
             <input
@@ -134,23 +155,22 @@ const UserProfile = () => {
           </div>
 
           <button
-            onClick={()=>navigate('/reset-pin')}
+            onClick={() => navigate("/reset-pin")}
             className=" w-full bg-primary/90 text-white rounded-lg py-2 px-4 hover:bg-primary-dark mb-3"
           >
             Reset Transaction Pin
           </button>
 
-        
           <p className="py-4  text-center text-sm text-grayText flex justify-between">
             <Link to="/wallet" className="text-primary font-bold">
               Return to Dashboard
             </Link>
             <button
-            onClick={handleLogOut}
-            className=" border-[1.5px] border-gray-400 text-gray-700 font-bold rounded-lg py-1 px-2 text-md "
+              onClick={handleLogOut}
+              className=" border-[1.5px] border-gray-400 text-gray-700 font-bold rounded-lg py-1 px-2 text-md "
             >
-            Log Out
-          </button>
+              Log Out
+            </button>
           </p>
         </div>
       </div>
