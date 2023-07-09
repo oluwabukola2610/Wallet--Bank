@@ -7,8 +7,10 @@ import axios from "axios";
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-  const { firstName, lastName, email, phone } = storedUserData || {};
+  const { firstName, lastName, email, phone, userImage = '' } = storedUserData || {};
   const navigate = useNavigate();
+  
+  const imageSource = selectedImage || userImage ||  "placeholder-image-url";
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
@@ -17,20 +19,26 @@ const UserProfile = () => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
     const userId = storedUserData._id;
-
+    
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const base64 = reader.result;
+    
     const formData = new FormData();
-    formData.append("Myuserimage", file);
+    formData.append("userImage", base64);
+    console.log(base64);
     axios
       .post(
         `https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`,
-        formData
+       {base64}
       )
       .then((response) => {
         // Handle response from the server
         console.log(response);
         const updatedUserData = {
           ...storedUserData,
-          userImage: response.data.image,
+          userImage: response.data.data.userImage,
         };
         localStorage.setItem("keyuserinfo", JSON.stringify(updatedUserData));
       })
@@ -38,7 +46,9 @@ const UserProfile = () => {
         // Handle error
         console.log(error);
       });
+    };
   };
+
 
   const handleEditClick = () => {
     document.getElementById("avatar").click();
@@ -64,7 +74,7 @@ const UserProfile = () => {
             {" "}
             <Avatar
               name={`${firstName} ${lastName}`}
-              src={selectedImage || "placeholder-image-url"}
+              src={imageSource}
               size="80"
               round={true}
               className="mx-auto mb-2 bg-primary"
