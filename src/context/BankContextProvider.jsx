@@ -33,9 +33,7 @@ const BankContextProvider = ({ children }) => {
       toast.error("Please fill in all fields");
       return;
     }
-    if (user.password.length <= 6) {
-      toast.error("password must be at least 6 characters");
-    }
+    
 
     setIsLoading(true);
     axios
