@@ -1,43 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../../assets/logo/Union-preview.png";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 import axios from "axios";
+import { trimFilePath } from './trimFilePath';
+import { toast } from 'react-toastify';
 
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-  const { firstName, lastName, email, phone } = storedUserData || {};
+  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"))  || {};
+  const { firstName, lastName, email, phone, _id: userId } = storedUserData;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(storedUserData.userImage){
+      setSelectedImage(storedUserData.userImage);
+    }
+  }, [storedUserData]);
+
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
   };
+  
   const handleImageUpload = (event) => {
+    console.log('Image upload starting');
     const file = event.target.files[0];
+    console.log('Selected File:', file);
     setSelectedImage(URL.createObjectURL(file));
-    const userId = storedUserData._id;
+    
+    const reader = new FileReader();
 
-    const formData = new FormData();
-    formData.append("Myuserimage", file);
-    axios
-      .post(
-        `https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`,
-        formData
-      )
-      .then((response) => {
-        // Handle response from the server
-        console.log(response);
-        const updatedUserData = {
-          ...storedUserData,
-          userImage: response.data.image,
-        };
-        localStorage.setItem("keyuserinfo", JSON.stringify(updatedUserData));
+    reader.onloadend = () => {
+      const base64Image = reader.result.split(',')[1]; // Get the base64 data (remove data:image/jpeg;base64, part)
+      console.log(base64Image);
+      fetch(`https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          base64: base64Image,
+        }),
       })
-      .catch((error) => {
-        // Handle error
-        console.log(error);
-      });
+        .then((res) => res.json())
+        .then((resp) => {
+          console.log(resp);
+          toast.success("Profile Image Uploaded!");
+          // Update the user image in localStorage after successful upload
+          const updatedUserData = {
+            ...storedUserData,
+            userImage: resp.data.userImage,
+          };
+          localStorage.setItem('keyuserinfo', JSON.stringify(updatedUserData));
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(error);
+        });
+    };
+
+    reader.readAsDataURL(file); // Read the selected image as base64
   };
 
   const handleEditClick = () => {
