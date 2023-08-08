@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 const DashNav = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
   const [initials, setInitials] = useState("");
   const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
 
@@ -10,6 +11,9 @@ const DashNav = () => {
       const { firstName, lastName } = storedUserData;
       const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
       setInitials(initials);
+    }
+    if(storedUserData.userImage){
+      setSelectedImage(storedUserData.userImage);
     }
   }, [storedUserData]);
 
@@ -21,9 +25,9 @@ const DashNav = () => {
           {storedUserData.firstName} {storedUserData.lastName}
         </p>
       )}
-      {initials && (
-        <span className="p-1 rounded-full bg-gray-300 text-sm">{initials}</span>
-      )}
+        <span className="p-1 rounded-full bg-gray-300 text-sm">
+          {selectedImage ? <img src={selectedImage} alt="User Avatar" width={30} /> : initials}
+        </span>
     </nav>
   );
 };

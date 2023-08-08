@@ -33,6 +33,7 @@ const Dashboard = () => {
       setLoading(false);
     });
   }, []);
+  
   const sortedTransactions = transactions.sort((a, b) => {
     // Sort the transactions based on the timestamp in descending order
     return new Date(b.timestamp) - new Date(a.timestamp);

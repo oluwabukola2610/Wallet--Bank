@@ -1,55 +1,84 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../../assets/logo/Union-preview.png";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-  const { firstName, lastName, email, phone, userImage = '' } = storedUserData || {};
+  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo")) || {};
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    _id: userId,
+    userImage,
+  } = storedUserData;
   const navigate = useNavigate();
-  
-  const imageSource = selectedImage || userImage ||  "placeholder-image-url";
+
+  useEffect(() => {
+    if (userImage) {
+      setSelectedImage(userImage);
+    }
+  }, [userImage]);
+
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
   };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
-    const userId = storedUserData._id;
-    
+
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    const fileSize = file.size;
+    const imageLimit = 50 * 1024;
+
+    if (fileSize > imageLimit) {
+      toast.error(
+        "The selected image size is too large. Please use images below 50kb."
+      );
+      return;
+    } else {
+      setSelectedImage(file);
+    }
     reader.onloadend = () => {
-      const base64 = reader.result;
-    
-    const formData = new FormData();
-    formData.append("userImage", base64);
-    console.log(base64);
-    axios
-      .post(
+      const base64Image = reader.result.split(",")[1];
+      console.log(base64Image);
+      fetch(
         `https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`,
-       {base64}
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64: base64Image }),
+        }
       )
-      .then((response) => {
-        // Handle response from the server
-        console.log(response);
-        const updatedUserData = {
-          ...storedUserData,
-          userImage: response.data.data.userImage,
-        };
-        localStorage.setItem("keyuserinfo", JSON.stringify(updatedUserData));
-      })
-      .catch((error) => {
-        // Handle error
-        console.log(error);
-      });
+        .then((res) => res.json())
+        .then((resp) => {
+          console.log(resp);
+          toast.success("Profile Image Uploaded!");
+          // Update the user image in localStorage after successful upload
+          const updatedUserData = {
+            ...storedUserData,
+            userImage: resp.data.userImage,
+          };
+          localStorage.setItem("keyuserinfo", JSON.stringify(updatedUserData));
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error(
+            error.message || "An error occurred while uploading the image."
+          );
+        });
     };
+
+    reader.readAsDataURL(file);
   };
-
-
-  const handleEditClick = () => {
+  // Handle the click event for the "Upload new photo" button
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // Prevent the click event from propagating to the parent elements
     document.getElementById("avatar").click();
   };
 
@@ -58,7 +87,19 @@ const UserProfile = () => {
       <nav className="py-3">
         <img src={logo} alt="Logo" className="" />
       </nav>
-
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        newestOnTop={false}
+        autoClose={1000}
+        rtl={false}
+        draggable
+        style={{
+          top: "10%",
+          transform: "translateY(-50%)",
+          width: "fit-content",
+        }}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-10 mt-10 md:mt-8 lg:mt-16 ">
         <div className="text-center lg:text-left">
           <h1 className="text-3xl font-bold md:text-4xl md:font-extrabold">
@@ -73,11 +114,19 @@ const UserProfile = () => {
             {" "}
             <Avatar
               name={`${firstName} ${lastName}`}
-              src={imageSource}
+              src={selectedImage || "placeholder-image-url"}
               size="80"
               round={true}
               className="mx-auto mb-2 bg-primary"
             />
+            <div className="justify-center flex items-center">
+              <p
+                onClick={handleEditClick}
+                className="mb-2 text-center bg-inherit border border-slate-400 text-gray-600 rounded-lg py-1 px-2 text-sm font-medium "
+              >
+                Upload new photo
+              </p>
+            </div>
             <input
               type="file"
               id="avatar"
@@ -85,14 +134,6 @@ const UserProfile = () => {
               onChange={handleImageUpload}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
             />
-            <div className="justify-center flex items-center">
-              <button
-                onClick={handleEditClick}
-                className="mb-2 bg-inherit border border-slate-400 text-gray-600 rounded-lg py-1 px-2 text-sm font-medium "
-              >
-                Upload new photo
-              </button>
-            </div>
           </div>
 
           <div className="mb-4">
