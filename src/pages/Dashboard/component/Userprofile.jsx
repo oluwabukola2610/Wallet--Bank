@@ -126,14 +126,14 @@ const UserProfile = () => {
               >
                 Upload new photo
               </p>
+              <input
+                type="file"
+                id="avatar"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden w-full h-full cursor-pointer "
+              />
             </div>
-            <input
-              type="file"
-              id="avatar"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-            />
           </div>
 
           <div className="mb-4">
