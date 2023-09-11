@@ -2,23 +2,23 @@ import axios from "axios";
 import { useState } from "react";
 
 const useHandledashbord = () => {
-  const handleDashboard = () => {
-    const token = window.localStorage.getItem("token");
-    const usertoken = { token };
+  // const handleDashboard = () => {
+  //   const token = window.localStorage.getItem("token");
+  //   const usertoken = { token };
 
-    axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
-        usertoken
-      )
-      .then((response) => {
-        const userData = response.data.myuserdata;
-        localStorage.setItem("keyuserinfo", JSON.stringify(userData));
-      })
-      .catch((error) => {
-        console.log("Error fetching data:", error);
-      });
-  };
+  //   axios
+  //     .post(
+  //       "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
+  //       usertoken
+  //     )
+  //     .then((response) => {
+  //       const userInfo = response.data.myuserdata;
+  //       console.log(userInfo);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error fetching data:", error);
+  //     });
+  // };
   const [userData, setUserData] = useState({});
 
   const setuserWallet = () => {
@@ -32,7 +32,7 @@ const useHandledashbord = () => {
         dashboardData
       )
       .then((response) => {
-        setUserData(response.data)
+        setUserData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -44,19 +44,24 @@ const useHandledashbord = () => {
   const fetchUserTransactions = async () => {
     const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
     const userId = getUserId._id;
-  
+
     try {
-      const response = await fetch(`https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+      const response = await fetch(
+        `https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        const filteredTransactions = data.data.filter((transaction) => transaction.userId === userId);
+        const filteredTransactions = data.data.filter(
+          (transaction) => transaction.userId === userId
+        );
         setTransactions(filteredTransactions);
         console.log(filteredTransactions);
       }
@@ -64,7 +69,7 @@ const useHandledashbord = () => {
       console.log("Internal Server Error: " + error);
     }
   };
-  
+
   const formatTimestamp = (timestamp) => {
     const options = {
       year: "numeric",
@@ -77,12 +82,13 @@ const useHandledashbord = () => {
     return new Date(timestamp).toLocaleString(undefined, options);
   };
   return {
-    handleDashboard,
+    // handleDashboard,
     setuserWallet,
     fetchUserTransactions,
     transactions,
     userData,
-    formatTimestamp  };
+    formatTimestamp,
+  };
 };
 
 export default useHandledashbord;

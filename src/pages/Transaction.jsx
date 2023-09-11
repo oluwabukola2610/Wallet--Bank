@@ -1,32 +1,47 @@
+// new updated pagenation
 import { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import useHandledashbord from "../../Hook/useHandledashbord";
-import DashNav from "./component/DashNav";
+import useHandledashbord from "../Hook/useHandledashbord";
 
 const Transaction = () => {
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); // Current page number
 
   const { transactions, fetchUserTransactions, formatTimestamp } =
     useHandledashbord();
+
   useEffect(() => {
     fetchUserTransactions().then(() => {
       setLoading(false);
     });
   }, []);
-  const sortedTransactions = transactions.sort((a, b) => {
+
+  const TransactionsPerPage = 8; // Number of transactions per page
+  const totalTransactions = transactions.length; // Number of transactions
+  const totalPages = Math.ceil(totalTransactions / TransactionsPerPage); // to get Number of pages
+
+  const startIndex = (currentPage - 1) * TransactionsPerPage; // start index of transaction
+  const endIndex = startIndex + TransactionsPerPage; // end index of transaction
+  const displayedTransactions = transactions.slice(startIndex, endIndex); // display transactions based on current page
+
+  const handlePageChange = (pageNumber) => {
+    // Handle page change
+    setCurrentPage(pageNumber);
+  };
+  const sortedTransactions = displayedTransactions.sort((a, b) => {
     // Sort the transactions based on the timestamp in descending order
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-      <DashNav />
+
       {loading ? (
         <div className="flex justify-center items-center py-8">
           <BeatLoader color="#000000" size={15} />
         </div>
       ) : (
-        <div className="overflow-x-auto mt-6">
+        <div className="overflow-x-auto mt-12">
           <table className="min-w-full">
             <thead className="">
               <tr className="bg-faded">
@@ -95,6 +110,21 @@ const Transaction = () => {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-center items-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                className={`mx-2 ${
+                  currentPage === index + 1
+                    ? "bg-green-700 text-white"
+                    : "bg-gray-300 text-gray-700"
+                } px-3 py-1 rounded-full`}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -1,13 +1,8 @@
 import { ToastContainer } from "react-toastify";
-import useHandleTransfer from "../../../Hook/useHandleTransfer";
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import useHandleTransfer from "../Hook/useHandleTransfer";
 import ReactLoading from "react-loading";
 
 const TransferForm = () => {
-  const [warningMessage, setWarningMessage] = useState(false);
-  const inputRef = useRef(null); // Ref for the PIN input element
-
   const {
     handleCurrencyChange,
     handleInput,
@@ -16,27 +11,6 @@ const TransferForm = () => {
     handleTransferForm,
     isLoading,
   } = useHandleTransfer();
-  const navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
-
-  const handleBlur = () => {
-    // Set a slight delay before setting the warning message to false
-    setTimeout(() => {
-      setWarningMessage(false);
-    }, 200);
-  };
-
-  const handleFocus = () => {
-    setWarningMessage(true);
-    inputRef.current.focus();
-  };
-
-  const navigateToCreatePin = () => {
-    if (currentUser) {
-      const userId = currentUser._id;
-      navigate(`/create-pin/${userId}`);
-    }
-  };
 
   return (
     <div>
@@ -143,28 +117,7 @@ const TransferForm = () => {
             value={transferInput.pin}
             className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
             onChange={handleInput}
-            onBlur={handleBlur}
-            onFocus={handleFocus}
           />
-          {warningMessage && (
-            <div>
-              {currentUser && currentUser.transactionPin === 1111 ? (
-                <div>
-                  <p className="text-sm">
-                    Please create a PIN before proceeding:
-                  </p>
-                  <button
-                    onClick={navigateToCreatePin}
-                    className="text-primary text-sm font-bold cursor-pointer"
-                  >
-                    Create PIN
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
         </div>
         <button
           disabled={isLoading}

@@ -27,14 +27,11 @@ const BankContextProvider = ({ children }) => {
 
   const handleRegister = (event) => {
     event.preventDefault();
-
     // Validate form fields
     if (!user.firstName || !user.lastName || !user.email || !user.password) {
       toast.error("Please fill in all fields");
       return;
     }
-    
-
     setIsLoading(true);
     axios
       .post(
@@ -49,7 +46,13 @@ const BankContextProvider = ({ children }) => {
             navigate("/signup-Otp");
           }, 2000);
         }
-        // setuser to empty string
+        setUser({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          phone: "",
+        });
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
@@ -85,7 +88,7 @@ const BankContextProvider = ({ children }) => {
           toast.success("Login Successful!");
           setTimeout(() => {
             navigate("/wallet");
-          }, 2000);
+          }, 1000);
           const tokenData = response.data.data;
           window.localStorage.setItem("token", tokenData);
           window.localStorage.setItem("isLoggedIn", true);

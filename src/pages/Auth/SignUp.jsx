@@ -12,39 +12,12 @@ const SignUp = () => {
     useContext(BankContext);
   const [passwordType, setPasswordType] = useState("password");
   const [showEmailMessage, setShowEmailMessage] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const togglePassword = () => {
     setPasswordType((prevType) =>
       prevType === "password" ? "text" : "password"
     );
   };
-  const checkPasswordStrength = (password) => {
-    // Define your password strength criteria and update the password strength level accordingly
-    let strength = 0;
 
-    // Criteria: Contains both uppercase and lowercase letters
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
-      strength++;
-    }
-
-    // Criteria: Contains at least one digit
-    if (/[0-9]/.test(password)) {
-      strength++;
-    }
-
-    // Criteria: Contains at least one special character
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      strength++;
-    }
-
-    setPasswordStrength(strength);
-  };
-
-  const handlePasswordChange = (event) => {
-    const password = event.target.value;
-    checkPasswordStrength(password);
-    handleInput(event);
-  };
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
       <nav className="py-3">
@@ -167,7 +140,7 @@ const SignUp = () => {
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                onChange={handlePasswordChange} // Invoke handlePasswordChange instead of handleInput
+                onChange={handleInput}
                 className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"
               />
               <div onClick={togglePassword} className="text-grayText px-4">
@@ -177,24 +150,6 @@ const SignUp = () => {
                   <AiFillEye size={20} />
                 )}
               </div>
-            </div>
-            {/* Password strength indicator */}
-            <div className="flex justify-between mb-2">
-              <div
-                className={`w-1/4 h-2 rounded ${
-                  passwordStrength >= 1 ? "bg-red-300" : "bg-gray-300"
-                }`}
-              ></div>
-              <div
-                className={`w-1/4 h-2 rounded ${
-                  passwordStrength >= 2 ? "bg-yellow-500" : "bg-gray-300"
-                }`}
-              ></div>
-              <div
-                className={`w-1/4 h-2 rounded ${
-                  passwordStrength >= 3 ? "bg-green-300" : "bg-gray-300"
-                }`}
-              ></div>
             </div>
           </div>
           <button

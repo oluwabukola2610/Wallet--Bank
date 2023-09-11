@@ -1,11 +1,10 @@
-import group1 from "../../assets/group1.png";
+import group1 from "../assets/group1.png";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BeatLoader } from "react-spinners";
-import TransferForm from "./component/TransferForm";
-import FundsForm from "./component/FundsForm";
-import DashNav from "./component/DashNav";
-import useHandledashbord from "../../Hook/useHandledashbord";
+import TransferForm from "../component/TransferForm";
+import FundsForm from "../component/FundsForm";
+import useHandledashbord from "../Hook/useHandledashbord";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -14,7 +13,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   const {
-    handleDashboard,
+    // handleDashboard,
     setuserWallet,
     userData,
     fetchUserTransactions,
@@ -23,7 +22,7 @@ const Dashboard = () => {
   } = useHandledashbord();
 
   useEffect(() => {
-    handleDashboard();
+    // handleDashboard();
 
     setTimeout(() => {
       setuserWallet();
@@ -33,7 +32,7 @@ const Dashboard = () => {
       setLoading(false);
     });
   }, []);
-  
+
   const sortedTransactions = transactions.sort((a, b) => {
     // Sort the transactions based on the timestamp in descending order
     return new Date(b.timestamp) - new Date(a.timestamp);
@@ -44,11 +43,10 @@ const Dashboard = () => {
   const { firstName } = storedUserData || {};
 
   return (
-    <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-      <DashNav />
-      <header className="mt-3">
+    <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col  h-screen overflow-y-scroll w-full">
+      <header>
         <div className="flex flex-col md:flex-row justify-between items-center py-3 capitalize">
-          <h1 className="hidden font-semibold text-xl md:text-2xl md:flex capitalize">
+          <h1 className=" font-semibold text-xl md:text-2xl md:flex capitalize hidden">
             Hello {firstName}👋🏽
           </h1>
           <div className="flex space-x-4">
@@ -105,8 +103,9 @@ const Dashboard = () => {
           </div>
         ) : transactions.length > 0 ? (
           <>
-            <div className="overflow-x-auto mt-6">
-              <table className="min-w-full">
+          <div className="overflow-x-auto">
+  <table className="table">
+           
                 <thead className="">
                   <tr className="bg-faded">
                     <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -199,7 +198,7 @@ const Dashboard = () => {
       <div
         className={
           toggleTransfer
-            ? "fixed h-screen w-full md:w-[300px] lg:w-[350px] top-0 right-0 bg-white z-10 duration-300"
+            ? "fixed h-screen w-full md:w-[300px] top-0 right-0 bg-white z-10 duration-300"
             : "hidden"
         }
       >
@@ -223,7 +222,7 @@ const Dashboard = () => {
       <div
         className={
           toggleFunds
-            ? "fixed h-screen w-full md:w-[300px] lg:w-[350px] top-0 right-0 bg-white z-10 duration-300"
+            ? "fixed h-screen w-full md:w-[300px] top-0 right-0 bg-white z-10 duration-300"
             : "hidden"
         }
       >
@@ -235,7 +234,7 @@ const Dashboard = () => {
 
         <FundsForm />
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -43,7 +43,6 @@ const useSignupOtp = () => {
     setIsLoading(true);
     const userData = JSON.parse(window.localStorage.getItem("email"));
     const userOtp = { otp: code, email: userData };
-
     // Make an API call to validate the OTP
     axios
       .post(
@@ -52,10 +51,12 @@ const useSignupOtp = () => {
       )
       .then((response) => {
         if (response.status === 200) {
+          const userInfo = response.data.myuserinfo;
+          localStorage.setItem("keyuserinfo", JSON.stringify(userInfo));
           // OTP validation successful
           toast.success("OTP verified successfully");
           setTimeout(() => {
-            navigate("/login");
+            navigate("/create-pin");
           }, 2000);
         }
         setCode("");

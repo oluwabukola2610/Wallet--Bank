@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,9 @@ const useCreatePin = () => {
       toast.warning("please enter your pin");
       return;
     }
-    const userId = window.location.pathname.split("/").pop(); // Extract the user ID from the URL
-    const pin = { code };
-    console.log(pin);
+    const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
+    const userId = storedUserData._id;
     const pindata = { pin: code, id: userId };
-    console.log(pindata); // Make an API call to validate the OTP
     axios
       .post(
         `https://bank-app-backend-server.onrender.com/api/v1/trans/create_pin/${userId}`,
@@ -41,7 +39,6 @@ const useCreatePin = () => {
         }
       });
   };
- 
 
   return { code, setCode, handleCreatePin };
 };

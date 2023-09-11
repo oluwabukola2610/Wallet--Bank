@@ -1,5 +1,5 @@
 import { ToastContainer } from "react-toastify";
-import useHandleFunds from "../../../Hook/useHandleFunds";
+import useHandleFunds from "../Hook/useHandleFunds";
 import ReactLoading from "react-loading";
 import { useState } from "react";
 
@@ -84,9 +84,9 @@ const FundsForm = () => {
           <input
             type="number"
             id="amount"
-            placeholder="₦ 00.00"
+            placeholder=" 00.00"
             name="amount"
-            className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+            className="w-full mb-4 px-1 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-300 text-sm rounded-md focus:outline-none"
             onChange={handleInput}
             value={fundsInput}
             onFocus={() => setWarningMessage(true)}
