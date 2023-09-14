@@ -39,7 +39,6 @@ export const SidebarData = [
         />
       </svg>
     ),
-  
   },
 
   {
@@ -72,7 +71,7 @@ export const SidebarData = [
 
   {
     title: "Log Out",
-    path: "/",
+    path: "/login",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -89,9 +88,5 @@ export const SidebarData = [
         />
       </svg>
     ),
-    onClick: () => {
-      localStorage.clear();
-      window.location.href = "/login";
-    },
   },
 ];

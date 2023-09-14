@@ -103,31 +103,35 @@ const Dashboard = () => {
           </div>
         ) : transactions.length > 0 ? (
           <>
-          <div className="overflow-x-auto">
-  <table className="table">
-           
-                <thead className="">
-                  <tr className="bg-faded">
-                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[25rem] md:w-full">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-faded">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
                       Wallet
                     </th>
-                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3">
                       Transaction Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3">
                       Transaction Date
                     </th>
-                    <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3">
                       Status
                     </th>
-                    <th className="px-6 py-3  text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3">
                       Amount
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody>
                   {sortedTransactions.slice(0, 3).map((transaction, index) => (
-                    <tr key={index} className="hover:bg-faded/60 duration-300">
+                    <tr
+                      key={index}
+                      className={`bg-${
+                        index % 2 === 0 ? "white" : "gray-50"
+                      } border-b hover:bg-faded/60 duration-300`}
+                    >
                       <td className="px-4 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">
                           {transaction.walletType} Account
@@ -173,6 +177,7 @@ const Dashboard = () => {
                 </tbody>
               </table>
             </div>
+
             <Link
               to="/transactions"
               className="text-blue-300 font-semibold text-center pt-10 flex justify-center"

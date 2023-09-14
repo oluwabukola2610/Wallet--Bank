@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import DashNav from "../component/DashNav";
 
-const DashAside = () => {
+const DashLayout = () => {
   return (
     <div className="drawer lg:drawer-open max-w-[1640px]">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -17,4 +17,4 @@ const DashAside = () => {
   );
 };
 
-export default DashAside;
+export default DashLayout;

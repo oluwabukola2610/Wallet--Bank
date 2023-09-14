@@ -35,38 +35,41 @@ const Transaction = () => {
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-
       {loading ? (
         <div className="flex justify-center items-center py-8">
           <BeatLoader color="#000000" size={15} />
         </div>
       ) : (
-        <div className="overflow-x-auto mt-12">
-          <table className="min-w-full">
-            <thead className="">
-              <tr className="bg-faded">
-                <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[25rem] md:w-full mt-12">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-faded">
+              <tr>
+                <th scope="col" className="px-6 py-3">
                   Wallet
                 </th>
-                <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Transaction Type
                 </th>
-                <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Transaction Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Status
                 </th>
-
-                <th className="px-6 py-3  text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Amount
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {sortedTransactions.map((transaction, index) => (
-                <tr key={index} className="hover:bg-faded/60 duration-300">
-                  <td className="px-6 py-4 whitespace-no-wrap">
+            <tbody>
+              {sortedTransactions.slice(0, 3).map((transaction, index) => (
+                <tr
+                  key={index}
+                  className={`bg-${
+                    index % 2 === 0 ? "white" : "gray-50"
+                  } border-b hover:bg-faded/60 duration-300`}
+                >
+                  <td className="px-4 py-4 whitespace-no-wrap">
                     <div className="text-sm leading-5 text-gray-900">
                       {transaction.walletType} Account
                     </div>
@@ -87,7 +90,7 @@ const Transaction = () => {
                       {formatTimestamp(transaction.timestamp)}{" "}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-no-wrap ">
+                  <td className="px-6 py-4 whitespace-no-wrap">
                     <div
                       className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
                         transaction.paymentStatus === "failed"
@@ -103,30 +106,30 @@ const Transaction = () => {
                   <td className="px-6 py-4 whitespace-no-wrap">
                     <div className="text-sm leading-5 text-gray-900">
                       {transaction.walletType === "naira" ? "₦" : "$"}{" "}
-                      {transaction.amount}
+                      {transaction.amount}{" "}
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex justify-center items-center mt-4">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                className={`mx-2 ${
-                  currentPage === index + 1
-                    ? "bg-green-700 text-white"
-                    : "bg-gray-300 text-gray-700"
-                } px-3 py-1 rounded-full`}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
         </div>
       )}
+      <div className="flex justify-center items-center mt-4">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={`mx-2 ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white text-sm"
+                : "bg-gray-300 text-gray-700"
+            } px-2 rounded-full`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

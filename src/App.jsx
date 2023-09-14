@@ -10,7 +10,7 @@ import CreatePin from "./pages/Auth/CreatePin";
 import BankContextProvider from "./context/BankContextProvider";
 import ResetPin from "./pages/Auth/ResetPin";
 import { useEffect } from "react";
-import DashAside from "./Layout/DashAside";
+import DashLayout from "./Layout/DashLayout";
 import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/reset-pin" element={<ResetPin />} />
 
         {/* Use DashAside layout for dashboard-related routes */}
-        <Route element={<DashAside />}>
+        <Route element={<DashLayout />}>
           <Route path="/wallet" element={<Dashboard />} />
           <Route path="/transactions" element={<Transaction />} />
           <Route path="/user-profile" element={<UserProfile />} />

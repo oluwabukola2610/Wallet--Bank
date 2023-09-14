@@ -13,8 +13,6 @@ function SideBar() {
     }
   }, [storedUserData]);
 
-  
- 
   const { firstName, lastName, email } = storedUserData;
 
   return (

@@ -24,8 +24,6 @@ const UserProfile = () => {
     }
   }, [userImage]);
 
-
-
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
@@ -58,6 +56,7 @@ const UserProfile = () => {
           console.log(resp);
           toast.success("Profile Image Uploaded!");
           // Update the user image in localStorage after successful upload
+          window.location.reload();
           const updatedUserData = {
             ...storedUserData,
             userImage: resp.data.userImage,
@@ -134,7 +133,7 @@ const UserProfile = () => {
             aria-controls="bar-with-underline-2"
             role="tab"
           >
-            <FiSettings size={20}/>
+            <FiSettings size={20} />
             <span className="mx-1 text-sm sm:text-base">Settings</span>
           </button>
         </nav>
