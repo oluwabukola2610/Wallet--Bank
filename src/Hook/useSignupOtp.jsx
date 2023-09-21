@@ -34,26 +34,23 @@ const useSignupOtp = () => {
 
   const handleOtpSubmit = (e) => {
     e.preventDefault();
-    // Validate the OTP code
     if (!code || code.length !== 4) {
-      // Display an error message or handle invalid OTP input
       toast.warning("please enter a valid OTP code");
       return;
     }
     setIsLoading(true);
     const userData = JSON.parse(window.localStorage.getItem("email"));
     const userOtp = { otp: code, email: userData };
-    // Make an API call to validate the OTP
     axios
       .post(
         "https://bank-app-backend-server.onrender.com/api/v1/auth/otp",
         userOtp
       )
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
-          const userInfo = response.data.myuserinfo;
-          localStorage.setItem("keyuserinfo", JSON.stringify(userInfo));
-          // OTP validation successful
+          const userId = response.data.myuserinfo._id;
+          localStorage.setItem("userId", JSON.stringify(userId));
           toast.success("OTP verified successfully");
           setTimeout(() => {
             navigate("/create-pin");
@@ -62,23 +59,21 @@ const useSignupOtp = () => {
         setCode("");
       })
       .catch((error) => {
-        // Handle any error that occurred during the API call
         if (error.response.status === 401) {
           toast.warning("invalid otp");
         }
       })
       .finally(() => {
-        setIsLoading(false); // Set isLoading back to false when the API request is complete
+        setIsLoading(false);
       });
   };
 
   const handleResendOtp = () => {
-    // If the timer is not complete, do nothing
     if (!timerComplete) {
       return;
     }
 
-    setIsLoading(true); // Set isLoading back to true when the API request
+    setIsLoading(true);
     const email = JSON.parse(window.localStorage.getItem("email"));
     axios
       .post(
@@ -87,18 +82,16 @@ const useSignupOtp = () => {
       )
       .then((response) => {
         if (response.status === 200) {
-          // OTP validation successful
           toast.success("new otp successfully sent");
           setTimer(180); // Reset the timer
           setTimerComplete(false);
         }
       })
       .catch((error) => {
-        // Handle any error that occurred during the API call
         console.error(error.message);
       })
       .finally(() => {
-        setIsLoading(false); // Set isLoading back to false when the API request is complete
+        setIsLoading(false);
       });
   };
   return {

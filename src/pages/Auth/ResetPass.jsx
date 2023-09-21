@@ -5,6 +5,7 @@ import { BankContext } from "../../context/BankContextProvider";
 import useResetPass from "../../Hook/useResetPass";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 const ResetPass = () => {
   const { user, handleInput } = useContext(BankContext);
   const {
@@ -16,9 +17,9 @@ const ResetPass = () => {
   } = useResetPass();
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
-      <nav className="py-3">
+       <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
-      </nav>
+      </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}

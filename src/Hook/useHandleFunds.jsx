@@ -11,9 +11,7 @@ const useHandleFunds = () => {
 
   const handleFundsForm = (event) => {
     event.preventDefault();
-    // Perform further actions with the selected values
-    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = getUserId._id;
+    const userId = JSON.parse(localStorage.getItem("userId"));
     const userFundsData = {
       amount: fundsInput,
       walletType: selectedCurrency,

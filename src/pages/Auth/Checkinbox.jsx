@@ -1,14 +1,15 @@
 import logo from "../../assets/logo/Union-preview.png";
 import box from "../../assets/Group.png";
+import { Link } from "react-router-dom";
 
 const Checkinbox = () => {
 
 
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
-      <nav className="py-3">
+      <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
-      </nav>
+      </Link>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-10 mt-10 md:mt-20 lg:mt-28 ">
         <div className="text-center lg:text-left">
           <h1 className="text-3xl font-bold md:text-4xl md:font-extrabold">

@@ -2,29 +2,26 @@ import axios from "axios";
 import { useState } from "react";
 
 const useHandledashbord = () => {
-  // const handleDashboard = () => {
-  //   const token = window.localStorage.getItem("token");
-  //   const usertoken = { token };
-
-  //   axios
-  //     .post(
-  //       "https://bank-app-backend-server.onrender.com/api/v1/auth/dashboard",
-  //       usertoken
-  //     )
-  //     .then((response) => {
-  //       const userInfo = response.data.myuserdata;
-  //       console.log(userInfo);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error fetching data:", error);
-  //     });
-  // };
-  const [userData, setUserData] = useState({});
-
+  const [userInfo, setUserInfo] = useState({});
+  const handleDashboard = () => {
+    const id = JSON.parse(localStorage.getItem("userId"));
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/auth/user-data",
+        { id }
+      )
+      .then((response) => {
+        const userInfo = response.data.walletdata;
+        setUserInfo(userInfo);
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
+  };
+  const [myWallet, setmyWallet] = useState({});
   const setuserWallet = () => {
     const walletType = "naira&usd";
-    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = getUserId._id;
+    const userId = JSON.parse(localStorage.getItem("userId"));
     const dashboardData = { walletType, userId };
     axios
       .post(
@@ -32,7 +29,7 @@ const useHandledashbord = () => {
         dashboardData
       )
       .then((response) => {
-        setUserData(response.data);
+        setmyWallet(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -42,9 +39,7 @@ const useHandledashbord = () => {
   const [transactions, setTransactions] = useState([]);
 
   const fetchUserTransactions = async () => {
-    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = getUserId._id;
-
+    const userId = JSON.parse(localStorage.getItem("userId"));
     try {
       const response = await fetch(
         `https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`,
@@ -82,11 +77,12 @@ const useHandledashbord = () => {
     return new Date(timestamp).toLocaleString(undefined, options);
   };
   return {
-    // handleDashboard,
+    handleDashboard,
+    userInfo,
     setuserWallet,
     fetchUserTransactions,
     transactions,
-    userData,
+    myWallet,
     formatTimestamp,
   };
 };

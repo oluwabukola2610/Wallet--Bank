@@ -45,8 +45,7 @@ const useHandleTransfer = () => {
       return;
     }
 
-    const getUserId = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = getUserId._id;
+    const userId = JSON.parse(localStorage.getItem("userId"));
 
     const userTransferData = {
       amount: transferInput.amount,

@@ -14,6 +14,7 @@ import DashLayout from "./Layout/DashLayout";
 import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
+import Notification from "./pages/Notification";
 
 const App = () => {
   useEffect(() => {
@@ -37,6 +38,7 @@ const App = () => {
         <Route element={<DashLayout />}>
           <Route path="/wallet" element={<Dashboard />} />
           <Route path="/transactions" element={<Transaction />} />
+          <Route path="/notification" element={<Notification />} />
           <Route path="/user-profile" element={<UserProfile />} />
         </Route>
       </Routes>

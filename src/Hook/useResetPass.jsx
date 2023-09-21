@@ -32,6 +32,7 @@ const useResetPass = () => {
       toast.error("Passwords do not match");
       return;
     }
+    
     const userId = window.location.pathname.split('/')[2]; // Extract the user ID from the URL
     const userToken = window.location.pathname.split('/')[3]; // Extract the token from the URL
     const newpassData = { password: user.password, id: userId, token: userToken };

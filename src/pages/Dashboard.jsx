@@ -1,32 +1,31 @@
 import group1 from "../assets/group1.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
-import useHandledashbord from "../Hook/useHandledashbord";
 import { Link } from "react-router-dom";
+import { BankContext } from "../context/BankContextProvider";
 
 const Dashboard = () => {
   const [toggleTransfer, setToggleTransfer] = useState(false);
   const [toggleFunds, setToggleFunds] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const {
-    // handleDashboard,
+    handleDashboard,
     setuserWallet,
+    myWallet,
     userData,
     fetchUserTransactions,
     transactions,
     formatTimestamp,
-  } = useHandledashbord();
+  } = useContext(BankContext);
 
   useEffect(() => {
-    // handleDashboard();
-
+    handleDashboard();
     setTimeout(() => {
       setuserWallet();
-    }, 2000);
+    }, 1000);
 
     fetchUserTransactions().then(() => {
       setLoading(false);
@@ -38,9 +37,7 @@ const Dashboard = () => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
-  // to get the name from localStorage
-  const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-  const { firstName } = storedUserData || {};
+  const { firstName } = userData || {};
 
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col  h-screen overflow-y-scroll w-full">
@@ -67,9 +64,9 @@ const Dashboard = () => {
         </div>
         <div className="flex justify-between mt-3">
           <div className="border border-gray-300 p-4 flex-1 mr-3 text-xl font-medium">
-            {userData ? (
+            {myWallet ? (
               <>
-                ₦ {userData.nairaBalance}
+                ₦ {myWallet.nairaBalance}
                 <span className="text-gray-600">.00</span>{" "}
                 <p className="text-grayText font-light text-sm">
                   Naira Balance
@@ -80,9 +77,9 @@ const Dashboard = () => {
             )}
           </div>
           <div className="border border-gray-300 p-4 flex-1 ml-3 font-medium text-xl">
-            {userData ? (
+            {myWallet ? (
               <>
-                $ {userData.usdBalance}
+                $ {myWallet.usdBalance}
                 <span className="text-gray-600">.00</span>{" "}
                 <p className="text-grayText font-light text-sm">
                   Dollar Balance

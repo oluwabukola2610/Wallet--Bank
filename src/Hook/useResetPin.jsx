@@ -13,8 +13,7 @@ const useResetPin = () => {
       toast.warning("please enter your pin");
       return;
     } 
-    const currentUser = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = currentUser._id; // Getting that particular user Id
+    const userId = JSON.parse(localStorage.getItem("userId"));
     const pin = { code };
     console.log(pin);
     const pindata = { pin: code, id: userId };

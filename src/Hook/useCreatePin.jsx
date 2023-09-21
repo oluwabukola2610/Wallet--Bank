@@ -9,13 +9,11 @@ const useCreatePin = () => {
 
   const handleCreatePin = (e) => {
     e.preventDefault();
-    // Validate the OTP code
     if (!code || code.length !== 4) {
       toast.warning("please enter your pin");
       return;
     }
-    const storedUserData = JSON.parse(localStorage.getItem("keyuserinfo"));
-    const userId = storedUserData._id;
+    const userId = JSON.parse(localStorage.getItem("userId"));
     const pindata = { pin: code, id: userId };
     axios
       .post(

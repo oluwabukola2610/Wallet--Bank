@@ -1,14 +1,14 @@
-// new updated pagenation
 import { useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import useHandledashbord from "../Hook/useHandledashbord";
+import { useContext } from "react";
+import { BankContext } from "../context/BankContextProvider";
 
 const Transaction = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); // Current page number
 
   const { transactions, fetchUserTransactions, formatTimestamp } =
-    useHandledashbord();
+    useContext(BankContext);
 
   useEffect(() => {
     fetchUserTransactions().then(() => {
@@ -41,7 +41,7 @@ const Transaction = () => {
         </div>
       ) : (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[25rem] md:w-full mt-12">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-faded">
               <tr>
                 <th scope="col" className="px-6 py-3">

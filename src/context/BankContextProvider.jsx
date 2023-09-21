@@ -16,6 +16,9 @@ const BankContextProvider = ({ children }) => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [myWallet, setMyWallet] = useState({});
+  const [transactions, setTransactions] = useState([]);
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -68,7 +71,6 @@ const BankContextProvider = ({ children }) => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    // Validate form fields
     if (!user.email || !user.password) {
       toast.error("Please fill in all fields");
       return;
@@ -104,17 +106,93 @@ const BankContextProvider = ({ children }) => {
         toast.warning(error.response.data.error);
       })
       .finally(() => {
-        setIsLoading(false); // Set isLoading back to false when the API request is complete
+        setIsLoading(false);
       });
   };
 
+  const handleDashboard = () => {
+    const id = JSON.parse(localStorage.getItem("userId"));
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/auth/user-data",
+        { id }
+      )
+      .then((response) => {
+        const userInfo = response.data.walletdata;
+        console.log(userInfo);
+        setUserData(userInfo);
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+      });
+  };
+  const setuserWallet = () => {
+    const walletType = "naira&usd";
+    const userId = JSON.parse(localStorage.getItem("userId"));
+    const dashboardData = { walletType, userId };
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/wallet/create",
+        dashboardData
+      )
+      .then((response) => {
+        setMyWallet(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchUserTransactions = async () => {
+    const userId = JSON.parse(localStorage.getItem("userId"));
+    try {
+      const response = await fetch(
+        `https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const filteredTransactions = data.data.filter(
+          (transaction) => transaction.userId === userId
+        );
+        setTransactions(filteredTransactions);
+      }
+    } catch (error) {
+      console.log("Internal Server Error: " + error);
+    }
+  };
+  const formatTimestamp = (timestamp) => {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(timestamp).toLocaleString(undefined, options);
+  };
   const contextValue = {
-    handleRegister,
-    handleInput,
     user,
-    handleLogin,
     setUser,
     isLoading,
+    handleInput,
+    handleRegister,
+    handleLogin,
+    handleDashboard,
+    setuserWallet,
+    fetchUserTransactions,
+    userData,
+    myWallet,
+    transactions,
+    formatTimestamp
   };
 
   return (
