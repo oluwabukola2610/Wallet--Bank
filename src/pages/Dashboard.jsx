@@ -1,5 +1,5 @@
 import group1 from "../assets/group1.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
@@ -10,30 +10,10 @@ import { BankContext } from "../context/BankContextProvider";
 const Dashboard = () => {
   const [toggleTransfer, setToggleTransfer] = useState(false);
   const [toggleFunds, setToggleFunds] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const {
-    handleDashboard,
-    setuserWallet,
-    myWallet,
-    userData,
-    fetchUserTransactions,
-    transactions,
-    formatTimestamp,
-  } = useContext(BankContext);
-
-  useEffect(() => {
-    handleDashboard();
-    setTimeout(() => {
-      setuserWallet();
-    }, 1000);
-
-    fetchUserTransactions().then(() => {
-      setLoading(false);
-    });
-  }, []);
+  const { isLoading, myWallet, userData, transactions, formatDatestamp } =
+    useContext(BankContext);
 
   const sortedTransactions = transactions.sort((a, b) => {
-    // Sort the transactions based on the timestamp in descending order
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
@@ -94,7 +74,7 @@ const Dashboard = () => {
       </header>
 
       <main>
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center py-8">
             <BeatLoader color="#000000" size={15} />
           </div>
@@ -147,7 +127,7 @@ const Dashboard = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         <div className="text-sm leading-5 text-gray-900">
-                          {formatTimestamp(transaction.timestamp)}{" "}
+                          {formatDatestamp(transaction.timestamp)}{" "}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">

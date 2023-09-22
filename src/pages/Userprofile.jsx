@@ -108,7 +108,7 @@ const UserProfile = () => {
                     src={selectedImage || ""}
                     size="80"
                     round={true}
-                    className="mx-auto mb-2 bg-primary"
+                    className="mx-auto mb-2 !bg-primary"
                   />
                   <div className="justify-center flex items-center">
                     <p
@@ -145,7 +145,7 @@ const UserProfile = () => {
                       placeholder="First Name"
                       value={firstName}
                       disabled
-                      className=" disabled:bg-blue-100 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
+                      className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
                     />
                   </div>
                   <div className="w-full md:w-[200px] space-y-1">
@@ -156,7 +156,7 @@ const UserProfile = () => {
                       placeholder="Last Name"
                       value={lastName}
                       disabled
-                      className=" disabled:bg-blue-100 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
+                      className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
                     />
                   </div>
                 </div>
@@ -182,7 +182,7 @@ const UserProfile = () => {
                     placeholder="Email"
                     value={email}
                     disabled
-                    className=" disabled:bg-blue-100 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
+                    className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
                   />
                 </div>
               </div>
@@ -206,7 +206,7 @@ const UserProfile = () => {
                     placeholder="Phone Number"
                     value={phone}
                     disabled
-                    className=" disabled:bg-blue-100 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
+                    className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
                   />
                 </div>
               </div>

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
+import { useEffect } from "react";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,6 +20,7 @@ const BankContextProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -155,7 +157,6 @@ const BankContextProvider = ({ children }) => {
           },
         }
       );
-
       const data = await response.json();
 
       if (response.ok) {
@@ -163,22 +164,67 @@ const BankContextProvider = ({ children }) => {
           (transaction) => transaction.userId === userId
         );
         setTransactions(filteredTransactions);
+        console.log(filteredTransactions);
       }
     } catch (error) {
       console.log("Internal Server Error: " + error);
     }
   };
-  const formatTimestamp = (timestamp) => {
+  useEffect(() => {
+    setIsLoading(true);
+    handleDashboard();
+    setTimeout(() => {
+      setuserWallet();
+    }, 1000);
+
+    fetchUserTransactions().then(() => {
+      setIsLoading(false);
+    });
+  }, []);
+  const formatDatestamp = (timestamp) => {
     const options = {
       year: "numeric",
       month: "short",
       day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
     };
     return new Date(timestamp).toLocaleString(undefined, options);
   };
+  const HandleNotification = () => {
+    const getCurrencySymbol = (walletType) => {
+      return walletType === "naira" ? "N" : walletType === "usd" ? "$" : "";
+    };
+    const newNotifications = transactions.map((transaction) => {
+      const { transactionType, amount, walletType, paymentStatus } =
+        transaction;
+
+      const currencySymbol = getCurrencySymbol(walletType);
+      const formattedAmount = `${currencySymbol}${amount}`;
+
+      if (transactionType === "Deposit" && paymentStatus === "successful") {
+        return `You successfully deposited ${formattedAmount} to your ${walletType} Wallet.`;
+      } else if (
+        transactionType === "Withdrawal" &&
+        paymentStatus === "successful"
+      ) {
+        return `You successfully withdrew ${formattedAmount} from your ${walletType} Wallet.`;
+      } else if (paymentStatus === "failed") {
+        return `Your ${transactionType.toLowerCase()} transaction of ${formattedAmount} from your ${walletType} Wallet.`;
+      }
+
+      return "";
+    });
+
+    const filteredNotifications = newNotifications.filter(
+      (notification) => notification !== ""
+    );
+
+    setNotifications(filteredNotifications);
+  };
+
+  useEffect(() => {
+    HandleNotification();
+  }, [transactions]);
+
   const contextValue = {
     user,
     setUser,
@@ -192,7 +238,8 @@ const BankContextProvider = ({ children }) => {
     userData,
     myWallet,
     transactions,
-    formatTimestamp
+    formatDatestamp,
+    notifications,
   };
 
   return (

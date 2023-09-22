@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { useContext } from "react";
 import { BankContext } from "../context/BankContextProvider";
 
 const Transaction = () => {
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); // Current page number
 
-  const { transactions, fetchUserTransactions, formatTimestamp } =
-    useContext(BankContext);
-
-  useEffect(() => {
-    fetchUserTransactions().then(() => {
-      setLoading(false);
-    });
-  }, []);
+  const { transactions, formatDatestamp, isLoading } = useContext(BankContext);
 
   const TransactionsPerPage = 8; // Number of transactions per page
   const totalTransactions = transactions.length; // Number of transactions
@@ -35,7 +27,7 @@ const Transaction = () => {
 
   return (
     <div className="w-full px-2 md:px-4 lg:px-8 py-3">
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center py-8">
           <BeatLoader color="#000000" size={15} />
         </div>
@@ -62,7 +54,7 @@ const Transaction = () => {
               </tr>
             </thead>
             <tbody>
-              {sortedTransactions.slice(0, 3).map((transaction, index) => (
+              {sortedTransactions.map((transaction, index) => (
                 <tr
                   key={index}
                   className={`bg-${
@@ -87,7 +79,7 @@ const Transaction = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap">
                     <div className="text-sm leading-5 text-gray-900">
-                      {formatTimestamp(transaction.timestamp)}{" "}
+                      {formatDatestamp(transaction.timestamp)}{" "}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap">
