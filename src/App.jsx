@@ -9,7 +9,6 @@ import Checkinbox from "./pages/Auth/Checkinbox";
 import CreatePin from "./pages/Auth/CreatePin";
 import BankContextProvider from "./context/BankContextProvider";
 import ResetPin from "./pages/Auth/ResetPin";
-import { useEffect } from "react";
 import DashLayout from "./Layout/DashLayout";
 import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
@@ -17,9 +16,7 @@ import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
 
 const App = () => {
-  useEffect(() => {
-    import("preline");
-  }, []);
+
 
   return (
     <BankContextProvider>

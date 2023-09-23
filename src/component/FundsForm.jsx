@@ -94,22 +94,22 @@ const FundsForm = () => {
           />
           {warningMessage && (
             <p className="text-sm text-red-400 ">
-              please note that the minimum amount:100
+              Amount should be between 100 & 2000{" "}
             </p>
           )}
         </div>
         <button
-            disabled={isLoading}
-            className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center">
-                <ReactLoading type="spin" height={"28px"} width={"28px"} />
-              </div>
-            ) : (
-              "Fund Wallet"
-            )}
-          </button>
+          disabled={isLoading}
+          className="relative w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <ReactLoading type="spin" height={"28px"} width={"28px"} />
+            </div>
+          ) : (
+            "Fund Wallet"
+          )}
+        </button>
       </form>
     </div>
   );

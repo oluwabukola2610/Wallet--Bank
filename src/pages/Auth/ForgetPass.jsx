@@ -50,7 +50,7 @@ const ForgetPass = () => {
         }
       })
       .finally(() => {
-        setIsLoading(false); // Set isLoading back to false when the API request is complete
+        setIsLoading(false);
       });
   };
   return (

@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { RiMenuFoldLine } from "react-icons/ri";
 import { BankContext } from "../context/BankContextProvider";
+import { useNavigate } from "react-router-dom";
 const DashNav = () => {
   const { notifications } = useContext(BankContext);
+  const navigate = useNavigate()
   const hasNotifications = notifications.length > 0;
   return (
     <nav className="flex justify-between items-center p-2 w-full ">
@@ -14,7 +16,7 @@ const DashNav = () => {
       </label>
       <div className="flex items-center space-x-3 px-3">
         {hasNotifications ? (
-          <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+          <button onClick={()=>navigate('/notification')} className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
             <span className="sr-only">Notifications</span>
             <span className="absolute top-0 right-0 h-4 w-4 mt-1  bg-white text-red-500 rounded-full text-xs flex items-center justify-center">
               {notifications.length}
