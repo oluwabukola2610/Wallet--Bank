@@ -47,6 +47,11 @@ const BankContextProvider = ({ children }) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
           window.localStorage.setItem("email", JSON.stringify(user.email));
+          window.localStorage.setItem(
+            "token1",
+            JSON.stringify(response.data.usertoken)
+          );
+
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
@@ -220,7 +225,6 @@ const BankContextProvider = ({ children }) => {
 
     setNotifications(filteredNotifications);
   };
-
 
   useEffect(() => {
     HandleNotification();
