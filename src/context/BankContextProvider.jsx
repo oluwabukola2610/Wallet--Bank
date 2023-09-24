@@ -17,7 +17,6 @@ const BankContextProvider = ({ children }) => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn,setIsLogin] = useState(false);
   const [userData, setUserData] = useState({});
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
@@ -91,7 +90,6 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 201) {
           toast.success("Login Successful!");
-          setIsLogin(true);
           setTimeout(() => {
             navigate("/wallet");
           }, 1000);
@@ -223,6 +221,7 @@ const BankContextProvider = ({ children }) => {
     setNotifications(filteredNotifications);
   };
 
+
   useEffect(() => {
     HandleNotification();
   }, [transactions]);
@@ -242,7 +241,6 @@ const BankContextProvider = ({ children }) => {
     transactions,
     formatDatestamp,
     notifications,
-    isLoggedIn
   };
 
   return (

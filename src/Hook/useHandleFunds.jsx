@@ -12,10 +12,13 @@ const useHandleFunds = () => {
   const handleFundsForm = (event) => {
     event.preventDefault();
     const userId = JSON.parse(localStorage.getItem("userId"));
+    const userEmail = JSON.parse(window.localStorage.getItem("email"));
+
     const userFundsData = {
       amount: fundsInput,
       walletType: selectedCurrency,
       userId,
+      userEmail,
     };
     setIsLoading(true);
     if (!fundsInput || !selectedCurrency) {
@@ -23,25 +26,20 @@ const useHandleFunds = () => {
       setIsLoading(false);
       return;
     }
+
     axios
       .post(
         "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund",
         userFundsData
       )
       .then((response) => {
-        const { message } = response.data;
-
-        if (message === "Wallet funding pending") {
-          toast.info(message);
-        } else if (message === "Wallet funding failed") {
-          toast.error(message);
-        } else {
-          toast.success(message);
-          window.location.reload(); // Reload the page
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          window.location.reload();
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.error);
       })
       .finally(() => {
         setIsLoading(false);

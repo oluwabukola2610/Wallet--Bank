@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
 
 const Dashboard = () => {
@@ -16,7 +16,6 @@ const Dashboard = () => {
     userData,
     transactions,
     formatDatestamp,
-    isLoggedIn,
   } = useContext(BankContext);
 
   const sortedTransactions = transactions.sort((a, b) => {
@@ -25,9 +24,6 @@ const Dashboard = () => {
 
   const { firstName } = userData || {};
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace/>;
-  }
 
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col  h-screen overflow-y-scroll w-full">

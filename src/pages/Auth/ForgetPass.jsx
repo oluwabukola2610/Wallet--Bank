@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ReactLoading from "react-loading";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const ForgetPass = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,41 +22,28 @@ const ForgetPass = () => {
     setIsLoading(true);
     const reg = { email };
     console.log(reg);
-    fetch(
-      "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reg),
-      }
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        if (resp.status === "ok") {
-          toast.success("Email sent successfully!");
-          navigate("/resetCheck-inbox");
-          console.log(resp, "UserForgot");
-        } else {
-          toast.error("Email is not registered!");
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
+        reg
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
         }
+        return;
       })
       .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          toast.warning("Email is not registered");
-        } else {
-          console.error(error);
-          toast.warning("Password Reset Failed. Contact Support.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
+        console.log(error);
       });
   };
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
-       <Link to="/" className="py-3">
+      <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
