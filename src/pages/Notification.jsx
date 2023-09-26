@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { BankContext } from "../context/BankContextProvider";
 
 const Notification = () => {
-  const { userData, transactions,formatDatestamp,notifications } = useContext(BankContext);
+  const {  transactions,formatDatestamp,notifications } = useContext(BankContext);
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const { firstName, lastName } = userData || {};
 
   return (

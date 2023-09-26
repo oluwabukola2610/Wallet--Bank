@@ -13,7 +13,6 @@ const Dashboard = () => {
   const {
     isLoading,
     myWallet,
-    userData,
     transactions,
     formatDatestamp,
   } = useContext(BankContext);
@@ -21,6 +20,7 @@ const Dashboard = () => {
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const { firstName } = userData || {};
 

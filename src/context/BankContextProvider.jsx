@@ -17,7 +17,6 @@ const BankContextProvider = ({ children }) => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState({});
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -47,11 +46,6 @@ const BankContextProvider = ({ children }) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
           window.localStorage.setItem("email", JSON.stringify(user.email));
-          window.localStorage.setItem(
-            "token1",
-            JSON.stringify(response.data.usertoken)
-          );
-
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
@@ -100,7 +94,7 @@ const BankContextProvider = ({ children }) => {
           }, 1000);
           const tokenData = response.data.data;
           window.localStorage.setItem("token", tokenData);
-          window.localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("userData", JSON.stringify(response.data.userdata));
         } else {
           toast.error("Incorrect password");
         }
@@ -110,29 +104,14 @@ const BankContextProvider = ({ children }) => {
         });
       })
       .catch((error) => {
-        toast.warning(error.response.data.error);
+        toast.warning(error.response.error);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  const handleDashboard = () => {
-    const id = JSON.parse(localStorage.getItem("userId"));
-    axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/user-data",
-        { id }
-      )
-      .then((response) => {
-        const userInfo = response.data.walletdata;
-        console.log(userInfo);
-        setUserData(userInfo);
-      })
-      .catch((error) => {
-        console.log("Error fetching data:", error);
-      });
-  };
+ 
   const setuserWallet = () => {
     const walletType = "naira&usd";
     const userId = JSON.parse(localStorage.getItem("userId"));
@@ -176,8 +155,9 @@ const BankContextProvider = ({ children }) => {
     }
   };
   useEffect(() => {
+    JSON.parse(localStorage.getItem("userData"));
+
     setIsLoading(true);
-    handleDashboard();
     setTimeout(() => {
       setuserWallet();
     }, 1000);
@@ -237,10 +217,8 @@ const BankContextProvider = ({ children }) => {
     handleInput,
     handleRegister,
     handleLogin,
-    handleDashboard,
     setuserWallet,
     fetchUserTransactions,
-    userData,
     myWallet,
     transactions,
     formatDatestamp,

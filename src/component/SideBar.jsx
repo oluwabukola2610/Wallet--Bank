@@ -1,19 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SidebarData } from "../utils/Data";
-import { useContext } from "react";
-import { BankContext } from "../context/BankContextProvider";
 import Avatar from "react-avatar";
 
 function SideBar() {
   const [Image, SelectedImage] = useState(null);
-  const { userData, handleDashboard } = useContext(BankContext);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userData) {
       SelectedImage(userData.userImage);
     }
-  }, [userData, handleDashboard]);
+  }, [userData]);
 
   const { firstName, lastName } = userData || {};
 
@@ -55,10 +54,34 @@ function SideBar() {
               }
             >
               {data.icon}
-
               <span className="mx-4 font-medium">{data.title}</span>
             </NavLink>
           ))}
+
+          {/* Log Out button */}
+          <button
+            onClick={() => {
+              localStorage.clear();
+              navigate("/login");
+            }}
+            className="text-gray-400 text-md flex items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            <span className="mx-4 font-medium">Log Out</span>
+          </button>
         </nav>
       </aside>
     </div>

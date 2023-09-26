@@ -3,19 +3,17 @@ import Avatar from "react-avatar";
 import { ToastContainer, toast } from "react-toastify";
 import { FiSettings } from "react-icons/fi";
 import Transitions from "../utils/Transition";
-import { useContext } from "react";
-import { BankContext } from "../context/BankContextProvider";
 
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const { userData, handleDashboard } = useContext(BankContext);
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const { firstName, lastName, email, phone, _id: userId } = userData || {};
 
   useEffect(() => {
     if (userData) {
       setSelectedImage(userData.userImage);
     }
-  }, [userData, handleDashboard]);
+  }, [userData]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -48,7 +46,13 @@ const UserProfile = () => {
         .then((resp) => {
           console.log(resp);
           toast.success("Profile Image Uploaded!");
-          window.location.reload();
+          // Update the user image in localStorage after successful upload
+          const updatedUserData = {
+            ...userData,
+            userImage: resp.data.userImage,
+          };
+          localStorage.setItem("userData", JSON.stringify(updatedUserData));
+          window.location.reload()
         })
         .catch((error) => {
           console.log(error);
