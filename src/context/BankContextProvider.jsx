@@ -45,7 +45,8 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
-          window.localStorage.setItem("email", JSON.stringify(user.email));
+          localStorage.setItem("email", JSON.stringify(user.email));
+          localStorage.setItem("token", (response.data.usertoken));
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
@@ -93,7 +94,7 @@ const BankContextProvider = ({ children }) => {
             navigate("/wallet");
           }, 1000);
           const tokenData = response.data.data;
-          window.localStorage.setItem("token", tokenData);
+          localStorage.setItem("token", tokenData);
           localStorage.setItem("userData", JSON.stringify(response.data.userdata));
         } else {
           toast.error("Incorrect password");
@@ -148,7 +149,6 @@ const BankContextProvider = ({ children }) => {
           (transaction) => transaction.userId === userId
         );
         setTransactions(filteredTransactions);
-        console.log(filteredTransactions);
       }
     } catch (error) {
       console.log("Internal Server Error: " + error);

@@ -47,7 +47,6 @@ const useSignupOtp = () => {
         userOtp
       )
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           const userData = response.data.myuserinfo;
           const userId = response.data.myuserinfo._id;

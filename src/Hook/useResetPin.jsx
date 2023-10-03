@@ -14,10 +14,9 @@ const useResetPin = () => {
       return;
     } 
     const userId = JSON.parse(localStorage.getItem("userId"));
-    const pin = { code };
-    console.log(pin);
+    // const pin = { code };
+    // console.log(pin);
     const pindata = { pin: code, id: userId };
-    console.log(pindata); // Make an API call to validate the OTP
     axios
       .post(
         `https://bank-app-backend-server.onrender.com/api/v1/trans/create_pin/${userId}`,

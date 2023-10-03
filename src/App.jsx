@@ -14,10 +14,9 @@ import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 const App = () => {
-
-
   return (
     <BankContextProvider>
       <Routes>
@@ -32,11 +31,13 @@ const App = () => {
         <Route path="/reset-pin" element={<ResetPin />} />
 
         {/* Use DashAside layout for dashboard-related routes */}
-        <Route element={<DashLayout />}>
-          <Route path="/wallet" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transaction />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="" element={<ProtectedRoute />} >
+          <Route element={<DashLayout />}>
+            <Route path="/wallet" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transaction />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/user-profile" element={<UserProfile />} />
+          </Route>
         </Route>
       </Routes>
     </BankContextProvider>
