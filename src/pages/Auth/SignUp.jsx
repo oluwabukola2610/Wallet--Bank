@@ -154,7 +154,7 @@ const SignUp = () => {
           </div>
           <button
             disabled={isLoading}
-            className=" w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+            className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">

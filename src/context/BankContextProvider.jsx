@@ -156,8 +156,6 @@ const BankContextProvider = ({ children }) => {
   };
   useEffect(() => {
     JSON.parse(localStorage.getItem("userData"));
-
-    setIsLoading(true);
     setTimeout(() => {
       setuserWallet();
     }, 1000);
