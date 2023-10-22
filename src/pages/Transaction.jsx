@@ -2,11 +2,16 @@ import { useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { useContext } from "react";
 import { BankContext } from "../context/BankContextProvider";
+import { useEffect } from "react";
 
 const Transaction = () => {
   const [currentPage, setCurrentPage] = useState(1); // Current page number
 
-  const { transactions, formatDatestamp, isLoading } = useContext(BankContext);
+  const { fetchUserTransactions, transactions, formatDatestamp, isLoading } =
+    useContext(BankContext);
+  useEffect(() => {
+    fetchUserTransactions();
+  }, []);
 
   const TransactionsPerPage = 8; // Number of transactions per page
   const totalTransactions = transactions.length; // Number of transactions

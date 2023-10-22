@@ -5,11 +5,24 @@ import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
+import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { isLoading, myWallet, transactions, formatDatestamp } =
-    useContext(BankContext);
+  const {
+    isLoading,
+    myWallet,
+    transactions,
+    setuserWallet,
+    fetchUserTransactions,
+    formatDatestamp,
+  } = useContext(BankContext);
+  useEffect(() => {
+    setTimeout(() => {
+      setuserWallet();
+    }, 1000);
 
+    fetchUserTransactions();
+  }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
@@ -89,10 +102,10 @@ const Dashboard = () => {
                       Transaction Type
                     </th>
                     <th scope="col" className="px-6 py-3">
-                     Payment Method
+                      Payment Method
                     </th>
                     <th scope="col" className="px-6 py-3">
-                       Date
+                      Date
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Status

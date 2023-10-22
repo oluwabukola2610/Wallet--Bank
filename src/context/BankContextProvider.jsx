@@ -161,13 +161,6 @@ const BankContextProvider = ({ children }) => {
   };
   useEffect(() => {
     JSON.parse(localStorage.getItem("userData"));
-    setTimeout(() => {
-      setuserWallet();
-    }, 1000);
-
-    fetchUserTransactions().then(() => {
-      setIsLoading(false);
-    });
   }, []);
   const formatDatestamp = (timestamp) => {
     const options = {
@@ -195,10 +188,7 @@ const BankContextProvider = ({ children }) => {
       });
   };
 
-  useEffect(() => {
-    handleNotification();
-  }, [transactions]);
-
+ 
   const contextValue = {
     user,
     setUser,
@@ -212,6 +202,7 @@ const BankContextProvider = ({ children }) => {
     transactions,
     formatDatestamp,
     notifications,
+    handleNotification
   };
 
   return (
