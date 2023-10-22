@@ -15,7 +15,7 @@ import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
 import ProtectedRoute from "./component/ProtectedRoute";
-import Caard from "./pages/Auth/Caard";
+import Caard from "./pages/Caard";
 
 const App = () => {
   return (
