@@ -16,6 +16,7 @@ import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
 import ProtectedRoute from "./component/ProtectedRoute";
 import Caard from "./pages/Caard";
+import Sucess from "./pages/Sucess";
 
 const App = () => {
   return (
@@ -30,6 +31,8 @@ const App = () => {
         <Route path="/reset-password/:id/:token" element={<ResetPass />} />
         <Route path="/create-pin" element={<CreatePin />} />
         <Route path="/reset-pin" element={<ResetPin />} />
+        <Route path="/wallet/success/:trxfer/:reference" element={<Sucess />} />
+
 
         {/* Use DashAside layout for dashboard-related routes */}
         <Route path="" element={<ProtectedRoute />} >

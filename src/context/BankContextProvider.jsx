@@ -46,7 +46,7 @@ const BankContextProvider = ({ children }) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
           localStorage.setItem("email", JSON.stringify(user.email));
-          localStorage.setItem("token", (response.data.usertoken));
+          localStorage.setItem("token", response.data.usertoken);
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
@@ -95,7 +95,10 @@ const BankContextProvider = ({ children }) => {
           }, 1000);
           const tokenData = response.data.data;
           localStorage.setItem("token", tokenData);
-          localStorage.setItem("userData", JSON.stringify(response.data.userdata));
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(response.data.userdata)
+          );
         } else {
           toast.error("Incorrect password");
         }
@@ -112,10 +115,10 @@ const BankContextProvider = ({ children }) => {
       });
   };
 
- 
   const setuserWallet = () => {
     const walletType = "naira&usd";
-    const userId = JSON.parse(localStorage.getItem("userId"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData._id;
     const dashboardData = { walletType, userId };
     axios
       .post(
@@ -131,7 +134,8 @@ const BankContextProvider = ({ children }) => {
   };
 
   const fetchUserTransactions = async () => {
-    const userId = JSON.parse(localStorage.getItem("userId"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData._id;
     try {
       const response = await fetch(
         `https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`,
@@ -183,7 +187,7 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           setNotifications(response.data.data);
-          console.log(response.data.data)
+          console.log(response.data.data);
         }
       })
       .catch((error) => {
