@@ -43,6 +43,9 @@ const Transaction = () => {
                   Transaction Type
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Payment Method
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Transaction Date
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -75,6 +78,11 @@ const Transaction = () => {
                       }`}
                     >
                       {transaction.transactionType}
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 whitespace-no-wrap">
+                    <div className="text-sm leading-5 text-gray-900">
+                      {transaction.paymentGateway}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap">

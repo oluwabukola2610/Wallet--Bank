@@ -1,13 +1,18 @@
-import { useContext } from "react";
+import  { useContext } from "react";
 import { RiMenuFoldLine } from "react-icons/ri";
 import { BankContext } from "../context/BankContextProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 const DashNav = () => {
   const { notifications } = useContext(BankContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation(); 
   const hasNotifications = notifications.length > 0;
+  
+  // Define a flag to determine whether to display the red notification number
+  const displayRedNotification = hasNotifications && location.pathname !== '/notification';
+  
   return (
-    <nav className="flex justify-between items-center p-2 w-full ">
+    <nav className="flex justify-between items-center p-2 w-full">
       <label htmlFor="my-drawer-2">
         <RiMenuFoldLine
           size="25"
@@ -15,8 +20,8 @@ const DashNav = () => {
         />
       </label>
       <div className="flex items-center space-x-3 px-3">
-        {hasNotifications ? (
-          <button onClick={()=>navigate('/notification')} className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+        {displayRedNotification ? (
+          <button onClick={() => navigate('/notification')} className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
             <span className="sr-only">Notifications</span>
             <span className="absolute top-0 right-0 h-4 w-4 mt-1  bg-white text-red-500 rounded-full text-xs flex items-center justify-center">
               {notifications.length}
@@ -37,10 +42,8 @@ const DashNav = () => {
             </svg>
           </button>
         ) : (
-          <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+          <button className="relative p-2 text-gray-400 hover.bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
             <span className="sr-only">Notifications</span>
-            <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-green-500 rounded-full"></span>
-            <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-green-700 rounded-full animate-ping"></span>
             <svg
               aria-hidden="true"
               fill="none"

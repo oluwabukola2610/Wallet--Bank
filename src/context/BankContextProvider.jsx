@@ -149,6 +149,7 @@ const BankContextProvider = ({ children }) => {
           (transaction) => transaction.userId === userId
         );
         setTransactions(filteredTransactions);
+        console.log(filteredTransactions);
       }
     } catch (error) {
       console.log("Internal Server Error: " + error);
@@ -172,40 +173,26 @@ const BankContextProvider = ({ children }) => {
     };
     return new Date(timestamp).toLocaleString(undefined, options);
   };
-  const HandleNotification = () => {
-    const getCurrencySymbol = (walletType) => {
-      return walletType === "naira" ? "N" : walletType === "usd" ? "$" : "";
-    };
-    const newNotifications = transactions.map((transaction) => {
-      const { transactionType, amount, walletType, paymentStatus } =
-        transaction;
-
-      const currencySymbol = getCurrencySymbol(walletType);
-      const formattedAmount = `${currencySymbol}${amount}`;
-
-      if (transactionType === "Deposit" && paymentStatus === "successful") {
-        return `You successfully deposited ${formattedAmount} to your ${walletType} Wallet.`;
-      } else if (
-        transactionType === "Withdrawal" &&
-        paymentStatus === "successful"
-      ) {
-        return `You successfully withdrew ${formattedAmount} from your ${walletType} Wallet.`;
-      } else if (paymentStatus === "failed") {
-        return `Your ${transactionType.toLowerCase()} transaction of ${formattedAmount} from your ${walletType} Wallet.`;
-      }
-
-      return "";
-    });
-
-    const filteredNotifications = newNotifications.filter(
-      (notification) => notification !== ""
-    );
-
-    setNotifications(filteredNotifications);
+  const handleNotification = () => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData._id;
+    axios
+      .get(
+        `https://bank-app-backend-server.onrender.com/api/v1/wallet/notifications?userId=${userId}`
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setNotifications(response.data.data);
+          console.log(response.data.data)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-    HandleNotification();
+    handleNotification();
   }, [transactions]);
 
   const contextValue = {

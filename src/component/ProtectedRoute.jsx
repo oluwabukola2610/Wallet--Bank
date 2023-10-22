@@ -3,9 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = () => {
   const token = localStorage.getItem("token");
-
-  console.log(token);
-
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {

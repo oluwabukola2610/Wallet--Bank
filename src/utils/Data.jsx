@@ -1,6 +1,6 @@
 import { MdAccountBalance } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
-import {AiOutlineAccountBook} from "react-icons/ai"
+import {AiOutlineAccountBook,AiFillCreditCard} from "react-icons/ai"
 export const SidebarData = [
   {
     title: "Dashboard",
@@ -13,6 +13,13 @@ export const SidebarData = [
     path: "/transactions",
     icon: (
     <AiOutlineAccountBook  className="font-semibold text-gray-300" size={20} />
+    ),
+  },
+  {
+    title: "Card",
+    path: "/card",
+    icon: (
+    <AiFillCreditCard  className="font-semibold text-gray-300" size={20} />
     ),
   },
 

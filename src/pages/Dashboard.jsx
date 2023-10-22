@@ -1,6 +1,5 @@
 import group1 from "../assets/group1.png";
-import { useContext, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { useContext } from "react";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
@@ -8,14 +7,8 @@ import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
 
 const Dashboard = () => {
-  const [toggleTransfer, setToggleTransfer] = useState(false);
-  const [toggleFunds, setToggleFunds] = useState(false);
-  const {
-    isLoading,
-    myWallet,
-    transactions,
-    formatDatestamp,
-  } = useContext(BankContext);
+  const { isLoading, myWallet, transactions, formatDatestamp } =
+    useContext(BankContext);
 
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
@@ -23,7 +16,6 @@ const Dashboard = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const { firstName } = userData || {};
-
 
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col  h-screen overflow-y-scroll w-full">
@@ -34,14 +26,14 @@ const Dashboard = () => {
           </h1>
           <div className="flex space-x-4">
             <button
-              onClick={() => setToggleTransfer(!toggleTransfer)}
               className="border-[1.5px] border-primary text-primary font-semibold rounded-lg py-2 px-4 hover:bg-primary-dark"
+              onClick={() => document.getElementById("my_modal_2").showModal()}
             >
               Transfer Funds
             </button>
 
             <button
-              onClick={() => setToggleFunds(!toggleFunds)}
+              onClick={() => document.getElementById("my_modal_3").showModal()}
               className="bg-primary font-semibold text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
             >
               + Fund Wallet
@@ -97,7 +89,10 @@ const Dashboard = () => {
                       Transaction Type
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Transaction Date
+                     Payment Method
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                       Date
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Status
@@ -129,6 +124,11 @@ const Dashboard = () => {
                           }`}
                         >
                           {transaction.transactionType}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 whitespace-no-wrap">
+                        <div className="text-sm leading-5 text-gray-900">
+                          {transaction.paymentGateway}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
@@ -175,53 +175,9 @@ const Dashboard = () => {
         )}
       </main>
 
-      {/* transfer overlay */}
-      {toggleTransfer && (
-        <div
-          className="bg-black/60 w-full fixed top-0 left-0 z-10 h-screen"
-          onClick={() => setToggleTransfer(false)}
-        ></div>
-      )}
-      {/* sidemenu */}
-      <div
-        className={
-          toggleTransfer
-            ? "fixed h-screen w-full md:w-[300px] top-0 right-0 bg-white z-10 duration-300"
-            : "hidden"
-        }
-      >
-        <AiOutlineClose
-          onClick={() => setToggleTransfer(false)}
-          size={30}
-          className="absolute right-2 top-4"
-        />
+      <TransferForm />
 
-        <TransferForm />
-      </div>
-
-      {/* funds overlay */}
-      {toggleFunds && (
-        <div
-          className="bg-black/60 w-full fixed top-0 left-0 z-10 h-screen"
-          onClick={() => setToggleFunds(false)}
-        ></div>
-      )}
-      {/* sidemenu */}
-      <div
-        className={
-          toggleFunds
-            ? "fixed h-screen w-full md:w-[300px] top-0 right-0 bg-white z-10 duration-300"
-            : "hidden"
-        }
-      >
-        <AiOutlineClose
-          onClick={() => setToggleFunds(false)}
-          size={30}
-          className="absolute right-2 top-4"
-        />
-
-        <FundsForm />
-      </div>
+      <FundsForm />
     </main>
   );
 };

@@ -15,6 +15,7 @@ import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
 import ProtectedRoute from "./component/ProtectedRoute";
+import Caard from "./pages/Auth/Caard";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="" element={<ProtectedRoute />} >
           <Route element={<DashLayout />}>
             <Route path="/wallet" element={<Dashboard />} />
+            <Route path="/card" element={<Caard />} />
             <Route path="/transactions" element={<Transaction />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/user-profile" element={<UserProfile />} />

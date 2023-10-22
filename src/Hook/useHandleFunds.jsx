@@ -1,59 +1,99 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+
 const useHandleFunds = () => {
   const [fundsInput, setFundsInput] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
   const handleCurrencyChange = (event) => {
     setSelectedCurrency(event.target.value);
   };
-
-  const handleFundsForm = (event) => {
-    event.preventDefault();
-    const userId = JSON.parse(localStorage.getItem("userId"));
-    const userEmail = JSON.parse(window.localStorage.getItem("email"));
-
-    const userFundsData = {
-      amount: fundsInput,
-      walletType: selectedCurrency,
-      userId,
-      userEmail,
-    };
-    setIsLoading(true);
-    if (!fundsInput || !selectedCurrency) {
-      toast.warning("please enter amount to fund wallet");
-      setIsLoading(false);
-      return;
-    }
-
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userId = userData._id;
+  const email = userData.email;
+  const userFundsData = {
+    amount: fundsInput,
+    walletType: selectedCurrency,
+    userId,
+    email,
+  };
+  const fundWithFlutterwave = () => {
     axios
       .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund",
+        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-flutterwave",
         userFundsData
       )
       .then((response) => {
         if (response.status === 200) {
-          toast.success(response.data.message);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
+          const authorizationUrl = response.data.data;
+          toast.success("Proceed To Flutterwave");
+          window.location.href = authorizationUrl;
         }
       })
       .catch((error) => {
         toast.error(error.response.data.error);
+      });
+  };
+
+  const fundWithPaystack = () => {
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-paystack",
+        userFundsData
+      )
+      .then((response) => {
+        if (response.status === 205) {
+          toast.success(response.data.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else if (response.status === 200) {
+          const authorizationUrl = response.data.authorizationUrl;
+          toast.success("Proceed To Paystack");
+          window.location.href = authorizationUrl;
+        }
       })
-      .finally(() => {
-        setIsLoading(false);
+      .catch((error) => {
+        toast.error(error.response.data.error);
+      });
+  };
+  const fundWithStripe = () => {
+    const amount = parseFloat(fundsInput);
+    const dollarData = {
+      amount,
+      email,
+    };
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-stripe",
+        dollarData
+      )
+      .then((response) => {
+        if (response.status === 205) {
+          toast.success(response.data.message);
+          console.log(response)
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else if (response.status === 200) {
+          const authorizationUrl = response.data.data;
+          toast.success("Proceed To stripe");
+          window.location.href = authorizationUrl;
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.error);
       });
   };
   return {
     selectedCurrency,
     setFundsInput,
     fundsInput,
-    isLoading,
-    handleFundsForm,
     handleCurrencyChange,
+    fundWithFlutterwave,
+    fundWithPaystack,
+    fundWithStripe,
   };
 };
 
