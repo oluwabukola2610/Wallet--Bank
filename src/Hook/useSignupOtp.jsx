@@ -49,8 +49,7 @@ const useSignupOtp = () => {
       .then((response) => {
         if (response.status === 200) {
           const userData = response.data.myuserinfo;
-          const userId = response.data.myuserinfo._id;
-          localStorage.setItem("userId", JSON.stringify(userId));
+          console.log(userData);
           localStorage.setItem("userData", JSON.stringify(userData));
           toast.success("OTP verified successfully");
           setTimeout(() => {

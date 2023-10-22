@@ -13,9 +13,8 @@ const useResetPin = () => {
       toast.warning("please enter your pin");
       return;
     } 
-    const userId = JSON.parse(localStorage.getItem("userId"));
-    // const pin = { code };
-    // console.log(pin);
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData._id
     const pindata = { pin: code, id: userId };
     axios
       .post(
