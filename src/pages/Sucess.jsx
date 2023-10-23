@@ -9,16 +9,16 @@ const Sucess = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigate('/wallet');
-    }, 3000);
+    }, 8000);
 
     return () => clearTimeout(timeout);
   }, [navigate]);
 
   return (
     <section className="max-w-[1640px] mx-auto md:max-w-full md:mx-auto bg-primary flex flex-row items-center justify-center h-screen">
-      <div className="max-w-md mx-auto bg-white rounded-md p-8 shadow-md mr-8">
+      <div className="max-w-md mx-auto bg-white rounded-md p-8 shadow-md mr-0 md:mr-8">
         <img src={logo} alt="Bank Logo" className="w-16 mx-auto mb-4" />
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+        <h1 className="text-xl font-semibold text-gray-800 mb-4">
           Thank You for Banking with Us
         </h1>
         <p className="text-gray-600 mb-6">
@@ -41,7 +41,7 @@ const Sucess = () => {
         </div>
       </div>
       <div
-        className="w-[60%] h-screen bg-cover"
+        className="w-[60%] h-screen bg-cover hidden md:flex"
         style={{ backgroundImage: `url(${payment})` }}
       ></div>
     </section>
