@@ -1,16 +1,12 @@
 import { useContext } from "react";
 import { BankContext } from "../context/BankContextProvider";
-import { useEffect } from "react";
 
 const Notification = () => {
-  const { notifications, handleNotification, transactions } =
+  const { notifications } =
     useContext(BankContext);
-  useEffect(() => {
-    handleNotification();
-  }, [transactions]);
-
+ 
   return (
-    <div className="flex flex-col p-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)] m-[3rem] ">
+    <div className="flex flex-col p-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)] m-[1rem] md:m-[3rem] ">
       <span className="flex justify-between border-b border-b-gray-400 p-2">
         <p className="font-semibold">Notification</p>
         <p className="p-1 bg-blue-200 text-blue-700 font-semibold rounded-md">

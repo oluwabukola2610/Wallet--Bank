@@ -15,6 +15,7 @@ const Dashboard = () => {
     setuserWallet,
     fetchUserTransactions,
     formatDatestamp,
+    handleNotification,
   } = useContext(BankContext);
   useEffect(() => {
     setTimeout(() => {
@@ -22,6 +23,7 @@ const Dashboard = () => {
     }, 1000);
 
     fetchUserTransactions();
+    handleNotification();
   }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
@@ -31,7 +33,7 @@ const Dashboard = () => {
   const { firstName } = userData || {};
 
   return (
-    <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col  h-screen overflow-y-scroll w-full">
+    <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full">
       <header>
         <div className="flex flex-col md:flex-row justify-between items-center py-3 capitalize">
           <h1 className=" font-semibold text-xl md:text-2xl md:flex capitalize hidden">
@@ -53,7 +55,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-        <div className="flex justify-between mt-3">
+        <div className="flex mt-3">
           <div className="border border-gray-300 p-4 flex-1 mr-3 text-xl font-medium">
             {myWallet ? (
               <>
@@ -91,7 +93,7 @@ const Dashboard = () => {
           </div>
         ) : transactions.length > 0 ? (
           <>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-[25rem] md:w-full">
+            <div className=" overflow-x-auto shadow-md sm:rounded-lg max-w-sm md:w-full md:max-w-full overflow-hidden">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-faded">
                   <tr>

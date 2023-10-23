@@ -31,11 +31,10 @@ const App = () => {
         <Route path="/reset-password/:id/:token" element={<ResetPass />} />
         <Route path="/create-pin" element={<CreatePin />} />
         <Route path="/reset-pin" element={<ResetPin />} />
-        <Route path="/wallet/success/:trxfer/:reference" element={<Sucess />} />
-
+        <Route path="/wallet/success" element={<Sucess />} />
 
         {/* Use DashAside layout for dashboard-related routes */}
-        <Route path="" element={<ProtectedRoute />} >
+        <Route path="" element={<ProtectedRoute />}>
           <Route element={<DashLayout />}>
             <Route path="/wallet" element={<Dashboard />} />
             <Route path="/card" element={<Caard />} />
