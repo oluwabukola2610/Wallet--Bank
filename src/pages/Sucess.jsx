@@ -9,7 +9,7 @@ const Sucess = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigate('/wallet');
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, [navigate]);
