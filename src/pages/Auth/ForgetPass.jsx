@@ -1,46 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactLoading from "react-loading";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { useContext } from "react";
+import { BankContext } from "../../context/BankContextProvider";
 
 const ForgetPass = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const navigate = useNavigate();
-  const handleForgetPass = (e) => {
-    e.preventDefault();
-
-    // Validate form fields
-    if (!email) {
-      toast.error("Please enter your email");
-      return;
-    }
-    setIsLoading(true);
-    const reg = { email };
-    console.log(reg);
-    axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
-        reg
-      )
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          toast.success(response.data.message);
-          setTimeout(() => {
-            navigate("/login");
-          }, 3000);
-        }
-        return;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const { user, handleInput, isLoading, handleForgetPass } =
+    useContext(BankContext);
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
       <Link to="/" className="py-3">
@@ -84,8 +52,8 @@ const ForgetPass = () => {
               id="email"
               placeholder="Email"
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={user.email}
+              onChange={handleInput}
               className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
             />
           </div>

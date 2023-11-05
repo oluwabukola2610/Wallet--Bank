@@ -92,19 +92,54 @@ const BankContextProvider = ({ children }) => {
             "userData",
             JSON.stringify(response.data.userdata)
           );
-        } else {
-          toast.error("Incorrect password");
         }
+      })
+      .catch((error) => {
+        toast.warning(error.response.data.error);
+      })
+      .finally(() => {
         setUser({
           email: "",
           password: "",
         });
+        setIsLoading(false);
+      });
+  };
+
+  const handleForgetPass = (e) => {
+    e.preventDefault();
+
+    // Validate form fields
+    if (!user.email) {
+      toast.error("Please enter your email");
+      return;
+    }
+    setIsLoading(true);
+    const reg = user.email;
+    console.log(reg);
+    axios
+      .post(
+        "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
+        reg
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
+        }
+        return;
       })
       .catch((error) => {
-        toast.warning(error.response.error);
+        toast.error(error.response.data.error);
       })
       .finally(() => {
         setIsLoading(false);
+        setUser({
+          email: "",
+        });
       });
   };
 
@@ -165,7 +200,6 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           setNotifications(response.data.data);
-          console.log(response.data.data);
         }
       })
       .catch((error) => {
@@ -180,6 +214,7 @@ const BankContextProvider = ({ children }) => {
     handleInput,
     handleRegister,
     handleLogin,
+    handleForgetPass,
     setuserWallet,
     fetchUserTransactions,
     myWallet,
