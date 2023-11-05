@@ -8,7 +8,6 @@ import ResetPass from "./pages/Auth/ResetPass";
 import Checkinbox from "./pages/Auth/Checkinbox";
 import CreatePin from "./pages/Auth/CreatePin";
 import BankContextProvider from "./context/BankContextProvider";
-import ResetPin from "./pages/Auth/ResetPin";
 import DashLayout from "./Layout/DashLayout";
 import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
@@ -30,7 +29,6 @@ const App = () => {
         <Route path="/resetCheck-inbox" element={<Checkinbox />} />
         <Route path="/reset-password/:id/:token" element={<ResetPass />} />
         <Route path="/create-pin" element={<CreatePin />} />
-        <Route path="/reset-pin" element={<ResetPin />} />
         <Route path="/wallet/success" element={<Sucess />} />
 
         {/* Use DashAside layout for dashboard-related routes */}

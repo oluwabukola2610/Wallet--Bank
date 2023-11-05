@@ -8,8 +8,8 @@ const Sucess = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigate('/wallet');
-    }, 8000);
+      navigate("/wallet");
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, [navigate]);
@@ -33,9 +33,7 @@ const Sucess = () => {
           </ul>
         </div>
         <div className="text-center">
-          <p
-            className="bg-blue-500 text-white py-2 px-4 rounded-full inline-block hover:bg-blue-600"
-          >
+          <p className="bg-blue-500 text-white py-2 px-4 rounded-full inline-block hover:bg-blue-600">
             Back to Dashboard
           </p>
         </div>

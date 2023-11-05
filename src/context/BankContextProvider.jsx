@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { api } from "../api/Api";
 
 export const BankContext = createContext();
-
 const BankContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -20,7 +20,6 @@ const BankContextProvider = ({ children }) => {
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [notifications, setNotifications] = useState([]);
-
   const handleInput = (event) => {
     const { name, value } = event.target;
     setUser((prevUser) => ({
@@ -38,10 +37,7 @@ const BankContextProvider = ({ children }) => {
     }
     setIsLoading(true);
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/register",
-        user
-      )
+      .post(`${api}/auth/register`, user)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
@@ -83,10 +79,7 @@ const BankContextProvider = ({ children }) => {
     const logindata = { email: user.email, password: user.password };
 
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/login",
-        logindata
-      )
+      .post(`${api}/auth/login`, logindata)
       .then((response) => {
         if (response.status === 201) {
           toast.success("Login Successful!");
@@ -121,10 +114,7 @@ const BankContextProvider = ({ children }) => {
     const userId = userData._id;
     const dashboardData = { walletType, userId };
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/wallet/create",
-        dashboardData
-      )
+      .post(`${api}/wallet/create`, dashboardData)
       .then((response) => {
         setMyWallet(response.data);
       })
@@ -137,15 +127,12 @@ const BankContextProvider = ({ children }) => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     const userId = userData._id;
     try {
-      const response = await fetch(
-        `https://bank-app-backend-server.onrender.com/api/v1/trans/transdata?userId=${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${api}/trans/transdata?userId=${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
 
       if (response.ok) {
@@ -174,9 +161,7 @@ const BankContextProvider = ({ children }) => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     const userId = userData._id;
     axios
-      .get(
-        `https://bank-app-backend-server.onrender.com/api/v1/wallet/notifications?userId=${userId}`
-      )
+      .get(`${api}/wallet/notifications?userId=${userId}`)
       .then((response) => {
         if (response.status === 200) {
           setNotifications(response.data.data);
@@ -188,7 +173,6 @@ const BankContextProvider = ({ children }) => {
       });
   };
 
- 
   const contextValue = {
     user,
     setUser,
@@ -202,7 +186,7 @@ const BankContextProvider = ({ children }) => {
     transactions,
     formatDatestamp,
     notifications,
-    handleNotification
+    handleNotification,
   };
 
   return (

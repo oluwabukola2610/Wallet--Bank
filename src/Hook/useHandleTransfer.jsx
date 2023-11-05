@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { api } from "../api/Api";
 
 const useHandleTransfer = () => {
+
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [transferInput, setTransferInput] = useState({
@@ -46,7 +48,7 @@ const useHandleTransfer = () => {
     }
 
     const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id
+    const userId = userData._id;
 
     const userTransferData = {
       amount: transferInput.amount,
@@ -56,10 +58,7 @@ const useHandleTransfer = () => {
     };
 
     axios
-      .post(
-        `https://bank-app-backend-server.onrender.com/api/v1/wallet/transfer/${userId}`,
-        userTransferData
-      )
+      .post(`${api}/wallet/transfer/${userId}`, userTransferData)
       .then((response) => {
         toast.success(response.data.message);
         window.location.reload(); // Reload the page

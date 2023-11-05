@@ -1,7 +1,9 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { api } from "../api/Api";
+
 const useResetPin = () => {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
@@ -12,15 +14,12 @@ const useResetPin = () => {
     if (!code || code.length !== 4) {
       toast.warning("please enter your pin");
       return;
-    } 
+    }
     const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id
+    const userId = userData._id;
     const pindata = { pin: code, id: userId };
     axios
-      .post(
-        `https://bank-app-backend-server.onrender.com/api/v1/trans/create_pin/${userId}`,
-        pindata
-      )
+      .post(`${api}/trans/create_pin/${userId}`, pindata)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Transaction pin updated succesfully");
@@ -38,9 +37,6 @@ const useResetPin = () => {
         }
       });
   };
-
-
- 
 
   return { code, setCode, handleResetPin };
 };

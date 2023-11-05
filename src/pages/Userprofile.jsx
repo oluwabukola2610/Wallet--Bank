@@ -3,6 +3,7 @@ import Avatar from "react-avatar";
 import { ToastContainer, toast } from "react-toastify";
 import { FiSettings } from "react-icons/fi";
 import Transitions from "../utils/Transition";
+import ResetPin from "./Auth/ResetPin";
 
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -52,7 +53,7 @@ const UserProfile = () => {
             userImage: resp.data.userImage,
           };
           localStorage.setItem("userData", JSON.stringify(updatedUserData));
-          window.location.reload()
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -215,6 +216,37 @@ const UserProfile = () => {
                 </div>
               </div>
               <hr />
+              {/* Phone Number Section */}
+              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+                <div className="text-sm text-gray-500 flex-col flex">
+                  <h1 className="font-semibold font-serif">Reset Pin</h1>
+                  <span className="text-xs mt-2">
+                    Reset your your Transaction Pin.{" "}
+                  </span>
+                </div>
+                <div className="w-full md:w-[300px]">
+                  {/* Open the modal using document.getElementById('ID').showModal() method */}
+                  <button
+                    className="btn bg-blue-400 hover:bg-blue-400 text-white"
+                    onClick={() =>
+                      document.getElementById("my_modal_1").showModal()
+                    }
+                  >
+                    Click to Reset
+                  </button>
+                  <dialog id="my_modal_1" className="modal">
+                    <div className="modal-box">
+                      <ResetPin />
+                      <div className="modal-action">
+                        <form method="dialog">
+                          {/* if there is a button in form, it will close the modal */}
+                          <button className="btn">Close</button>
+                        </form>
+                      </div>
+                    </div>
+                  </dialog>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -223,52 +255,3 @@ const UserProfile = () => {
   );
 };
 export default UserProfile;
-
-{
-  /* <div */
-}
-// id="bar-with-underline-2"
-// className="hidden"
-// role="tabpanel"
-// aria-labelledby="bar-with-underline-item-2"
-// >
-// <div className="flex flex-col items-center  mt-12">
-//   <p className="text-xl">Edit your profile </p>
-
-//   <div className="p-3 mt-3 w-full lg:max-w-xl shadow-md rounded-md border bg-white/80 flex flex-col space-y-5 items-center py-6">
-//     <div className="text-center">
-//       <Avatar
-//         name={`${firstName} ${lastName}`}
-//         src={selectedImage || ""}
-//         size="80"
-//         round={true}
-//         className="mx-auto mb-2 bg-primary"
-//       />
-//       <div className="justify-center flex items-center">
-//         <p
-//           onClick={handleEditClick}
-//           className="mb-2 text-center bg-inherit border border-slate-400 text-gray-600 rounded-lg py-1 px-2 text-sm font-medium "
-//         >
-//           Upload new photo
-//         </p>
-//         <input
-//           type="file"
-//           id="avatar"
-//           accept="image/*"
-//           onChange={handleImageUpload}
-//           className="hidden w-full h-full cursor-pointer "
-//         />
-//       </div>
-//     </div>
-//     <button
-//       onClick={() => navigate("/reset-pin")}
-//       className="  bg-primary/90 text-white rounded-lg py-2 px-4 mb-3"
-//     >
-//       Reset Transaction Pin
-//     </button>
-//     <button className="  bg-primary/90 text-white rounded-lg py-2 px-4  mb-3">
-//       Edit Profile Information
-//     </button>
-//   </div>
-// </div>
-// </div

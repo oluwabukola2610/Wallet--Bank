@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { api } from "../api/Api";
 
 const useSignupOtp = () => {
   const [code, setCode] = useState("");
@@ -42,10 +43,7 @@ const useSignupOtp = () => {
     const userData = JSON.parse(window.localStorage.getItem("email"));
     const userOtp = { otp: code, email: userData };
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/otp",
-        userOtp
-      )
+      .post(`${api}/auth/otp`, userOtp)
       .then((response) => {
         if (response.status === 200) {
           const userData = response.data.myuserinfo;

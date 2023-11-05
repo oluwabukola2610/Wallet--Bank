@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import { api } from "../api/Api";
 const useHandleFunds = () => {
   const [fundsInput, setFundsInput] = useState("");
   const [selectedCurrency, setSelectedCurrency] = useState("");
@@ -20,10 +20,7 @@ const useHandleFunds = () => {
   };
   const fundWithFlutterwave = () => {
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-flutterwave",
-        userFundsData
-      )
+      .post(`${api}/wallet/fund-flutterwave`, userFundsData)
       .then((response) => {
         if (response.status === 200) {
           const authorizationUrl = response.data.data;
@@ -38,10 +35,7 @@ const useHandleFunds = () => {
 
   const fundWithPaystack = () => {
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-paystack",
-        userFundsData
-      )
+      .post(`${api}/wallet/fund-paystack`, userFundsData)
       .then((response) => {
         if (response.status === 205) {
           toast.success(response.data.message);
@@ -65,14 +59,11 @@ const useHandleFunds = () => {
       email,
     };
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/wallet/fund-stripe",
-        dollarData
-      )
+      .post(`${api}/wallet/fund-stripe`, dollarData)
       .then((response) => {
         if (response.status === 205) {
           toast.success(response.data.message);
-          console.log(response)
+          console.log(response);
           setTimeout(() => {
             window.location.reload();
           }, 1000);
