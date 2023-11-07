@@ -12,3 +12,33 @@ h1,
 h2 {
   font-family: "Montserrat", sans-serif;
 }
+
+/* //card */
+img {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.card {
+  perspective: 1000px;
+}
+
+.card-inner {
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.front,
+.back {
+  /* background-image: linear-gradient(45deg, #0045c7, #ff2c7d); */
+  background: linear-gradient(135deg, #2488FF 0%, #000 100%);
+  backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.card:hover .card-inner {
+  transform: rotateY(-180deg);
+}

@@ -206,6 +206,7 @@ const BankContextProvider = ({ children }) => {
         console.log(error);
       });
   };
+  
 
   const contextValue = {
     user,
