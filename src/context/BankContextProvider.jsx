@@ -115,12 +115,11 @@ const BankContextProvider = ({ children }) => {
       return;
     }
     setIsLoading(true);
-    const reg = user.email;
-    console.log(reg);
+    const email = user.email;
     axios
       .post(
         "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
-        reg
+        {email}
       )
       .then((response) => {
         console.log(response);

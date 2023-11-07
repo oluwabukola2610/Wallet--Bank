@@ -8,8 +8,7 @@ import axios from "axios";
 import { api } from "../api/Api";
 
 const Caard = () => {
-  const { generateCard, isloading, deleteCAard } =
-    useCreateCard();
+  const { generateCard, isloading, deleteCAard } = useCreateCard();
   const [cardData, setCardData] = useState({});
   const [isCardGenerated, setIsCardGenerated] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -27,7 +26,7 @@ const Caard = () => {
 
     return cardNumber;
   };
-  
+
   useEffect(() => {
     axios
       .get(`${api}/card/usercards?userId=${userId}`)
@@ -35,6 +34,7 @@ const Caard = () => {
         if (response.status === 200) {
           setCardData(response.data.data[0]);
           setIsCardGenerated(true);
+          localStorage.setItem("cardNum",  JSON.stringify(response.data.data[0].cardNumber));
         }
       })
       .catch((error) => {

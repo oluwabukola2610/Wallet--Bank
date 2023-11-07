@@ -16,7 +16,8 @@ const FundsForm = () => {
     setFundsInput(event.target.value);
   };
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-  const cardNumber = "4242424242424242";
+  const cardNum = JSON.parse(localStorage.getItem("cardNum"));
+  const cardNumber = cardNum ? cardNum : "4242424242424242";
   const handleCopyClick = async () => {
     try {
       await navigator.clipboard.writeText(cardNumber);
@@ -149,8 +150,9 @@ const FundsForm = () => {
             <div className=" mt-3">
               <div className="space-y-3">
                 <p className="text-sm ">
-                  To continue with your funding process, kindly copy the card
-                  number below and use any number for your CVV and exp date.
+                  {cardNum
+                    ? "kindly copy your card number below for easy funding."
+                    : "To continue with your funding process, kindly copy the card number below and use any number for your CVV and exp date."}
                 </p>
                 <span className="flex justify-between font-normal bg-[#2488FF80] p-2 rounded-lg">
                   <p className="text-[0.75rem] font-semibold">{cardNumber}</p>
