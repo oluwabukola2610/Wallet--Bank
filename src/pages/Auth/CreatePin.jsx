@@ -45,7 +45,7 @@ const CreatePin = () => {
           onSubmit={handleCreatePin}
         >
           <h1 className="text-xl font-semibold text-center">
-            Kindly create your <br />
+            Kindly create your 
             transaction Pin{" "}
           </h1>
           <OtpInput

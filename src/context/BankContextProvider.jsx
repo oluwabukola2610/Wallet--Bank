@@ -15,6 +15,7 @@ const BankContextProvider = ({ children }) => {
     email: "",
     phone: "",
     password: "",
+    confirmPass: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [myWallet, setMyWallet] = useState({});
@@ -31,8 +32,18 @@ const BankContextProvider = ({ children }) => {
   const handleRegister = (event) => {
     event.preventDefault();
     // Validate form fields
-    if (!user.firstName || !user.lastName || !user.email || !user.password) {
+    if (
+      !user.firstName ||
+      !user.lastName ||
+      !user.email ||
+      !user.password ||
+      !user.confirmPass
+    ) {
       toast.error("Please fill in all fields");
+      return;
+    }
+    if (user.password !== user.confirmPass) {
+      toast.error("Password and Confirm Password do not match");
       return;
     }
     setIsLoading(true);
@@ -119,7 +130,7 @@ const BankContextProvider = ({ children }) => {
     axios
       .post(
         "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
-        {email}
+        { email }
       )
       .then((response) => {
         console.log(response);
@@ -205,7 +216,6 @@ const BankContextProvider = ({ children }) => {
         console.log(error);
       });
   };
-  
 
   const contextValue = {
     user,

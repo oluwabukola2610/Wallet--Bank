@@ -30,6 +30,7 @@ const FundsForm = () => {
 
   return (
     <dialog id="my_modal_3" className="modal">
+
       <div className="modal-box">
         {showCopiedMessage && (
           <div className="alert alert-success">
@@ -61,11 +62,14 @@ const FundsForm = () => {
           rtl={false}
           draggable
           style={{
+            position: "fixed",
             top: "10%",
-            transform: "translateY(-50%)",
-            width: "fit-content",
+            right: "30%",
+            transform: "translateX(-50%)",
+            width: "100%",
           }}
         />
+
         <div className="px-6 mt-3 space-y-3 py-2">
           <div className="flex items-center space-x-16">
             <span className="">

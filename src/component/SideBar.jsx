@@ -37,7 +37,7 @@ function SideBar() {
               className="text-xl !bg-primary"
             />
           )}
-          <h4 className="p-4 font-bold font-serif text-gray-200">
+          <h4 className="p-4 font-bold font-serif text-gray-200 uppercase">
             {firstName} {lastName}
           </h4>
         </div>

@@ -117,7 +117,7 @@ const SignUp = () => {
               Phone Number
             </label>
             <input
-              type="tel"
+              type="number"
               id="phoneNumber"
               placeholder="Phone Number"
               value={user.phone}
@@ -139,6 +139,32 @@ const SignUp = () => {
                 value={user.password}
                 name="password"
                 id="password"
+                placeholder="••••••••"
+                onChange={handleInput}
+                className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"
+              />
+              <div onClick={togglePassword} className="text-grayText px-4">
+                {passwordType === "password" ? (
+                  <AiFillEyeInvisible size={20} />
+                ) : (
+                  <AiFillEye size={20} />
+                )}
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="confirmpassword"
+              className="block mb-1 text-sm font-medium text-grayText"
+            >
+           Confirm Password
+            </label>
+            <div className="mb-4 py-2 flex items-center justify-between border border-gray-300 rounded-md">
+              <input
+                type={passwordType}
+                value={user.confirmPass}
+                name="confirmPass"
+                id="confirmpassword"
                 placeholder="••••••••"
                 onChange={handleInput}
                 className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"

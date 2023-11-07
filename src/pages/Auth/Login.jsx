@@ -80,7 +80,7 @@ const Login = () => {
                 placeholder="••••••••"
                 value={user.password}
                 onChange={handleInput}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
+                className="w-full px-4  text-gray-800 placeholder:text-gray-300 text-sm  focus:outline-none"
               />
               <div onClick={togglePassword} className=" text-grayText px-4">
                 {passwordType === "password" ? (

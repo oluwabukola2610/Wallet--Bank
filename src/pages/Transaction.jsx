@@ -99,7 +99,7 @@ const Transaction = () => {
                     <div
                       className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
                         transaction.paymentStatus === "failed"
-                          ? "bg-red-100 text-red-300"
+                          ? "bg-red-100 text-red-400"
                           : transaction.paymentStatus === "pending"
                           ? "bg-yellow-100 text-yellow-500"
                           : "bg-green-200 text-green-400"

@@ -27,9 +27,11 @@ const TransferForm = () => {
           rtl={false}
           draggable
           style={{
+            position: "fixed",
             top: "10%",
-            transform: "translateY(-50%)",
-            width: "fit-content",
+            right: "30%",
+            transform: "translateX(-50%)",
+            width: "100%",
           }}
         />
         <form onSubmit={handleTransferForm} className="px-6 mt-3 space-y-4">

@@ -27,8 +27,8 @@ const ForgetPass = () => {
           width: "fit-content",
         }}
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-10 mt-10 md:mt-16 lg:mt-28 ">
-        <div className="text-center lg:text-left">
+      <div className="flex flex-col items-center justify-center mt-10 md:mt-16 lg:mt-24 space-y-6">
+        <div className="text-center">
           <h1 className="text-3xl font-bold md:text-4xl md:font-extrabold">
             Forgot Password{" "}
           </h1>
