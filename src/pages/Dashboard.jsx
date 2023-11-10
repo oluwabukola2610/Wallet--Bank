@@ -57,7 +57,11 @@ const Dashboard = () => {
         </div>
         <div className="flex mt-3">
           <div className="border border-gray-300 p-4 flex-1 mr-3 text-xl font-medium">
-            {myWallet ? (
+            {isLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <BeatLoader color="#000000" size={15} />
+              </div>
+            ) : myWallet ? (
               <>
                 ₦ {myWallet.nairaBalance}
                 <span className="text-gray-600">.00</span>{" "}
@@ -66,9 +70,10 @@ const Dashboard = () => {
                 </p>
               </>
             ) : (
-              "loading..."
+              "loading..." // Display this if myWallet is not available
             )}
           </div>
+
           <div className="border border-gray-300 p-4 flex-1 ml-3 font-medium text-xl">
             {myWallet ? (
               <>
