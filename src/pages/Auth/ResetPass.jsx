@@ -3,8 +3,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useContext } from "react";
 import { BankContext } from "../../context/BankContextProvider";
 import useResetPass from "../../Hook/useResetPass";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Zoom } from "react-toastify";
 import { Link } from "react-router-dom";
 const ResetPass = () => {
   const { user, handleInput } = useContext(BankContext);
@@ -16,22 +15,20 @@ const ResetPass = () => {
     togglePassword,
   } = useResetPass();
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
+    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
        <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
+        transition={Zoom}
+        limit={1}
+        closeButton={false}
         newestOnTop={false}
         autoClose={1000}
         rtl={false}
         draggable
-        style={{
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "fit-content",
-        }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-10 mt-10 md:mt-20 lg:mt-28 ">
         <div className="text-center lg:text-left">

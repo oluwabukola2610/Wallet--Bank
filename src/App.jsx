@@ -16,6 +16,7 @@ import Notification from "./pages/Notification";
 import ProtectedRoute from "./component/ProtectedRoute";
 import Caard from "./pages/Caard";
 import Sucess from "./pages/Sucess";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (

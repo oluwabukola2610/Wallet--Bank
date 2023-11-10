@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { api } from "../api/Api";
 
 const useHandleTransfer = () => {
-
   const [selectedCurrency, setSelectedCurrency] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [transferInput, setTransferInput] = useState({
@@ -42,7 +41,7 @@ const useHandleTransfer = () => {
 
     // Validate account number
     if (!/^\d{10}$/.test(transferInput.accountNum)) {
-      toast.warning("Account number should be 10 digits");
+      toast.info("Account number should be 10 digits");
       setIsLoading(false);
       return;
     }
@@ -60,8 +59,11 @@ const useHandleTransfer = () => {
     axios
       .post(`${api}/wallet/transfer/${userId}`, userTransferData)
       .then((response) => {
+        toast.success("Transfer successful");
         toast.success(response.data.message);
-        window.location.reload(); // Reload the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {

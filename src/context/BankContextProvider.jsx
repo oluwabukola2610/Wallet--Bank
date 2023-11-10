@@ -39,11 +39,11 @@ const BankContextProvider = ({ children }) => {
       !user.password ||
       !user.confirmPass
     ) {
-      toast.error("Please fill in all fields");
+      toast.warn("Please fill in all fields");
       return;
     }
     if (user.password !== user.confirmPass) {
-      toast.error("Password and Confirm Password do not match");
+      toast.warn("Password and Confirm Password do not match");
       return;
     }
     setIsLoading(true);
@@ -68,9 +68,9 @@ const BankContextProvider = ({ children }) => {
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
-          toast.warning("Email is already being used");
+          toast.error("Email is already being used");
         } else {
-          toast.warning("An error occurred. Please try again later.");
+          toast.error("An error occurred. Please try again later.");
         }
       })
       .finally(() => {
@@ -81,7 +81,7 @@ const BankContextProvider = ({ children }) => {
   const handleLogin = (event) => {
     event.preventDefault();
     if (!user.email || !user.password) {
-      toast.error("Please fill in all fields");
+      toast.warning("Please fill in all fields");
       return;
     }
 
@@ -106,7 +106,7 @@ const BankContextProvider = ({ children }) => {
         }
       })
       .catch((error) => {
-        toast.warning(error.response.data.error);
+        toast.error(error.response.data.error);
       })
       .finally(() => {
         setUser({
@@ -122,7 +122,7 @@ const BankContextProvider = ({ children }) => {
 
     // Validate form fields
     if (!user.email) {
-      toast.error("Please enter your email");
+      toast.info("Please enter your email");
       return;
     }
     setIsLoading(true);
@@ -231,6 +231,7 @@ const BankContextProvider = ({ children }) => {
     transactions,
     formatDatestamp,
     notifications,
+    setNotifications,
     handleNotification,
   };
 

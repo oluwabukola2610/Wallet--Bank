@@ -47,7 +47,6 @@ const useSignupOtp = () => {
       .then((response) => {
         if (response.status === 200) {
           const userData = response.data.myuserinfo;
-          console.log(userData);
           localStorage.setItem("userData", JSON.stringify(userData));
           toast.success("OTP verified successfully");
           setTimeout(() => {
@@ -58,7 +57,7 @@ const useSignupOtp = () => {
       })
       .catch((error) => {
         if (error.response.status === 401) {
-          toast.warning("invalid otp");
+          toast.error("invalid otp");
         }
       })
       .finally(() => {

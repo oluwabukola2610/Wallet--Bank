@@ -1,4 +1,4 @@
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import useHandleFunds from "../Hook/useHandleFunds";
 import { FaRegCopy } from "react-icons/fa";
 import { useState } from "react";
@@ -30,7 +30,17 @@ const FundsForm = () => {
 
   return (
     <dialog id="my_modal_3" className="modal">
-
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        transition={Slide}
+        limit={1}
+        closeButton={false}
+        newestOnTop={false}
+        autoClose={1000}
+        rtl={false}
+        draggable
+      />
       <div className="modal-box">
         {showCopiedMessage && (
           <div className="alert alert-success">
@@ -54,21 +64,6 @@ const FundsForm = () => {
           Fund Wallet
         </h2>
         <p className="text-sm px-4 mt-6">Select Wallet Type</p>
-        <ToastContainer
-          position="top-center"
-          hideProgressBar={true}
-          newestOnTop={false}
-          autoClose={1000}
-          rtl={false}
-          draggable
-          style={{
-            position: "fixed",
-            top: "10%",
-            right: "30%",
-            transform: "translateX(-50%)",
-            width: "100%",
-          }}
-        />
 
         <div className="px-6 mt-3 space-y-3 py-2">
           <div className="flex items-center space-x-16">

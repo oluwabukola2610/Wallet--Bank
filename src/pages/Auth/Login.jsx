@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useContext, useState } from "react";
 import ReactLoading from "react-loading";
 import { BankContext } from "../../context/BankContextProvider";
-import { ToastContainer } from "react-toastify";
+import {  ToastContainer, Zoom } from "react-toastify";
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const { handleLogin, user, handleInput, isLoading } = useContext(BankContext);
@@ -17,22 +17,20 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
+    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
       <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
+        transition={Zoom}
+        limit={1}
+        closeButton={false}
         newestOnTop={false}
         autoClose={1000}
         rtl={false}
         draggable
-        style={{
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "fit-content",
-        }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-10 mt-8 md:mt-20 lg:mt-16 ">
         <div className="text-center lg:text-left">
@@ -61,7 +59,7 @@ const Login = () => {
               name="email"
               value={user.email}
               onChange={handleInput}
-              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
+              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
             />
           </div>
 
@@ -80,7 +78,7 @@ const Login = () => {
                 placeholder="••••••••"
                 value={user.password}
                 onChange={handleInput}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-300 text-sm  focus:outline-none"
+                className="w-full px-4  text-gray-800 placeholder:text-gray-300 bg-transparent text-sm  focus:outline-none"
               />
               <div onClick={togglePassword} className=" text-grayText px-4">
                 {passwordType === "password" ? (

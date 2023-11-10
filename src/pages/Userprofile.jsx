@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Avatar from "react-avatar";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, Zoom, toast } from "react-toastify";
 import { FiSettings } from "react-icons/fi";
 import Transitions from "../utils/Transition";
 import ResetPin from "./Auth/ResetPin";
@@ -73,18 +73,17 @@ const UserProfile = () => {
   return (
     <Transitions>
       <div className="w-full">
+        {" "}
         <ToastContainer
           position="top-center"
           hideProgressBar={true}
+          transition={Zoom}
+          limit={1}
+          closeButton={false}
           newestOnTop={false}
           autoClose={1000}
           rtl={false}
           draggable
-          style={{
-            top: "10%",
-            transform: "translateY(-50%)",
-            width: "fit-content",
-          }}
         />
         <nav className="z-0  border-white rounded-xl overflow-hidden bg-white shadow-lg">
           <div className="inline-flex justify-start items-center border-b-blue-700  text-gray-500 relative min-w-0 flex-1  border-b-2 py-4 px-4 text-sm font-medium text-center overflow-hidden focus:z-10 bg-white-50 border-l-gray-700 ">
@@ -92,7 +91,6 @@ const UserProfile = () => {
             <FiSettings size={20} />
           </div>
         </nav>
-
         <div className="mt-3">
           <div className="flex flex-col px-10 w-full space-y-4 mt-12">
             <p className="text-xl">User Information </p>

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, Zoom } from "react-toastify";
 import ReactLoading from "react-loading";
 import { useContext } from "react";
 import { BankContext } from "../../context/BankContextProvider";
@@ -10,22 +9,20 @@ const ForgetPass = () => {
   const { user, handleInput, isLoading, handleForgetPass } =
     useContext(BankContext);
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
+    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
       <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
+        transition={Zoom}
+        limit={1}
+        closeButton={false}
         newestOnTop={false}
         autoClose={1000}
         rtl={false}
         draggable
-        style={{
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "fit-content",
-        }}
       />
       <div className="flex flex-col items-center justify-center mt-10 md:mt-16 lg:mt-24 space-y-6">
         <div className="text-center">
@@ -54,7 +51,7 @@ const ForgetPass = () => {
               name="email"
               value={user.email}
               onChange={handleInput}
-              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
+              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
             />
           </div>
 

@@ -29,10 +29,10 @@ const useCreatePin = () => {
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
-          toast.warning("Invalid transaction pin");
+          toast.error("Invalid transaction pin");
         } else {
           console.error(error);
-          toast.warning("An error occurred. Please try again later.");
+          toast.error("An error occurred. Please try again later.");
         }
       });
   };

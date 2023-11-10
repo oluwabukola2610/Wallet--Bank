@@ -63,7 +63,6 @@ const useHandleFunds = () => {
       .then((response) => {
         if (response.status === 205) {
           toast.success(response.data.message);
-          console.log(response);
           setTimeout(() => {
             window.location.reload();
           }, 1000);

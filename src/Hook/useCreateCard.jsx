@@ -18,7 +18,9 @@ const useCreateCard = () => {
             JSON.stringify(response.data.data.cardId)
           );
           toast.success(response.data.message);
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       })
       .catch((error) => {

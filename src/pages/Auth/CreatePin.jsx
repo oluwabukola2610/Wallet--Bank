@@ -1,5 +1,4 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, Zoom } from "react-toastify";
 import useCreatePin from "../../Hook/useCreatePin";
 import logo from "../../assets/logo/Union-preview.png";
 import OtpInput from "react18-input-otp";
@@ -14,22 +13,20 @@ const CreatePin = () => {
     }
   }, [code]);
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
+    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
        <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
+        transition={Zoom}
+        limit={1}
+        closeButton={false}
         newestOnTop={false}
         autoClose={1000}
         rtl={false}
         draggable
-        style={{
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "fit-content",
-        }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-6 mt-12 lg:mt-28">
         <div className="text-center lg:text-left">

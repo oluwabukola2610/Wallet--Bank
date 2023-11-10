@@ -11,10 +11,9 @@ const ResetPin = () => {
   }, [code]);
   return (
     <>
+     
       <div className="text-center ">
-        <h1 className="text-2xl font-bold">
-          Reset Pin{" "}
-        </h1>
+        <h1 className="text-2xl font-bold">Reset Pin </h1>
         <p className="text-grayText font-light  py-2">
           Create a new pin to enable transfer{" "}
         </p>
@@ -24,8 +23,7 @@ const ResetPin = () => {
         onSubmit={handleResetPin}
       >
         <h1 className="text-sm font-semibold text-center">
-          Kindly update your 
-          transaction Pin{" "}
+          Kindly update your transaction Pin{" "}
         </h1>
         <OtpInput
           value={code}

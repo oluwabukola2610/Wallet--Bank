@@ -4,12 +4,14 @@ import { Outlet, useNavigate } from "react-router-dom";
 const ProtectedRoute = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!token) {
       navigate("/login");
     }
   }, [token, navigate]);
 
-  return <Outlet />;
+  return token ? <Outlet /> : null;
 };
+
 export default ProtectedRoute;

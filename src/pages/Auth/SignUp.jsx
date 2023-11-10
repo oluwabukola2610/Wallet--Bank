@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useContext, useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import {  ToastContainer, Zoom } from "react-toastify";
 import { BankContext } from "../../context/BankContextProvider";
 import ReactLoading from "react-loading";
 
@@ -19,22 +18,20 @@ const SignUp = () => {
   };
 
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen max-h-full">
+    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
       <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
+        transition={Zoom}
+        limit={1}
+        closeButton={false}
         newestOnTop={false}
         autoClose={1000}
         rtl={false}
         draggable
-        style={{
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "fit-content",
-        }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-x-10 mt-8 md:mt-16 ">
         <div className="text-center lg:text-left">
@@ -64,7 +61,7 @@ const SignUp = () => {
                 placeholder="First Name"
                 onChange={handleInput}
                 name="firstName"
-                className="w-full px-3 py-2 border border-gray-300 text-gray-800  placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-800  placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
               />
             </div>
             <div className="w-1/2 ml-2 mb-2">
@@ -81,7 +78,7 @@ const SignUp = () => {
                 value={user.lastName}
                 onChange={handleInput}
                 name="lastName"
-                className="w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
               />
             </div>
           </div>
@@ -101,7 +98,7 @@ const SignUp = () => {
               onChange={handleInput}
               onFocus={() => setShowEmailMessage(true)}
               onBlur={() => setShowEmailMessage(false)}
-              className="w-full mb-3 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
+              className="w-full mb-3 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
             />
             {showEmailMessage && (
               <p className="text-sm text-red-400 mb-2">
@@ -123,7 +120,7 @@ const SignUp = () => {
               value={user.phone}
               name="phone"
               onChange={handleInput}
-              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-500 text-sm rounded-md focus:outline-none"
+              className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-400 text-sm rounded-md focus:outline-none"
             />
           </div>
           <div>
@@ -141,7 +138,7 @@ const SignUp = () => {
                 id="password"
                 placeholder="••••••••"
                 onChange={handleInput}
-                className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"
+                className="w-full px-4 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-transparent"
               />
               <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (
@@ -167,7 +164,7 @@ const SignUp = () => {
                 id="confirmpassword"
                 placeholder="••••••••"
                 onChange={handleInput}
-                className="w-full px-4 text-gray-800 placeholder:text-gray-500 text-sm focus:outline-none"
+                className="w-full px-4 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-transparent"
               />
               <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (

@@ -1,4 +1,4 @@
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import useHandleTransfer from "../Hook/useHandleTransfer";
 import ReactLoading from "react-loading";
 
@@ -14,26 +14,22 @@ const TransferForm = () => {
 
   return (
     <dialog id="my_modal_2" className="modal">
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        transition={Slide}
+        limit={1}
+        closeButton={false}
+        newestOnTop={false}
+        autoClose={1000}
+        rtl={false}
+        draggable
+      />
       <div className="modal-box">
         <h2 className="text-2xl p-4 border-b border-b-slate-300 shadow-sm">
           Transfer Funds
         </h2>
         <p className="text-sm px-4 mt-6">Select Wallet Type to Transfer From</p>
-        <ToastContainer
-          position="top-center"
-          hideProgressBar={true}
-          newestOnTop={false}
-          autoClose={1000}
-          rtl={false}
-          draggable
-          style={{
-            position: "fixed",
-            top: "10%",
-            right: "30%",
-            transform: "translateX(-50%)",
-            width: "100%",
-          }}
-        />
         <form onSubmit={handleTransferForm} className="px-6 mt-3 space-y-4">
           <div className="flex items-center space-x-16">
             <span className="">
