@@ -4,7 +4,7 @@ import { ToastContainer, Zoom, toast } from "react-toastify";
 import { FiSettings } from "react-icons/fi";
 import Transitions from "../utils/Transition";
 import ResetPin from "./Auth/ResetPin";
-
+import { BiEdit } from "react-icons/bi";
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -98,7 +98,7 @@ const UserProfile = () => {
             <div className="p-3 w-full lg:max-w-5xl shadow-md rounded-md border bg-white/80">
               {/* profil Section */}
               <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm text-gray-500 flex-col flex">
+                <div className="text-sm flex-col flex">
                   <h1 className="font-semibold font-serif">Profile Image</h1>
                   <span className="text-xs mt-2">
                     we only accept this type of format (PNG, JPG). <br /> kindly
@@ -133,7 +133,7 @@ const UserProfile = () => {
               <hr />
               {/* First Name Section */}
               <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm text-gray-500 flex-col flex">
+                <div className="text-sm flex-col flex">
                   <h1 className="font-semibold font-serif">First Name</h1>{" "}
                   <span className="text-xs mt-2 text-red-500">
                     You won&rsquo;t be able to change your name.{" "}
@@ -168,7 +168,7 @@ const UserProfile = () => {
 
               {/* Email Section */}
               <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm text-gray-500 flex-col flex">
+                <div className="text-sm  flex-col flex">
                   <h1 className="font-semibold font-serif">Email Adress</h1>
                   <span className="text-xs mt-2">
                     Your email address will receive all <br />
@@ -193,7 +193,7 @@ const UserProfile = () => {
 
               {/* Phone Number Section */}
               <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm text-gray-500 flex-col flex">
+                <div className="text-sm  flex-col flex">
                   <h1 className="font-semibold font-serif">Phone Number</h1>
                   <span className="text-xs mt-2">
                     OTP is sent to your phone number for verification purposes.{" "}
@@ -203,20 +203,23 @@ const UserProfile = () => {
                   <label htmlFor="" className="font-semibold">
                     Phone Number
                   </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    placeholder="Phone Number"
-                    value={phone}
-                    disabled
-                    className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
-                  />
+                  <div className="flex space-x-3">
+                    <input
+                      type="tel"
+                      id="phone"
+                      placeholder="Phone Number"
+                      value={phone}
+                      disabled
+                      className=" disabled:bg-blue-50 w-full px-3 py-2 border border-gray-300 text-gray-800 placeholder-text-gray-900 text-sm rounded-md focus:outline-none"
+                    />
+                    <BiEdit size={35} className="text-blue-300" />
+                  </div>
                 </div>
               </div>
               <hr />
               {/* Phone Number Section */}
               <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm text-gray-500 flex-col flex">
+                <div className="text-sm flex-col flex">
                   <h1 className="font-semibold font-serif">Reset Pin</h1>
                   <span className="text-xs mt-2">
                     Reset your your Transaction Pin.{" "}
@@ -243,6 +246,19 @@ const UserProfile = () => {
                       </div>
                     </div>
                   </dialog>
+                </div>
+              </div>
+              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+                <div className="text-sm  flex-col flex">
+                  <h1 className="font-semibold font-serif">Delete Account</h1>
+                  <span className="text-xs mt-2">
+                    Permanently delete your account{" "}
+                  </span>
+                </div>
+                <div className="w-full md:w-[300px]">
+                  <button className="btn bg-red-400 hover:bg-red-400 text-white">
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
