@@ -1,4 +1,4 @@
-import Welcome from "./pages/Welcome";
+// import Welcome from "./pages/Welcome";
 import { Routes, Route } from "react-router-dom";
 import SignUp from "./pages/Auth/SignUp";
 import Login from "./pages/Auth/Login";
@@ -17,12 +17,13 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import Caard from "./pages/Caard";
 import Sucess from "./pages/Sucess";
 import "react-toastify/dist/ReactToastify.css";
+import WelcomePage from "./pages/WelcomePage";
 
 const App = () => {
   return (
     <BankContextProvider>
       <Routes>
-        <Route path="/" element={<Welcome />} />
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup-Otp" element={<SignupOtp />} />

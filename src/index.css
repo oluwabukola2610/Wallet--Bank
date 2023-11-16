@@ -12,6 +12,13 @@ h1,
 h2 {
   font-family: "Montserrat", sans-serif;
 }
+.blur{
+  background: rgba(64, 174, 252, 0.69);border-radius: 50%;
+  filter: blur(212px);
+  z-index: -9;
+  position: absolute;
+
+}
 
 /* //card */
 .card img {
