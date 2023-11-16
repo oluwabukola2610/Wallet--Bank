@@ -37,7 +37,7 @@ const WelcomePage = () => {
 
         {/* Image Section */}
         <div className="w-full md:w-1/2">
-          <img src={wallet} alt="Wallet" className="rounded-lg shadow-md" />
+          <img src={wallet} alt="Wallet" className="rounded-lg " loading="lazy" />
         </div>
       </div>
     </div>
