@@ -218,8 +218,7 @@ const BankContextProvider = ({ children }) => {
   const handlogout = () => {
     axios
       .delete(`${api}/auth/logout`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         navigate("/login");
         localStorage.clear();
       })
