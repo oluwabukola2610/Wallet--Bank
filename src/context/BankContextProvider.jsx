@@ -130,10 +130,7 @@ const BankContextProvider = ({ children }) => {
     setIsLoading(true);
     const email = user.email;
     axios
-      .post(
-        "https://bank-app-backend-server.onrender.com/api/v1/auth/forgot_pass",
-        { email }
-      )
+      .post(`${api}/auth/forgot_pass`, { email })
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
@@ -218,7 +215,18 @@ const BankContextProvider = ({ children }) => {
         console.log(error);
       });
   };
-
+  const handlogout = () => {
+    axios
+      .delete(`${api}/auth/logout`)
+      .then((response) => {
+        console.log(response);
+        navigate("/login");
+        localStorage.clear();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const contextValue = {
     user,
     setUser,
@@ -235,6 +243,7 @@ const BankContextProvider = ({ children }) => {
     notifications,
     setNotifications,
     handleNotification,
+    handlogout,
   };
 
   return (

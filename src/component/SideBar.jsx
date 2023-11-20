@@ -1,13 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { SidebarData } from "../utils/Data";
 import Avatar from "react-avatar";
+import { BankContext } from "../context/BankContextProvider";
 
 function SideBar() {
   const [Image, SelectedImage] = useState(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
-  const navigate = useNavigate();
-
+  const { handlogout } = useContext(BankContext);
   useEffect(() => {
     if (userData) {
       SelectedImage(userData.userImage);
@@ -60,10 +60,7 @@ function SideBar() {
 
           {/* Log Out button */}
           <button
-            onClick={() => {
-              localStorage.clear();
-              navigate("/login");
-            }}
+            onClick={handlogout}
             className="text-gray-400 text-md flex items-center"
           >
             <svg
