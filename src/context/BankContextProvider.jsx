@@ -48,7 +48,7 @@ const BankContextProvider = ({ children }) => {
     }
     setIsLoading(true);
     axios
-      .post(`${api}/auth/register`, user, { withCredentials: true })
+      .post(`${api}/auth/register`, user)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
@@ -90,7 +90,9 @@ const BankContextProvider = ({ children }) => {
     const logindata = { email: user.email, password: user.password };
 
     axios
-      .post(`${api}/auth/login`, logindata, { withCredentials: true })
+      .post(`${api}/auth/login`, logindata, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 201) {
           toast.success("Login Successful!");
