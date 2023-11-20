@@ -23,7 +23,7 @@ const useCreatePin = () => {
         if (response.status === 200) {
           toast.success("Transaction pin created succesfully");
           setTimeout(() => {
-            navigate("/wallet");
+            navigate("/login");
           }, 2000);
         }
       })
