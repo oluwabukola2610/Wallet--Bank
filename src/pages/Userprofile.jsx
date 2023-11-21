@@ -5,6 +5,8 @@ import { FiSettings } from "react-icons/fi";
 import Transitions from "../utils/Transition";
 import ResetPin from "./Auth/ResetPin";
 import { BiEdit } from "react-icons/bi";
+import axios from "axios";
+import { api } from "../api/Api";
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -69,6 +71,18 @@ const UserProfile = () => {
     e.stopPropagation();
     document.getElementById("avatar").click();
   };
+  const handleDeleteUser = () => {
+    console.log(userId);
+    axios
+      .delete(`${api}/auth/delete-acc`, userId)
+      .then((response) => {
+        console.log(response);
+      
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Transitions>
@@ -97,7 +111,7 @@ const UserProfile = () => {
 
             <div className="p-3 w-full lg:max-w-5xl shadow-md rounded-md border bg-white/80">
               {/* profil Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between">
                 <div className="text-sm flex-col flex">
                   <h1 className="font-semibold font-serif">Profile Image</h1>
                   <span className="text-xs mt-2">
@@ -256,7 +270,10 @@ const UserProfile = () => {
                   </span>
                 </div>
                 <div className="w-full md:w-[300px]">
-                  <button className="btn bg-red-400 hover:bg-red-400 text-white">
+                  <button
+                    onClick={handleDeleteUser}
+                    className="btn bg-red-400 hover:bg-red-400 text-white"
+                  >
                     Delete
                   </button>
                 </div>

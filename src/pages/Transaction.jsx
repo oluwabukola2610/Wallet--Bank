@@ -37,8 +37,8 @@ const Transaction = () => {
           <BeatLoader color="#000000" size={15} />
         </div>
       ) : (
-        <div className=" overflow-x-auto shadow-md sm:rounded-lg max-w-sm md:w-full md:max-w-full overflow-hidden">
-          <table className="w-full text-sm text-left text-gray-500">
+        <div className=" w-full max-w-full overflow-hidden">
+          <table className="w-full text-sm text-left text-gray-500 overflow-x-auto shadow-md max-w-sm ">
             <thead className="text-xs text-gray-700 uppercase bg-faded">
               <tr>
                 <th scope="col" className="px-6 py-3">
