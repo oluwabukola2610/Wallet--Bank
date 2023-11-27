@@ -14,6 +14,9 @@ export default {
         bgGray: "#DEE3EB",
         faded: "#F1F4F8",
       },
+      screens:{
+        "md":"700px"
+      }
     },
   },
   plugins: [require("daisyui")],

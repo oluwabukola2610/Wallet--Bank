@@ -4,9 +4,9 @@ import DashNav from "../component/DashNav";
 
 const DashLayout = () => {
   return (
-    <div className="drawer lg:drawer-open max-w-[1640px]">
+    <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content w-full">
+      <div className="drawer-content">
         <DashNav />
         {/* Page content here */}
         <Outlet />

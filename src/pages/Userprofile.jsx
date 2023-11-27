@@ -22,14 +22,14 @@ const UserProfile = () => {
         if (response.status === 200) {
           setuserData(response.data.userData);
         } else {
-          console.error('Failed to fetch user data');
+          console.error("Failed to fetch user data");
         }
       } catch (error) {
-        console.error('Error fetching user data:', error.message);
+        console.error("Error fetching user data:", error.message);
       }
     };
 
-    fetchUserData(); 
+    fetchUserData();
   }, []);
   const { firstName, lastName, email, phone, _id: userId } = userData || {};
 
@@ -58,15 +58,12 @@ const UserProfile = () => {
     reader.onloadend = () => {
       const base64Image = reader.result.split(",")[1];
       console.log(base64Image);
-      fetch(
-        `${api}/user/imageUpload`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ base64: base64Image }),
-        }
-      )
+      fetch(`${api}/user/imageUpload`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ base64: base64Image }),
+      })
         .then((res) => res.json())
         .then((resp) => {
           console.log(resp);
@@ -76,7 +73,7 @@ const UserProfile = () => {
             ...userData,
             userImage: resp.data.userImage,
           };
-          localStorage.setItem("userData", JSON.stringify(updatedUserData));
+          setuserData(updatedUserData);
           window.location.reload();
         })
         .catch((error) => {
@@ -94,12 +91,10 @@ const UserProfile = () => {
     document.getElementById("avatar").click();
   };
   const handleDeleteUser = () => {
-    console.log(userId);
     axios
       .delete(`${api}/auth/delete-acc`, userId)
       .then((response) => {
         console.log(response);
-      
       })
       .catch((err) => {
         console.log(err);
@@ -128,14 +123,14 @@ const UserProfile = () => {
           </div>
         </nav>
         <div className="mt-3">
-          <div className="flex flex-col px-10 w-full space-y-4 mt-12">
+          <div className="flex flex-col  px-2 md:px-10 w-full space-y-4 mt-12">
             <p className="text-xl">User Information </p>
 
             <div className="p-3 w-full lg:max-w-5xl shadow-md rounded-md border bg-white/80">
               {/* profil Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between">
+              <div className="mb-4 p-2 flex flex-col items-center gap-y-6 md:flex-row justify-between">
                 <div className="text-sm flex-col flex">
-                  <h1 className="font-semibold font-serif">Profile Image</h1>
+                  <h1 className="font-semibold font-serif text-center md:text-left">Profile Image</h1>
                   <span className="text-xs mt-2">
                     we only accept this type of format (PNG, JPG). <br /> kindly
                     upload photo not more that 5mb
@@ -168,14 +163,14 @@ const UserProfile = () => {
               </div>
               <hr />
               {/* First Name Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 p-2 flex flex-col gap-y-4 md:flex-row justify-between items-center">
                 <div className="text-sm flex-col flex">
-                  <h1 className="font-semibold font-serif">First Name</h1>{" "}
+                  <h1 className="font-semibold font-serif text-center md:text-left">First Name</h1>{" "}
                   <span className="text-xs mt-2 text-red-500">
                     You won&rsquo;t be able to change your name.{" "}
                   </span>
                 </div>
-                <div className="space-x-2 flex flex-col md:flex-row">
+                <div className="md:space-x-2 flex flex-col md:flex-row space-y-3 w-full">
                   <div className="w-full md:w-[200px] space-y-1">
                     <label htmlFor="firstName">FirstName</label>
                     <input
@@ -203,9 +198,9 @@ const UserProfile = () => {
               <hr />
 
               {/* Email Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm  flex-col flex">
-                  <h1 className="font-semibold font-serif">Email Adress</h1>
+              <div className="mb-4 p-2 flex flex-col gap-y-4 md:flex-row justify-between items-center">
+                <div className="text-sm  flex-col flex items-center md:items-start">
+                  <h1 className="font-semibold font-serif ">Email Adress</h1>
                   <span className="text-xs mt-2">
                     Your email address will receive all <br />
                     communications and activity notifications from your account.{" "}
@@ -228,8 +223,8 @@ const UserProfile = () => {
               <hr />
 
               {/* Phone Number Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
-                <div className="text-sm  flex-col flex">
+              <div className="mb-4 p-2 flex flex-col gap-y-4 md:flex-row justify-between items-center">
+              <div className="text-sm  flex-col flex items-center md:items-start">
                   <h1 className="font-semibold font-serif">Phone Number</h1>
                   <span className="text-xs mt-2">
                     OTP is sent to your phone number for verification purposes.{" "}
@@ -254,7 +249,7 @@ const UserProfile = () => {
               </div>
               <hr />
               {/* Phone Number Section */}
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 p-2 flex flex-col gap-y-4 md:flex-row justify-between items-center">
                 <div className="text-sm flex-col flex">
                   <h1 className="font-semibold font-serif">Reset Pin</h1>
                   <span className="text-xs mt-2">
@@ -264,7 +259,7 @@ const UserProfile = () => {
                 <div className="w-full md:w-[300px]">
                   {/* Open the modal using document.getElementById('ID').showModal() method */}
                   <button
-                    className="btn bg-blue-400 hover:bg-blue-400 text-white"
+                    className="btn bg-blue-400 hover:bg-blue-400 text-white w-full "
                     onClick={() =>
                       document.getElementById("my_modal_1").showModal()
                     }
@@ -284,7 +279,7 @@ const UserProfile = () => {
                   </dialog>
                 </div>
               </div>
-              <div className="mb-4 p-2 flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 p-2 flex flex-col gap-y-4 md:flex-row justify-between items-center">
                 <div className="text-sm  flex-col flex">
                   <h1 className="font-semibold font-serif">Delete Account</h1>
                   <span className="text-xs mt-2">
@@ -294,7 +289,7 @@ const UserProfile = () => {
                 <div className="w-full md:w-[300px]">
                   <button
                     onClick={handleDeleteUser}
-                    className="btn bg-red-400 hover:bg-red-400 text-white"
+                    className="btn bg-red-400 hover:bg-red-400 text-white w-full "
                   >
                     Delete
                   </button>

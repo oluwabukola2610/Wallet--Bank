@@ -5,59 +5,37 @@ import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import { api } from "../api/Api";
+// import { useState } from "react";
+// import axios from "axios";
+// import { api } from "../api/Api";
 
 const Dashboard = () => {
   const {
     isLoading,
     myWallet,
     transactions,
-    setuserWallet,
-    fetchUserTransactions,
+    // setuserWallet,
     formatDatestamp,
-    handleNotification,
+    profile
   } = useContext(BankContext);
-  useEffect(() => {
-    setTimeout(() => {
-      setuserWallet();
-    }, 1000);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setuserWallet();
+  //   }, 1000);
 
-    fetchUserTransactions();
-    handleNotification();
-  }, []);
+  //   // fetchUserTransactions();
+  //   // handleNotification();
+  // }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
-  const [userData, setuserData] = useState(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${api}/user/data`, {
-          withCredentials: true,
-        });
 
-        if (response.status === 200) {
-          setuserData(response.data.userData);
-        } else {
-          console.error('Failed to fetch user data');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error.message);
-      }
-    };
-
-    fetchUserData(); 
-  }, []);
-
-  const { firstName } = userData || {};
+  const { firstName } = profile || {};
 
   return (
-    <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full">
-      <header>
+    <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full ">
+      <header className="flex flex-col space-y-5">
         <div className="flex flex-col md:flex-row justify-between items-center py-3 capitalize">
           <h1 className=" font-semibold text-xl md:text-2xl md:flex capitalize hidden">
             Hello {firstName}👋🏽
@@ -114,95 +92,84 @@ const Dashboard = () => {
         <p className="py-4 font-medium">Transaction History</p>
       </header>
 
-      <main>
+      <main className="mt-4">
         {isLoading ? (
-          <div className="flex justify-center items-center py-8">
+          <div className="flex justify-center items-center py-8 ">
             <BeatLoader color="#000000" size={15} />
           </div>
         ) : transactions.length > 0 ? (
           <>
-            <div className=" overflow-x-auto shadow-md sm:rounded-lg max-w-sm md:w-full md:max-w-full overflow-hidden">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-faded">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Wallet
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Transaction Type
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Payment Method
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Date
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Status
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Amount
-                    </th>
+          <div className="overflow-x-auto w-[24rem] md:w-full md:max-w-full ">
+            <table className="table-auto text-sm text-left text-[#181336] w-full ">
+              {/* Table header */}
+              <thead className="text-xs text-[#7C8493] bg-[#EEF2F7] ">
+                <tr className="">
+                  <th scope="col" className="px-6  py-3 text-[0.825rem]">
+                    Date
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                    Wallet
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                    Payment Method
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                    Transaction Type
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                    Amount
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              {/* Table body */}
+              {sortedTransactions.map((transaction, index) => (
+                <tbody key={index}>
+                  <tr className="bg-white font-medium border-b hover:bg-gray-50 ">
+                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                      {formatDatestamp(transaction.timestamp)}
+                    </td>
+                    <td className="px-6 font-semibold text-[0.8375rem] py-4 whitespace-now">
+                      {transaction.walletType} Account
+                    </td>
+                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                      {transaction.paymentGateway}
+                    </td>
+                    <td className="px-5 py-4 ">
+                      <p
+                        className={`text-[0.8375rem] p-1 w-fit rounded-md ${
+                          transaction.transactionType === "Deposit"
+                            ? " text-[#1CA78B] bg-[#F0F4F9]"
+                            : " text-[red] bg-[red]/10"
+                        }`}
+                      >
+                        {transaction.transactionType}
+                      </p>
+                    </td>
+                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                      {transaction.walletType === "naira" ? "₦" : "$"}{" "}
+                      {transaction.amount}{" "}
+                    </td>
+                    <td className="px-5 py-4 ">
+                      <p
+                        className={`p-1 text-[0.8375rem] w-fit  rounded-md ${
+                          transaction.paymentStatus === "failed"
+                            ? "bg-red-100 text-red-400"
+                            : transaction.paymentStatus === "pending"
+                            ? "bg-yellow-100 text-yellow-500"
+                            : "bg-green-200 text-green-400"
+                        }`}
+                      >
+                        {transaction.paymentStatus}{" "}
+                      </p>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sortedTransactions.slice(0, 3).map((transaction, index) => (
-                    <tr
-                      key={index}
-                      className={`bg-${
-                        index % 2 === 0 ? "white" : "gray-50"
-                      } border-b hover:bg-faded/60 duration-300`}
-                    >
-                      <td className="px-4 py-4 whitespace-no-wrap">
-                        <div className="text-sm leading-5 text-gray-900">
-                          {transaction.walletType} Account
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        <div
-                          className={`text-sm leading-5  ${
-                            transaction.transactionType === "Deposit"
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {transaction.transactionType}
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-no-wrap">
-                        <div className="text-sm leading-5 text-gray-900">
-                          {transaction.paymentGateway}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        <div className="text-sm leading-5 text-gray-900">
-                          {formatDatestamp(transaction.timestamp)}{" "}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        <div
-                          className={`text-sm leading-5 text-gray-900 w-fit px-2 rounded-md ${
-                            transaction.paymentStatus === "failed"
-                              ? "bg-red-100 text-red-400"
-                              : transaction.paymentStatus === "pending"
-                              ? "bg-yellow-100 text-yellow-500"
-                              : "bg-green-200 text-green-400"
-                          }`}
-                        >
-                          {transaction.paymentStatus}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        <div className="text-sm leading-5 text-gray-900">
-                          {transaction.walletType === "naira" ? "₦" : "$"}{" "}
-                          {transaction.amount}{" "}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
                 </tbody>
-              </table>
-            </div>
+              ))}
+            </table>
+          </div>
 
             <Link
               to="/transactions"

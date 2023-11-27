@@ -1,21 +1,17 @@
 import { BsBank } from "react-icons/bs";
 import ReactLoading from "react-loading";
-import useCreateCard from "../Hook/useCreateCard";
 import { ToastContainer, Zoom } from "react-toastify";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { api } from "../api/Api";
+import { useContext } from "react";
 import CardModal from "../component/CardModal";
-import { toast } from "react-toastify";
+import { BankContext } from "../context/BankContextProvider";
 
 const Caard = () => {
-  const { isloading, deleteCAard } = useCreateCard();
-  const [cardData, setCardData] = useState({});
-  const [isCardGenerated, setIsCardGenerated] = useState(false);
+  const { isloading, deleteCAard, isCardGenerated, cardData } =
+    useContext(BankContext);
+
   const formatAtmCardNumber = (cardNumber) => {
     if (typeof cardNumber === "number") {
       cardNumber = cardNumber.toString();
-      // Use regex to split the 16-digit card number into 4 groups of 4 digits each
       const cardNumberGroups = cardNumber.match(/(\d{4})/g);
 
       if (cardNumberGroups) {
@@ -25,28 +21,6 @@ const Caard = () => {
 
     return cardNumber;
   };
-
-  useEffect(() => {
-    axios
-      .get(`${api}/card/usercards`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setCardData(response.data.data[0]);
-          setIsCardGenerated(true);
-          localStorage.setItem(
-            "cardNum",
-            JSON.stringify(response.data.data[0].cardNumber)
-          );
-        }
-      })
-      .catch((error) => {
-        toast.error(error.response.data.error);
-      });
-
-    // }
-  }, []);
 
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col items-center overflow-y-scroll w-full space-y-12">

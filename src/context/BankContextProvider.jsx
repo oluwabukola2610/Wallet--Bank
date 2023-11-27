@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useEffect } from "react";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { api } from "../api/Api";
@@ -21,7 +20,7 @@ const BankContextProvider = ({ children }) => {
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState([])
   const handleInput = (event) => {
     const { name, value } = event.target;
     setUser((prevUser) => ({
@@ -53,8 +52,6 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Registration successful, check your email for otp");
-          localStorage.setItem("email", JSON.stringify(user.email));
-          localStorage.setItem("token", response.data.usertoken);
           setTimeout(() => {
             navigate("/signup-Otp");
           }, 2000);
@@ -100,12 +97,6 @@ const BankContextProvider = ({ children }) => {
           setTimeout(() => {
             navigate("/wallet");
           }, 1000);
-          const tokenData = response.data.data;
-          localStorage.setItem("token", tokenData);
-          localStorage.setItem(
-            "userData",
-            JSON.stringify(response.data.userdata)
-          );
         }
       })
       .catch((error) => {
@@ -209,6 +200,102 @@ const BankContextProvider = ({ children }) => {
         console.log(error);
       });
   };
+  const markAllAsRead = () => {
+    const updatedNotifications = notifications.map((notification) => ({
+      ...notification,
+      read: true,
+    }));
+    setNotifications(updatedNotifications);
+  };
+
+  const unreadNotificationCount = notifications.filter(
+    (notification) => !notification.read
+  ).length;
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`${api}/user/data`, {
+        withCredentials: true,
+      });
+  
+      if (response.status === 200) {
+        const userData = response.data.userData;
+        const isAuthenticated = !!userData; // Check if userData exists
+        setProfile({ ...userData, isAuthenticated });
+      } else {
+        console.error('Failed to fetch user data');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
+    }
+  };
+  const [cardData, setCardData] = useState({});
+  const [isCardGenerated, setIsCardGenerated] = useState(false);
+  const generateCard = () => {
+    setIsLoading(true);
+    axios
+      .post(`${api}/card/create`, null, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  const deleteCAard = () => {
+    setIsLoading(true);
+    axios
+      .post(`${api}/card/delete?cardId=${cardData.cardId}`, null, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setCardData({});
+          setIsCardGenerated(false);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  
+  const fetchCard=()=>{
+    axios
+      .get(`${api}/card/usercards`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setCardData(response.data.data[0]);
+          setIsCardGenerated(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+      });
+
+    }
+  const fetchData = async () => {
+    await Promise.all([fetchUserData(), fetchUserTransactions(), handleNotification(),setuserWallet(),fetchCard()]);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   const handlogout = () => {
     axios
       .delete(`${api}/auth/logout`, {
@@ -216,7 +303,6 @@ const BankContextProvider = ({ children }) => {
       })
       .then(() => {
         navigate("/login");
-        localStorage.clear();
       })
       .catch((err) => {
         console.log(err);
@@ -232,14 +318,20 @@ const BankContextProvider = ({ children }) => {
     handleLogin,
     handleForgetPass,
     setuserWallet,
+    profile,
     fetchUserTransactions,
     myWallet,
     transactions,
     formatDatestamp,
     notifications,
-    setNotifications,
-    handleNotification,
+    unreadNotificationCount,
+    markAllAsRead,
+    generateCard,
+    cardData,
+    isCardGenerated,
+    deleteCAard,
     handlogout,
+
   };
 
   return (

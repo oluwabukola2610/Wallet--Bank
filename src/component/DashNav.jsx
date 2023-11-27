@@ -1,44 +1,15 @@
 import { useContext } from "react";
 import { RiMenuFoldLine } from "react-icons/ri";
 import { BankContext } from "../context/BankContextProvider";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { api } from "../api/Api";
+import { useNavigate } from "react-router-dom"; // Import useLocation
 const DashNav = () => {
-  const { notifications } = useContext(BankContext);
-  const [userData, setuserData] = useState(null);
+  const { notifications,profile,unreadNotificationCount } = useContext(BankContext);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${api}/user/data`, {
-          withCredentials: true,
-        });
 
-        if (response.status === 200) {
-          setuserData(response.data.userData);
-        } else {
-          console.error('Failed to fetch user data');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error.message);
-      }
-    };
-
-    fetchUserData(); 
-  }, []);
-
-  const { firstName, lastName } = userData || {};
+  const { firstName, lastName } = profile || {};
   const userInitials =
     firstName && lastName ? `${firstName[0]}${lastName[0]}` : "";
   const navigate = useNavigate();
-  const location = useLocation();
-  const hasNotifications = notifications.length > 0;
-
-  // Define a flag to determine whether to display the red notification number
-  const displayRedNotification =
-    hasNotifications && location.pathname !== "/notification";
 
   return (
     <nav className="flex justify-between items-center p-2 w-full">
@@ -49,14 +20,14 @@ const DashNav = () => {
         />
       </label>
       <div className="flex items-center space-x-3 px-3">
-        {displayRedNotification ? (
+        {notifications ? (
           <button
             onClick={() => navigate("/notification")}
             className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full"
           >
             <span className="sr-only">Notifications</span>
             <span className="absolute top-0 right-0 h-4 w-4 mt-1  bg-white text-red-500 rounded-full text-xs flex items-center justify-center">
-              {notifications.length}
+              {unreadNotificationCount}
             </span>
             <svg
               aria-hidden="true"

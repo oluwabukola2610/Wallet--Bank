@@ -16,7 +16,7 @@ const Sucess = () => {
 
   return (
     <section className="max-w-[1640px] mx-auto md:max-w-full md:mx-auto bg-primary flex flex-row items-center justify-center h-screen">
-      <div className="max-w-md mx-auto bg-white rounded-md p-8 shadow-md mr-0 md:mr-8">
+      <div className="max-w-md mx-auto bg-white rounded-md p-8 shadow-md ">
         <img src={logo} alt="Bank Logo" className="w-16 mx-auto mb-4" />
         <h1 className="text-xl font-semibold text-gray-800 mb-4">
           Thank You for Banking with Us
@@ -39,7 +39,7 @@ const Sucess = () => {
         </div>
       </div>
       <div
-        className="w-[60%] h-screen bg-cover hidden md:flex"
+        className="w-[60%] h-screen bg-cover hidden lg:flex"
         style={{ backgroundImage: `url(${payment})` }}
       ></div>
     </section>

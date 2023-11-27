@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import { useContext } from "react";
+import { BankContext } from "../context/BankContextProvider";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem("token");
+  const { profile } = useContext(BankContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    }
-  }, [token, navigate]);
+  if (!profile || !profile.isAuthenticated) {
+    // Redirect to login if not authenticated
+    navigate('/login');
+    return null;
+  }
 
-  return token ? <Outlet /> : null;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
