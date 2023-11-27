@@ -46,17 +46,17 @@ const useHandleTransfer = () => {
       return;
     }
 
-    const userData = JSON.parse(localStorage.getItem("userData"));
     const userTransferData = {
       amount: transferInput.amount,
       receiverAccountNumber: transferInput.accountNum,
       pin: parseInt( transferInput.pin),
       walletType: selectedCurrency,
-      userId: userData._id,
     };
 
     axios
-      .post(`${api}/wallet/transfer`, userTransferData)
+      .post(`${api}/wallet/transfer`, userTransferData, {
+        withCredentials: true,
+      })
       .then((response) => {
         toast.success("Transfer successful");
         toast.success(response.data.message);

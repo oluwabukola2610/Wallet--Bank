@@ -14,11 +14,11 @@ const useCreatePin = () => {
       toast.warning("please enter your pin");
       return;
     }
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id;
-    const pindata = { pin: code, id: userId };
+    const pindata = { pin: code };
     axios
-      .post(`${api}/trans/create_pin/${userId}`, pindata)
+      .post(`${api}/trans/create_pin`, pindata, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           toast.success("Transaction pin created succesfully");

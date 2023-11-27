@@ -50,7 +50,7 @@ const useSignupOtp = () => {
           localStorage.setItem("userData", JSON.stringify(userData));
           toast.success("OTP verified successfully");
           setTimeout(() => {
-            navigate("/create-pin");
+            navigate("/login");
           }, 2000);
         }
         setCode("");

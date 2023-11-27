@@ -3,10 +3,32 @@ import { useContext, useEffect, useState } from "react";
 import { SidebarData } from "../utils/Data";
 import Avatar from "react-avatar";
 import { BankContext } from "../context/BankContextProvider";
+import axios from "axios";
+import { api } from "../api/Api";
 
 function SideBar() {
   const [Image, SelectedImage] = useState(null);
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setuserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${api}/user/data`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setuserData(response.data.userData);
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    };
+
+    fetchUserData(); 
+  }, []);
   const { handlogout } = useContext(BankContext);
   useEffect(() => {
     if (userData) {

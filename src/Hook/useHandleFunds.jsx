@@ -9,18 +9,15 @@ const useHandleFunds = () => {
   const handleCurrencyChange = (event) => {
     setSelectedCurrency(event.target.value);
   };
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const userId = userData._id;
-  const email = userData.email;
   const userFundsData = {
     amount: fundsInput,
     walletType: selectedCurrency,
-    userId,
-    email,
   };
   const fundWithFlutterwave = () => {
     axios
-      .post(`${api}/wallet/fund-flutterwave`, userFundsData)
+      .post(`${api}/wallet/fund-flutterwave`, userFundsData, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           const authorizationUrl = response.data.data;
@@ -35,7 +32,9 @@ const useHandleFunds = () => {
 
   const fundWithPaystack = () => {
     axios
-      .post(`${api}/wallet/fund-paystack`, userFundsData)
+      .post(`${api}/wallet/fund-paystack`, userFundsData, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 205) {
           toast.success(response.data.message);
@@ -55,11 +54,12 @@ const useHandleFunds = () => {
   const fundWithStripe = () => {
     const amount = parseFloat(fundsInput);
     const dollarData = {
-      amount,
-      email,
+      amount
     };
     axios
-      .post(`${api}/wallet/fund-stripe`, dollarData)
+      .post(`${api}/wallet/fund-stripe`, dollarData, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 205) {
           toast.success(response.data.message);

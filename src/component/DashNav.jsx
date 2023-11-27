@@ -2,9 +2,32 @@ import { useContext } from "react";
 import { RiMenuFoldLine } from "react-icons/ri";
 import { BankContext } from "../context/BankContextProvider";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { api } from "../api/Api";
 const DashNav = () => {
   const { notifications } = useContext(BankContext);
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setuserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${api}/user/data`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setuserData(response.data.userData);
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    };
+
+    fetchUserData(); 
+  }, []);
 
   const { firstName, lastName } = userData || {};
   const userInitials =

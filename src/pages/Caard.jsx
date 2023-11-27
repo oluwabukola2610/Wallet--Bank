@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "../api/Api";
 import CardModal from "../component/CardModal";
+import { toast } from "react-toastify";
 
 const Caard = () => {
   const { isloading, deleteCAard } = useCreateCard();
   const [cardData, setCardData] = useState({});
   const [isCardGenerated, setIsCardGenerated] = useState(false);
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const userId = userData._id;
   const formatAtmCardNumber = (cardNumber) => {
     if (typeof cardNumber === "number") {
       cardNumber = cardNumber.toString();
@@ -29,7 +28,9 @@ const Caard = () => {
 
   useEffect(() => {
     axios
-      .get(`${api}/card/usercards?userId=${userId}`)
+      .get(`${api}/card/usercards`, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           setCardData(response.data.data[0]);
@@ -41,7 +42,7 @@ const Caard = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.error);
       });
 
     // }

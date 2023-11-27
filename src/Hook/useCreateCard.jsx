@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 
 const useCreateCard = () => {
   const [isloading, setIsloading] = useState(false);
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const userId = userData._id;
   const generateCard = () => {
     setIsloading(true);
     axios
-      .post(`${api}/card/create`, { userId })
+      .post(`${api}/card/create`, null, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem(
@@ -35,7 +35,9 @@ const useCreateCard = () => {
     const cardId = JSON.parse(localStorage.getItem("cardId"));
     console.log(cardId);
     axios
-      .post(`${api}/card/delete?cardId=${cardId}`)
+      .post(`${api}/card/delete?cardId=${cardId}`, null, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           toast.success(response.data.message);

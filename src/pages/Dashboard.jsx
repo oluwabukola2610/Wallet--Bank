@@ -6,6 +6,9 @@ import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
 import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { api } from "../api/Api";
 
 const Dashboard = () => {
   const {
@@ -28,7 +31,27 @@ const Dashboard = () => {
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setuserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${api}/user/data`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setuserData(response.data.userData);
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    };
+
+    fetchUserData(); 
+  }, []);
 
   const { firstName } = userData || {};
 

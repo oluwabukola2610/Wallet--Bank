@@ -7,9 +7,30 @@ import ResetPin from "./Auth/ResetPin";
 import { BiEdit } from "react-icons/bi";
 import axios from "axios";
 import { api } from "../api/Api";
+
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setuserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${api}/user/data`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setuserData(response.data.userData);
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    };
+
+    fetchUserData(); 
+  }, []);
   const { firstName, lastName, email, phone, _id: userId } = userData || {};
 
   useEffect(() => {
@@ -38,10 +59,11 @@ const UserProfile = () => {
       const base64Image = reader.result.split(",")[1];
       console.log(base64Image);
       fetch(
-        `https://bank-app-backend-server.onrender.com/api/v1/user/imageUpload/${userId}`,
+        `${api}/user/imageUpload`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ base64: base64Image }),
         }
       )

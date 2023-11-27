@@ -21,6 +21,7 @@ const BankContextProvider = ({ children }) => {
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [profile, setProfile] = useState([]);
   const handleInput = (event) => {
     const { name, value } = event.target;
     setUser((prevUser) => ({
@@ -154,11 +155,11 @@ const BankContextProvider = ({ children }) => {
 
   const setuserWallet = () => {
     const walletType = "naira&usd";
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id;
-    const dashboardData = { walletType, userId };
+    const dashboardData = { walletType };
     axios
-      .post(`${api}/wallet/create`, dashboardData)
+      .post(`${api}/wallet/create`, dashboardData, {
+        withCredentials: true,
+      })
       .then((response) => {
         setMyWallet(response.data);
       })
@@ -168,31 +169,23 @@ const BankContextProvider = ({ children }) => {
   };
 
   const fetchUserTransactions = async () => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id;
     try {
-      const response = await fetch(`${api}/trans/transdata?userId=${userId}`, {
+      const response = await fetch(`${api}/trans/transdata`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       const data = await response.json();
-
       if (response.ok) {
-        const filteredTransactions = data.data.filter(
-          (transaction) => transaction.userId === userId
-        );
+        const filteredTransactions = data.data;
         setTransactions(filteredTransactions);
-        console.log(filteredTransactions);
       }
     } catch (error) {
       console.log("Internal Server Error: " + error);
     }
   };
-  useEffect(() => {
-    JSON.parse(localStorage.getItem("userData"));
-  }, []);
   const formatDatestamp = (timestamp) => {
     const options = {
       year: "numeric",
@@ -202,22 +195,25 @@ const BankContextProvider = ({ children }) => {
     return new Date(timestamp).toLocaleString(undefined, options);
   };
   const handleNotification = () => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    const userId = userData._id;
     axios
-      .get(`${api}/wallet/notifications?userId=${userId}`)
+      .get(`${api}/wallet/notifications`,  {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.status === 200) {
           setNotifications(response.data.data);
         }
       })
       .catch((error) => {
+        toast.error(error);
         console.log(error);
       });
   };
   const handlogout = () => {
     axios
-      .delete(`${api}/auth/logout`)
+      .delete(`${api}/auth/logout`, {
+        withCredentials: true,
+      })
       .then(() => {
         navigate("/login");
         localStorage.clear();
@@ -226,6 +222,7 @@ const BankContextProvider = ({ children }) => {
         console.log(err);
       });
   };
+ 
   const contextValue = {
     user,
     setUser,
