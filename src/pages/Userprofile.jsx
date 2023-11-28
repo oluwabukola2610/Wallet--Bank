@@ -92,7 +92,9 @@ const UserProfile = () => {
   };
   const handleDeleteUser = () => {
     axios
-      .delete(`${api}/auth/delete-acc`, userId)
+      .delete(`${api}/auth/delete-acc`, {
+        withCredentials: true,
+      })
       .then((response) => {
         console.log(response);
       })
