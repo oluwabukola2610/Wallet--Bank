@@ -20,7 +20,7 @@ const BankContextProvider = ({ children }) => {
   const [myWallet, setMyWallet] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [profile, setProfile] = useState([])
+  const [profile, setProfile] = useState([]);
   const handleInput = (event) => {
     const { name, value } = event.target;
     setUser((prevUser) => ({
@@ -187,7 +187,7 @@ const BankContextProvider = ({ children }) => {
   };
   const handleNotification = () => {
     axios
-      .get(`${api}/wallet/notifications`,  {
+      .get(`${api}/wallet/notifications`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -217,16 +217,15 @@ const BankContextProvider = ({ children }) => {
       const response = await axios.get(`${api}/user/data`, {
         withCredentials: true,
       });
-  
+
       if (response.status === 200) {
         const userData = response.data.userData;
-        const isAuthenticated = !!userData; // Check if userData exists
-        setProfile({ ...userData, isAuthenticated });
+        setProfile(userData);
       } else {
-        console.error('Failed to fetch user data');
+        console.error("Failed to fetch user data");
       }
     } catch (error) {
-      console.error('Error fetching user data:', error.message);
+      console.error("Error fetching user data:", error.message);
     }
   };
   const [cardData, setCardData] = useState({});
@@ -272,8 +271,8 @@ const BankContextProvider = ({ children }) => {
         setIsLoading(false);
       });
   };
-  
-  const fetchCard=()=>{
+
+  const fetchCard = () => {
     axios
       .get(`${api}/card/usercards`, {
         withCredentials: true,
@@ -287,28 +286,35 @@ const BankContextProvider = ({ children }) => {
       .catch((error) => {
         console.log(error.response.data.error);
       });
-
-    }
-  const fetchData = async () => {
-    await Promise.all([fetchUserData(), fetchUserTransactions(), handleNotification(),setuserWallet(),fetchCard()]);
   };
-
+  const fetchData = async () => {
+    await Promise.all([
+      fetchUserData(),
+      fetchUserTransactions(),
+      handleNotification(),
+      setuserWallet(),
+      fetchCard(),
+    ]);
+  };
   useEffect(() => {
     fetchData();
   }, []);
+
   const handlogout = () => {
     axios
       .delete(`${api}/auth/logout`, {
         withCredentials: true,
       })
-      .then(() => {
-        navigate("/login");
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/login");
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
- 
+
   const contextValue = {
     user,
     setUser,
@@ -327,11 +333,12 @@ const BankContextProvider = ({ children }) => {
     unreadNotificationCount,
     markAllAsRead,
     generateCard,
+    fetchData,
+    fetchUserData,
     cardData,
     isCardGenerated,
     deleteCAard,
     handlogout,
-
   };
 
   return (

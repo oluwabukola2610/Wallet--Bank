@@ -3,8 +3,8 @@ import { RiMenuFoldLine } from "react-icons/ri";
 import { BankContext } from "../context/BankContextProvider";
 import { useNavigate } from "react-router-dom"; // Import useLocation
 const DashNav = () => {
-  const { notifications,profile,unreadNotificationCount } = useContext(BankContext);
-
+  const { notifications, profile } =
+    useContext(BankContext);
 
   const { firstName, lastName } = profile || {};
   const userInitials =
@@ -27,7 +27,7 @@ const DashNav = () => {
           >
             <span className="sr-only">Notifications</span>
             <span className="absolute top-0 right-0 h-4 w-4 mt-1  bg-white text-red-500 rounded-full text-xs flex items-center justify-center">
-              {unreadNotificationCount}
+              {notifications.length}
             </span>
             <svg
               aria-hidden="true"

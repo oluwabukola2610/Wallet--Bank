@@ -5,31 +5,14 @@ import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
-// import { useState } from "react";
-// import axios from "axios";
-// import { api } from "../api/Api";
 
 const Dashboard = () => {
-  const {
-    isLoading,
-    myWallet,
-    transactions,
-    // setuserWallet,
-    formatDatestamp,
-    profile
-  } = useContext(BankContext);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setuserWallet();
-  //   }, 1000);
+  const { isLoading, myWallet, transactions, formatDatestamp, profile } =
+    useContext(BankContext);
 
-  //   // fetchUserTransactions();
-  //   // handleNotification();
-  // }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
-
 
   const { firstName } = profile || {};
 
@@ -99,77 +82,77 @@ const Dashboard = () => {
           </div>
         ) : transactions.length > 0 ? (
           <>
-          <div className="overflow-x-auto w-[24rem] md:w-full md:max-w-full ">
-            <table className="table-auto text-sm text-left text-[#181336] w-full ">
-              {/* Table header */}
-              <thead className="text-xs text-[#7C8493] bg-[#EEF2F7] ">
-                <tr className="">
-                  <th scope="col" className="px-6  py-3 text-[0.825rem]">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
-                    Wallet
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
-                    Payment Method
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
-                    Transaction Type
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
-                    Amount
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-[0.825rem]">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              {/* Table body */}
-              {sortedTransactions.map((transaction, index) => (
-                <tbody key={index}>
-                  <tr className="bg-white font-medium border-b hover:bg-gray-50 ">
-                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
-                      {formatDatestamp(transaction.timestamp)}
-                    </td>
-                    <td className="px-6 font-semibold text-[0.8375rem] py-4 whitespace-now">
-                      {transaction.walletType} Account
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
-                      {transaction.paymentGateway}
-                    </td>
-                    <td className="px-5 py-4 ">
-                      <p
-                        className={`text-[0.8375rem] p-1 w-fit rounded-md ${
-                          transaction.transactionType === "Deposit"
-                            ? " text-[#1CA78B] bg-[#F0F4F9]"
-                            : " text-[red] bg-[red]/10"
-                        }`}
-                      >
-                        {transaction.transactionType}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-[0.8375rem]">
-                      {transaction.walletType === "naira" ? "₦" : "$"}{" "}
-                      {transaction.amount}{" "}
-                    </td>
-                    <td className="px-5 py-4 ">
-                      <p
-                        className={`p-1 text-[0.8375rem] w-fit  rounded-md ${
-                          transaction.paymentStatus === "failed"
-                            ? "bg-red-100 text-red-400"
-                            : transaction.paymentStatus === "pending"
-                            ? "bg-yellow-100 text-yellow-500"
-                            : "bg-green-200 text-green-400"
-                        }`}
-                      >
-                        {transaction.paymentStatus}{" "}
-                      </p>
-                    </td>
+            <div className="overflow-x-auto w-[24rem] md:w-full md:max-w-full ">
+              <table className="table-auto text-sm text-left text-[#181336] w-full ">
+                {/* Table header */}
+                <thead className="text-xs text-[#7C8493] bg-[#EEF2F7] ">
+                  <tr className="">
+                    <th scope="col" className="px-6  py-3 text-[0.825rem]">
+                      Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                      Wallet
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                      Payment Method
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                      Transaction Type
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                      Amount
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-[0.825rem]">
+                      Status
+                    </th>
                   </tr>
-                </tbody>
-              ))}
-            </table>
-          </div>
+                </thead>
+                {/* Table body */}
+                {sortedTransactions.map((transaction, index) => (
+                  <tbody key={index}>
+                    <tr className="bg-white font-medium border-b hover:bg-gray-50 ">
+                      <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                        {formatDatestamp(transaction.timestamp)}
+                      </td>
+                      <td className="px-6 font-semibold text-[0.8375rem] py-4 whitespace-now">
+                        {transaction.walletType} Account
+                      </td>
+                      <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                        {transaction.paymentGateway}
+                      </td>
+                      <td className="px-5 py-4 ">
+                        <p
+                          className={`text-[0.8375rem] p-1 w-fit rounded-md ${
+                            transaction.transactionType === "Deposit"
+                              ? " text-[#1CA78B] bg-[#F0F4F9]"
+                              : " text-[red] bg-[red]/10"
+                          }`}
+                        >
+                          {transaction.transactionType}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4 font-semibold text-[0.8375rem]">
+                        {transaction.walletType === "naira" ? "₦" : "$"}{" "}
+                        {transaction.amount}{" "}
+                      </td>
+                      <td className="px-5 py-4 ">
+                        <p
+                          className={`p-1 text-[0.8375rem] w-fit  rounded-md ${
+                            transaction.paymentStatus === "failed"
+                              ? "bg-red-100 text-red-400"
+                              : transaction.paymentStatus === "pending"
+                              ? "bg-yellow-100 text-yellow-500"
+                              : "bg-green-200 text-green-400"
+                          }`}
+                        >
+                          {transaction.paymentStatus}{" "}
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+              </table>
+            </div>
 
             <Link
               to="/transactions"
