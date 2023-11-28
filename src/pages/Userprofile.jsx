@@ -7,11 +7,12 @@ import ResetPin from "./Auth/ResetPin";
 import { BiEdit } from "react-icons/bi";
 import axios from "axios";
 import { api } from "../api/Api";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [userData, setuserData] = useState(null);
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -31,7 +32,7 @@ const UserProfile = () => {
 
     fetchUserData();
   }, []);
-  const { firstName, lastName, email, phone, _id: userId } = userData || {};
+  const { firstName, lastName, email, phone } = userData || {};
 
   useEffect(() => {
     if (userData) {
@@ -178,7 +179,7 @@ const UserProfile = () => {
                     You won&rsquo;t be able to change your name.{" "}
                   </span>
                 </div>
-                <div className="md:space-x-2 flex flex-col md:flex-row space-y-3 w-full">
+                <div className="md:space-x-2 flex flex-col md:flex-row space-y-3 md:space-y-0 w-full md:justify-end md:items-center">
                   <div className="w-full md:w-[200px] space-y-1">
                     <label htmlFor="firstName">FirstName</label>
                     <input
