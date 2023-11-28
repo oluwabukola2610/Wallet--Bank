@@ -13,7 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Transaction from "./pages/Transaction";
 import UserProfile from "./pages/Userprofile";
 import Notification from "./pages/Notification";
-import ProtectedRoute from "./component/ProtectedRoute";
+// import ProtectedRoute from "./component/ProtectedRoute";
 import Caard from "./pages/Caard";
 import Sucess from "./pages/Sucess";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/wallet/success" element={<Sucess />} />
 
         {/* Use DashAside layout for dashboard-related routes */}
-        <Route path="" element={<ProtectedRoute />}>
+        {/* <Route path="" element={<ProtectedRoute />}> */}
           <Route element={<DashLayout />}>
             <Route path="/wallet" element={<Dashboard />} />
             <Route path="/card" element={<Caard />} />
@@ -42,7 +42,7 @@ const App = () => {
             <Route path="/notification" element={<Notification />} />
             <Route path="/user-profile" element={<UserProfile />} />
           </Route>
-        </Route>
+        {/* </Route> */}
       </Routes>
     </BankContextProvider>
   );
