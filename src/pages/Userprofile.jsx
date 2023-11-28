@@ -97,6 +97,12 @@ const UserProfile = () => {
       })
       .then((response) => {
         console.log(response);
+        if (response.status === 200) {
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 3000);
+        }
       })
       .catch((err) => {
         console.log(err);
