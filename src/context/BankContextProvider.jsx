@@ -28,7 +28,7 @@ const BankContextProvider = ({ children }) => {
       [name]: value,
     }));
   };
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const handleRegister = (event) => {
     event.preventDefault();
     // Validate form fields
@@ -93,6 +93,7 @@ const BankContextProvider = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 201) {
+          setIsAuthenticated(true);
           toast.success("Login Successful!");
           setTimeout(() => {
             navigate("/wallet");
@@ -298,22 +299,24 @@ const BankContextProvider = ({ children }) => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
-  const handlogout = () => {
-    axios
-      .delete(`${api}/auth/logout`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          navigate("/login");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+ const handlogout = () => {
+  axios
+    .delete(`${api}/auth/logout`, {
+      withCredentials: true,
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        setIsAuthenticated(false);
+        navigate("/login");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 
   const contextValue = {
     user,
