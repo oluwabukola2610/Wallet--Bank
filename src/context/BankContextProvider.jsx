@@ -28,7 +28,6 @@ const BankContextProvider = ({ children }) => {
       [name]: value,
     }));
   };
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const handleRegister = (event) => {
     event.preventDefault();
     // Validate form fields
@@ -51,6 +50,7 @@ const BankContextProvider = ({ children }) => {
       .post(`${api}/auth/register`, user)
       .then((response) => {
         if (response.status === 200) {
+          sessionStorage.setItem("email", response.data.userEmail);
           toast.success("Registration successful, check your email for otp");
           setTimeout(() => {
             navigate("/signup-Otp");
@@ -93,7 +93,6 @@ const BankContextProvider = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 201) {
-          setIsAuthenticated(true);
           toast.success("Login Successful!");
           setTimeout(() => {
             navigate("/wallet");
@@ -299,7 +298,7 @@ const BankContextProvider = ({ children }) => {
   };
   useEffect(() => {
     fetchData();
-  }, [isAuthenticated]);
+  }, []);
 
  const handlogout = () => {
   axios
@@ -308,7 +307,6 @@ const BankContextProvider = ({ children }) => {
     })
     .then((response) => {
       if (response.status === 200) {
-        setIsAuthenticated(false);
         navigate("/login");
       }
     })

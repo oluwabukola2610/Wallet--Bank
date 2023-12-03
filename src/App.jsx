@@ -6,7 +6,6 @@ import SignupOtp from "./pages/Auth/SignupOtp";
 import ForgetPass from "./pages/Auth/ForgetPass";
 import ResetPass from "./pages/Auth/ResetPass";
 import Checkinbox from "./pages/Auth/Checkinbox";
-import CreatePin from "./pages/Auth/CreatePin";
 import BankContextProvider from "./context/BankContextProvider";
 import DashLayout from "./Layout/DashLayout";
 import Dashboard from "./pages/Dashboard";
@@ -18,6 +17,7 @@ import Caard from "./pages/Caard";
 import Sucess from "./pages/Sucess";
 import "react-toastify/dist/ReactToastify.css";
 import WelcomePage from "./pages/WelcomePage";
+import CreatePin from "./pages/Auth/CreatePin";
 
 const App = () => {
   return (

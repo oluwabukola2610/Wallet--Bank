@@ -101,7 +101,7 @@ const UserProfile = () => {
         if (response.status === 200) {
           toast.success(response.data.message);
           setTimeout(() => {
-            navigate("/login");
+            navigate("/");
           }, 3000);
         }
       })

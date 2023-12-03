@@ -5,17 +5,26 @@ import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
+import { useEffect } from "react";
+import { useState } from "react";
+import CreatePin from "./Auth/CreatePin";
 
 const Dashboard = () => {
   const { isLoading, myWallet, transactions, formatDatestamp, profile } =
     useContext(BankContext);
-
+  const [modal, showModal] = useState(false);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
-  const { firstName } = profile || {};
-
+  const { firstName, transactionPin } = profile || {};
+  console.log(profile);
+  useEffect(() => {
+    if (transactionPin === 1111) {
+      showModal(true);
+    }
+  }, [transactionPin]);
+  
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full ">
       <header className="flex flex-col space-y-5">
@@ -167,7 +176,7 @@ const Dashboard = () => {
           </div>
         )}
       </main>
-
+      {modal && <CreatePin />}
       <TransferForm />
 
       <FundsForm />

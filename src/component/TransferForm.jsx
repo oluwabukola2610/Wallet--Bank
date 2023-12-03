@@ -1,6 +1,9 @@
 import { Slide, ToastContainer } from "react-toastify";
 import useHandleTransfer from "../Hook/useHandleTransfer";
 import ReactLoading from "react-loading";
+import { useState } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TransferForm = () => {
   const {
@@ -10,8 +13,21 @@ const TransferForm = () => {
     selectedCurrency,
     handleTransferForm,
     isLoading,
+    profile
   } = useHandleTransfer();
 
+  const [warningMessage, setWarningMessage] = useState(false);
+  const inputRef = useRef(null); // Ref for the PIN input element
+  const handleBlur = () => {
+    setTimeout(() => {
+      setWarningMessage(false);
+    }, 200);
+  };
+  const handleFocus = () => {
+    setWarningMessage(true);
+    inputRef.current.focus();
+  };
+const navigate = useNavigate()
   return (
     <dialog id="my_modal_2" className="modal">
       <ToastContainer
@@ -116,7 +132,28 @@ const TransferForm = () => {
               value={transferInput.pin}
               className="w-full mb-4 px-3 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-900 text-sm rounded-md focus:outline-none"
               onChange={handleInput}
-            />
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+          />
+          {warningMessage && (
+            <div>
+              {profile && profile.transactionPin === 1111 ? (
+                <div>
+                  <p className="text-sm">
+                    Please create a PIN before proceeding:
+                  </p>
+                  <button
+                    onClick={()=>navigate("/create-pin")}
+                    className="text-primary text-sm font-bold cursor-pointer"
+                  >
+                    Create PIN
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          )}
           </div>
           <button
             disabled={isLoading}
