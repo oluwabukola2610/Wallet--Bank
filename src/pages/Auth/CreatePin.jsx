@@ -1,26 +1,20 @@
-import { ToastContainer, Zoom } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import useCreatePin from "../../Hook/useCreatePin";
-import logo from "../../assets/logo/Union-preview.png";
 import OtpInput from "react18-input-otp";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 const CreatePin = () => {
   const { code, setCode, handleCreatePin } = useCreatePin();
   useEffect(() => {
-    // Submit otp automatically once input is upto 4.
     if (code.length === 4) {
       handleCreatePin(new Event("submit"));
     }
   }, [code]);
   return (
-    <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
-       <Link to="/" className="py-3">
-        <img src={logo} alt="Logo" className="" />
-      </Link>
+    <dialog id="my_modal_5" className="modal">
       <ToastContainer
         position="top-center"
         hideProgressBar={true}
-        transition={Zoom}
+        transition={Slide}
         limit={1}
         closeButton={false}
         newestOnTop={false}
@@ -28,22 +22,18 @@ const CreatePin = () => {
         rtl={false}
         draggable
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 lg:gap-x-6 mt-12 lg:mt-28">
-        <div className="text-center lg:text-left">
-          <h1 className="text-3xl font-bold md:text-4xl md:font-extrabold">
-            Create Pin{" "}
-          </h1>
-          <p className="text-grayText font-light text-xl py-4">
+      <div className="modal-box">
+        <div className="text-center ">
+          <p className="text-grayText font-semibold text-xl  py-2">
             Create pin to enable transfer{" "}
           </p>
         </div>
         <form
-          className="p-6 w-full lg:max-w-md shadow-md space-y-4 rounded-md border bg-white/80 flex flex-col items-center justify-center"
+          className="p-6 w-full space-y-4 rounded-md  flex flex-col items-center justify-center"
           onSubmit={handleCreatePin}
         >
-          <h1 className="text-xl font-semibold text-center">
-            Kindly create your 
-            transaction Pin{" "}
+          <h1 className="text-sm font-semibold text-center">
+            Kindly Create Your Transaction Pin{" "}
           </h1>
           <OtpInput
             value={code}
@@ -73,7 +63,10 @@ const CreatePin = () => {
           </button>
         </form>
       </div>
-    </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   );
 };
 

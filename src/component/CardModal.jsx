@@ -1,10 +1,11 @@
 import ReactLoading from "react-loading";
 import { ToastContainer, Zoom } from "react-toastify";
-import useCreateCard from "../Hook/useCreateCard";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { BankContext } from "../context/BankContextProvider";
 
 const CardModal = () => {
-  const { generateCard, isloading } = useCreateCard();
+  const { generateCard, isloading } = useContext(BankContext);
 
   return (
     <dialog id="my_modal_1" className="modal">

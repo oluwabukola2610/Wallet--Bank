@@ -1,21 +1,15 @@
-import { useContext, useEffect } from "react";
-import { BankContext } from "../context/BankContextProvider";
-import { Outlet, useNavigate } from "react-router-dom";
+// import { useEffect } from "react";
 
-const ProtectedRoute = () => {
-  const { isAuthenticated } = useContext(BankContext);
-  const navigate = useNavigate();
+// const ProtectedRoute = () => {
+//   useEffect(() => {
+//     // Read cookie
+//     const savedCookie = document.cookie;
 
-  useEffect(() => {
-    // Check if the user is authenticated
-    if (!isAuthenticated) {
-      // If not authenticated, you can redirect to the login page
-      navigate("/login");
-    } 
-  }, [isAuthenticated, navigate, ]);
+//     // Log the cookie
+//     console.log("Saved Cookie:", savedCookie);
+//   }, []);
 
-  // If you want to render something for the protected route, you can use Outlet
-  return <Outlet />;
-};
+//   return <div></div>;
+// };
 
-export default ProtectedRoute;
+// export default ProtectedRoute;

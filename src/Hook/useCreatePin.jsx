@@ -1,12 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { api } from "../api/Api";
 
 const useCreatePin = () => {
   const [code, setCode] = useState("");
-  const navigate = useNavigate();
 
   const handleCreatePin = (e) => {
     e.preventDefault();
@@ -23,8 +21,8 @@ const useCreatePin = () => {
         if (response.status === 200) {
           toast.success("Transaction pin created succesfully");
           setTimeout(() => {
-            navigate("/wallet");
-          }, 2000);
+            document.getElementById("my_modal_5").close()
+          }, 1000);
         }
       })
       .catch((error) => {

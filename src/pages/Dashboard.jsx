@@ -1,30 +1,24 @@
 import group1 from "../assets/group1.png";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
-import { useEffect } from "react";
-import { useState } from "react";
 import CreatePin from "./Auth/CreatePin";
 
 const Dashboard = () => {
-  const { isLoading, myWallet, transactions, formatDatestamp, profile } =
+  const { isLoading, myWallet, transactions, formatDatestamp, profile,fetchUserData } =
     useContext(BankContext);
-  const [modal, showModal] = useState(false);
+    useEffect(() => {
+      fetchUserData();
+    }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
   const { firstName, transactionPin } = profile || {};
-  console.log(profile);
-  useEffect(() => {
-    if (transactionPin === 1111) {
-      showModal(true);
-    }
-  }, [transactionPin]);
-  
+ 
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full ">
       <header className="flex flex-col space-y-5">
@@ -33,6 +27,18 @@ const Dashboard = () => {
             Hello {firstName}👋🏽
           </h1>
           <div className="flex space-x-4">
+            {transactionPin === 1111 ? (
+              <button
+                className="border-[1.5px] border-primary text-primary font-semibold rounded-lg py-2 px-4 hover:bg-primary-dark"
+                onClick={() =>
+                  document.getElementById("my_modal_5").showModal()
+                }
+              >
+                + Create Pin
+              </button>
+            ) : (
+              ""
+            )}
             <button
               className="border-[1.5px] border-primary text-primary font-semibold rounded-lg py-2 px-4 hover:bg-primary-dark"
               onClick={() => document.getElementById("my_modal_2").showModal()}
@@ -176,10 +182,10 @@ const Dashboard = () => {
           </div>
         )}
       </main>
-      {modal && <CreatePin />}
       <TransferForm />
 
       <FundsForm />
+      <CreatePin />
     </main>
   );
 };
