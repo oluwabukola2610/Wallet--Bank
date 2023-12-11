@@ -119,6 +119,7 @@ const BankContextProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           navigate("/login");
+          window.location.reload();
         }
       })
       .catch((err) => {
