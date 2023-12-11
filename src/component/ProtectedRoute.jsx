@@ -1,15 +1,14 @@
-// import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { BankContext } from "../context/BankContextProvider";
+import { Outlet } from "react-router-dom";
 
-// const ProtectedRoute = () => {
-//   useEffect(() => {
-//     // Read cookie
-//     const savedCookie = document.cookie;
+const ProtectedRoute = () => {
+  const { fetchData, isLoading } = useContext(BankContext);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-//     // Log the cookie
-//     console.log("Saved Cookie:", savedCookie);
-//   }, []);
+  return isLoading ? <p>Loading...</p> : <Outlet />
+};
 
-//   return <div></div>;
-// };
-
-// export default ProtectedRoute;
+export default ProtectedRoute;

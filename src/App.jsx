@@ -18,6 +18,7 @@ import Sucess from "./pages/Sucess";
 import "react-toastify/dist/ReactToastify.css";
 import WelcomePage from "./pages/WelcomePage";
 import CreatePin from "./pages/Auth/CreatePin";
+import ProtectedRoute from "./component/ProtectedRoute";
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
         <Route path="/wallet/success" element={<Sucess />} />
 
         {/* Use DashAside layout for dashboard-related routes */}
-        {/* <Route path="" element={<ProtectedRoute />}> */}
+        <Route path="" element={<ProtectedRoute />}>
           <Route element={<DashLayout />}>
             <Route path="/wallet" element={<Dashboard />} />
             <Route path="/card" element={<Caard />} />
@@ -42,7 +43,7 @@ const App = () => {
             <Route path="/notification" element={<Notification />} />
             <Route path="/user-profile" element={<UserProfile />} />
           </Route>
-        {/* </Route> */}
+        </Route>
       </Routes>
     </BankContextProvider>
   );

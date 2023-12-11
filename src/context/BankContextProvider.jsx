@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { api } from "../api/Api";
@@ -111,6 +111,20 @@ const BankContextProvider = ({ children }) => {
       });
   };
 
+  const handlogout = () => {
+    axios
+      .delete(`${api}/auth/logout`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleForgetPass = (e) => {
     e.preventDefault();
 
@@ -226,6 +240,7 @@ const BankContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching user data:", error.message);
+      handlogout();
     }
   };
   const [cardData, setCardData] = useState({});
@@ -296,25 +311,6 @@ const BankContextProvider = ({ children }) => {
       fetchCard(),
     ]);
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
- const handlogout = () => {
-  axios
-    .delete(`${api}/auth/logout`, {
-      withCredentials: true,
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        navigate("/login");
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 
   const contextValue = {
     user,
