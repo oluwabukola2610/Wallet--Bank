@@ -49,3 +49,7 @@ h2 {
 .card:hover .card-inner {
   transform: rotateY(-180deg);
 }
+.balance {
+  background: linear-gradient(135deg, #2488FF 0%, #1c71da 100%);
+  box-shadow: 1px 2px 4px 0px #ECECEC;
+}

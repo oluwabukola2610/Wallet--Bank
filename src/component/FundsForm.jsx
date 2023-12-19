@@ -1,7 +1,8 @@
 import { Slide, ToastContainer } from "react-toastify";
 import useHandleFunds from "../Hook/useHandleFunds";
 import { FaRegCopy } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BankContext } from "../context/BankContextProvider";
 const FundsForm = () => {
   const {
     selectedCurrency,
@@ -15,8 +16,9 @@ const FundsForm = () => {
   const handleInput = (event) => {
     setFundsInput(event.target.value);
   };
+  const { cardData } = useContext(BankContext);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
-  const cardNum = JSON.parse(localStorage.getItem("cardNum"));
+  const cardNum = cardData?.cardNumber;
   const cardNumber = cardNum ? cardNum : "4242424242424242";
   const handleCopyClick = async () => {
     try {
@@ -117,14 +119,7 @@ const FundsForm = () => {
               className="w-full mb-4 px-1 py-2 border border-gray-300 text-gray-800 placeholder:text-gray-300 text-sm rounded-md focus:outline-none"
               onChange={handleInput}
               value={fundsInput}
-              // onFocus={() => setWarningMessage(true)}
-              // onBlur={() => setWarningMessage(false)}
             />
-            {/* {warningMessage && (
-              <p className="text-sm text-red-400 ">
-                Amount should be between 100 & 2000{" "}
-              </p>
-            )} */}
           </div>
           {selectedCurrency === "naira" && (
             <div className="">

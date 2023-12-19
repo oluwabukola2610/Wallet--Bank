@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo/Union-preview.png";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useContext, useState } from "react";
-import {  ToastContainer, Zoom } from "react-toastify";
+import { ToastContainer, Zoom } from "react-toastify";
 import { BankContext } from "../../context/BankContextProvider";
 import ReactLoading from "react-loading";
 
 const SignUp = () => {
-  const { handleRegister, handleInput, user, isLoading } =
+  const { handleRegister, handleInput, user, isLoading,passwordRegex } =
     useContext(BankContext);
   const [passwordType, setPasswordType] = useState("password");
   const [showEmailMessage, setShowEmailMessage] = useState(false);
@@ -16,7 +16,7 @@ const SignUp = () => {
       prevType === "password" ? "text" : "password"
     );
   };
-
+ 
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
       <Link to="/" className="py-3">
@@ -138,7 +138,8 @@ const SignUp = () => {
                 id="password"
                 placeholder="••••••••"
                 onChange={handleInput}
-                className="w-full px-4 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-transparent"
+                className="w-full px-4 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-transparent ${
+                  "
               />
               <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (
@@ -148,13 +149,21 @@ const SignUp = () => {
                 )}
               </div>
             </div>
+            {user.password.length > 0 && !passwordRegex.test(user.password) && (
+              <p className="text-sm text-red-400 mb-2">
+                Password must contain at least one uppercase letter, one
+                lowercase letter, one digit, one symbol, and be at least 6
+                characters long
+              </p>
+            )}
           </div>
+
           <div>
             <label
-              htmlFor="confirmpassword"
+              htmlFor="confirmPass"
               className="block mb-1 text-sm font-medium text-grayText"
             >
-           Confirm Password
+              Confirm Password
             </label>
             <div className="mb-4 py-2 flex items-center justify-between border border-gray-300 rounded-md">
               <input
@@ -174,6 +183,12 @@ const SignUp = () => {
                 )}
               </div>
             </div>
+            {user.confirmPass.length > 0 &&
+              user.password !== user.confirmPass && (
+                <p className="text-sm text-red-400 mb-2">
+                  Passwords do not match
+                </p>
+              )}
           </div>
           <button
             disabled={isLoading}

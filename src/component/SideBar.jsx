@@ -24,21 +24,21 @@ function SideBar() {
           {Image ? (
             <Avatar
               src={Image}
-              name={`${firstName} ${lastName}`}
+              name={`${firstName||""} ${lastName || ""}`}
               size="150"
               round={true}
             />
           ) : (
             <Avatar
               style={{ backgroundColor: "white" }}
-              name={`${firstName} ${lastName}`}
+              name={`${firstName || ""} ${lastName || ""}`}
               size="150"
               round={true}
               className="text-xl !bg-primary"
             />
           )}
           <h4 className=" text-center py-2 font-bold font-serif text-gray-200 uppercase">
-            {firstName} {lastName}
+            {firstName??""} {lastName??""}
           </h4>
         </div>
 

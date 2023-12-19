@@ -1,24 +1,40 @@
 import group1 from "../assets/group1.png";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import TransferForm from "../component/TransferForm";
 import FundsForm from "../component/FundsForm";
 import { Link } from "react-router-dom";
 import { BankContext } from "../context/BankContextProvider";
 import CreatePin from "./Auth/CreatePin";
+import { FaRegCopy } from "react-icons/fa";
 
 const Dashboard = () => {
-  const { isLoading, myWallet, transactions, formatDatestamp, profile,fetchUserData } =
-    useContext(BankContext);
-    useEffect(() => {
-      fetchUserData();
-    }, []);
+  const {
+    isLoading,
+    myWallet,
+    transactions,
+    formatDatestamp,
+    profile,
+    fetchUserData,
+  } = useContext(BankContext);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   const sortedTransactions = transactions.sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
   const { firstName, transactionPin } = profile || {};
- 
+  const [showmessage, setShowMessage] = useState("");
+  const handleCopyClick = async (acct) => {
+    try {
+      await navigator.clipboard.writeText(acct);
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy text: ", error);
+    }
+  };
   return (
     <main className=" px-3 md:px-4 lg:px-8 py-3 flex flex-col overflow-y-scroll w-full ">
       <header className="flex flex-col space-y-5">
@@ -29,7 +45,7 @@ const Dashboard = () => {
           <div className="flex space-x-4">
             {transactionPin === 1111 ? (
               <button
-                className="border-[1.5px] border-primary text-primary font-semibold rounded-lg py-2 px-4 hover:bg-primary-dark"
+                className="border-[1.5px] border-primary text-primary font-semibold rounded-lg md:py-2 py-1 px-2 md:px-4 hover:bg-primary-dark"
                 onClick={() =>
                   document.getElementById("my_modal_5").showModal()
                 }
@@ -40,7 +56,7 @@ const Dashboard = () => {
               ""
             )}
             <button
-              className="border-[1.5px] border-primary text-primary font-semibold rounded-lg py-2 px-4 hover:bg-primary-dark"
+              className="border-[1.5px] border-primary text-primary font-semibold rounded-lg  md:py-2 py-1 px-2 md:px-4  hover:bg-primary-dark"
               onClick={() => document.getElementById("my_modal_2").showModal()}
             >
               Transfer Funds
@@ -48,13 +64,82 @@ const Dashboard = () => {
 
             <button
               onClick={() => document.getElementById("my_modal_3").showModal()}
-              className="bg-primary font-semibold text-white rounded-lg py-2 px-4 hover:bg-primary-dark"
+              className="bg-primary font-semibold text-white rounded-lg  md:py-2 py-1 px-2 md:px-4  hover:bg-primary-dark"
             >
               + Fund Wallet
             </button>
           </div>
         </div>
-        <div className="flex mt-3">
+        <p className="md:px-4 font-semibold text-3xl ">
+          Overview -{" "}
+          <span className="text-lg text-gray-500 font-medium">
+            Wallet Balance
+          </span>
+        </p>
+
+        <div className="grid  grid-cols-1 md:grid-cols-[60%_30%] gap-[2%] md:gap-[5%] w-full md:mx-[2rem]">
+          <div className="flex justify-around items-center  balance py-8 px-3 md:px-5 rounded-xl ">
+            <div className="space-y-2 p-4">
+              <p className="text-gray-200 text-sm">Naira Balance</p>
+              <p className="text-2xl md:text-4xl text-white ">
+                ₦ {myWallet?.nairaBalance}
+                <span className="text-gray-200">.00</span>{" "}
+              </p>
+            </div>
+            <div className="h-[6rem] border-r border-r-white w-[2px] items-center"></div>
+            <div className="space-y-2 p-4">
+              <p className="text-gray-200 text-sm">Dollar Balance</p>
+              <p className="text-2xl md:text-4xl text-white ">
+                $ {myWallet?.usdBalance}
+                <span className="text-gray-200">.00</span>{" "}
+              </p>
+            </div>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg space-y-2">
+            <p className="p-2 text-sm font-medium text-gray-500">
+              Make transfer to any of your account to fund wallet
+            </p>
+            {showmessage && (
+              <p className="text-green-500 text-center font-semibold">
+                text copied successfully
+              </p>
+            )}
+            <span className="flex justify-between font-normal bg-[#2488FF] p-2 rounded-lg">
+              <span className="flex space-x-4 py-2">
+                <p className="text-[0.75rem] font-semibold">naira account </p>
+                <p className="text-[0.75rem]">— &nbsp;</p>
+                <p className="text-[0.75rem]">
+                  {myWallet?.userWalletNaira?.accountNumber}
+                </p>
+              </span>
+              <button
+                onClick={() =>
+                  handleCopyClick(myWallet?.userWalletNaira?.accountNumber)
+                }
+              >
+                <FaRegCopy />
+              </button>
+            </span>
+            <span className="flex justify-between font-normal bg-[#2488FF] p-2 rounded-lg">
+              <span className="flex space-x-4 py-2">
+                <p className="text-[0.75rem] font-semibold">dollar account </p>
+                <p className="text-[0.75rem]">— &nbsp;</p>
+                <p className="text-[0.75rem]">
+                  {myWallet?.userWalletUSD?.accountNumber}
+                </p>
+              </span>
+              <button
+                onClick={() =>
+                  handleCopyClick(myWallet?.userWalletUSD?.accountNumber)
+                }
+              >
+                <FaRegCopy />
+              </button>
+            </span>
+          </div>
+        </div>
+        {/* <div className="flex mt-3">
           <div className="border border-gray-300 p-4 flex-1 mr-3 text-xl font-medium">
             {isLoading ? (
               <div className="flex justify-center items-center py-8">
@@ -86,8 +171,8 @@ const Dashboard = () => {
               "loading..."
             )}
           </div>
-        </div>
-        <p className="py-4 font-medium">Transaction History</p>
+        </div> */}
+        <p className="py-4 font-medium text-lg">Transaction History</p>
       </header>
 
       <main className="mt-4">

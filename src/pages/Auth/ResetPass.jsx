@@ -1,22 +1,22 @@
 import logo from "../../assets/logo/Union-preview.png";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BankContext } from "../../context/BankContextProvider";
-import useResetPass from "../../Hook/useResetPass";
 import { ToastContainer, Zoom } from "react-toastify";
 import { Link } from "react-router-dom";
 const ResetPass = () => {
-  const { user, handleInput } = useContext(BankContext);
-  const {
-    handleResetPass,
-    hsndleRestInput,
-    confirmPass,
-    passwordType,
-    togglePassword,
-  } = useResetPass();
+  const { user, handleInput, passwordRegex,handleResetPass } = useContext(BankContext);
+  const [passwordType, setPasswordType] = useState("password");
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
   return (
     <div className="max-w-[1640px] mx-auto py-5 px-6 md:px-20 bg-bgGray h-screen overflow-y-auto">
-       <Link to="/" className="py-3">
+      <Link to="/" className="py-3">
         <img src={logo} alt="Logo" className="" />
       </Link>
       <ToastContainer
@@ -46,21 +46,21 @@ const ResetPass = () => {
           <div>
             <label
               htmlFor="password"
-              className="block mb-2 text-sm font-medium text-grayText"
+              className="block mb-1 text-sm font-medium text-grayText"
             >
               New Password
             </label>
-            <div className="mb-4 py-2 flex items-center justify-between  border border-gray-300 rounded-md ">
+            <div className="mb-4 py-2 flex items-center justify-between border border-gray-300 rounded-md">
               <input
                 type={passwordType}
+                value={user.password}
                 name="password"
                 id="password"
                 placeholder="••••••••"
                 onChange={handleInput}
-                value={user.password}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
+                className="w-full px-4 py-2 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-inherit"
               />
-              <div onClick={togglePassword} className=" text-grayText px-4">
+              <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (
                   <AiFillEyeInvisible size={20} />
                 ) : (
@@ -68,25 +68,33 @@ const ResetPass = () => {
                 )}
               </div>
             </div>
+            {user.password.length > 0 && !passwordRegex.test(user.password) && (
+              <p className="text-sm text-red-400 mb-2">
+                Password must contain at least one uppercase letter, one
+                lowercase letter, one digit, one symbol, and be at least 6
+                characters long
+              </p>
+            )}
           </div>
+
           <div>
             <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-grayText"
+              htmlFor="confirmPass"
+              className="block mb-1 text-sm font-medium text-grayText"
             >
               Confirm Password
             </label>
-            <div className="mb-4 py-2 flex items-center justify-between  border border-gray-300 rounded-md ">
+            <div className="mb-4 py-2 flex items-center justify-between border border-gray-300 rounded-md">
               <input
                 type={passwordType}
+                value={user.confirmPass}
                 name="confirmPass"
-                id="confirmPass"
+                id="confirmpassword"
                 placeholder="••••••••"
-                onChange={hsndleRestInput}
-                value={confirmPass}
-                className="w-full px-4  text-gray-800 placeholder:text-gray-500 text-sm  focus:outline-none"
+                onChange={handleInput}
+                className="w-full px-4 text-gray-800 placeholder:text-gray-400 text-sm focus:outline-none bg-inherit"
               />
-              <div onClick={togglePassword} className=" text-grayText px-4">
+              <div onClick={togglePassword} className="text-grayText px-4">
                 {passwordType === "password" ? (
                   <AiFillEyeInvisible size={20} />
                 ) : (
@@ -94,6 +102,12 @@ const ResetPass = () => {
                 )}
               </div>
             </div>
+            {user.confirmPass.length > 0 &&
+              user.password !== user.confirmPass && (
+                <p className="text-sm text-red-400 mb-2">
+                  Passwords do not match
+                </p>
+              )}
           </div>
           <button className="w-full bg-primary text-white rounded-lg py-2 px-4 hover:bg-primary-dark">
             Reset Password

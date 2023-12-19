@@ -28,6 +28,9 @@ const BankContextProvider = ({ children }) => {
       [name]: value,
     }));
   };
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{6,}$/;
+
   const handleRegister = (event) => {
     event.preventDefault();
     // Validate form fields
@@ -41,8 +44,15 @@ const BankContextProvider = ({ children }) => {
       toast.warn("Please fill in all fields");
       return;
     }
+    // Check if the password meets the regex requirements
+    if (!passwordRegex.test(user.password)) {
+      toast.warn("Password must meet the requirements");
+      return;
+    }
+
+    // Check if the password and confirm password match
     if (user.password !== user.confirmPass) {
-      toast.warn("Password and Confirm Password do not match");
+      toast.warn("Passwords do not match");
       return;
     }
     setIsLoading(true);
@@ -155,6 +165,48 @@ const BankContextProvider = ({ children }) => {
         setUser({
           email: "",
         });
+      });
+  };
+  const handleResetPass = (event) => {
+    event.preventDefault();
+    // Validate form fields
+    if (!user.confirmPass || !user.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Check if the password meets the regex requirements
+    if (!passwordRegex.test(user.password)) {
+      toast.warn("Password must meet the requirements");
+      return;
+    }
+
+    // Check if the password and confirm password match
+    if (user.password !== user.confirmPass) {
+      toast.warn("Passwords do not match");
+      return;
+    }
+
+    const userId = window.location.pathname.split("/")[2]; // Extract the user ID from the URL
+    const userToken = window.location.pathname.split("/")[3]; // Extract the token from the URL
+    const newpassData = {
+      password: user.password,
+      id: userId,
+      token: userToken,
+    };
+    // Make the API request to reset the password
+    axios
+      .post(`${api}/auth/pass_reset/${userId}/${userToken}`, newpassData)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Password reset successful");
+          navigate("/login");
+          // Perform any necessary actions after successful password reset
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred. Please try again later.");
       });
   };
 
@@ -320,6 +372,7 @@ const BankContextProvider = ({ children }) => {
     handleRegister,
     handleLogin,
     handleForgetPass,
+    handleResetPass,
     setuserWallet,
     profile,
     fetchUserTransactions,
@@ -336,6 +389,7 @@ const BankContextProvider = ({ children }) => {
     isCardGenerated,
     deleteCAard,
     handlogout,
+    passwordRegex,
   };
 
   return (
