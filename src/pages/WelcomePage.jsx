@@ -2,11 +2,11 @@ import { Link } from "react-router-dom"; // If you are using React Router
 import wallet from "../assets/E-Wallet-bro.png";
 const WelcomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen max-w-[1640px]">
       <div className="blur h-[30rem] w-[15rem] left-0"></div>
 
       {/* Main Content */}
-      <div className="flex-grow flex-col container md:mx-auto flex md:flex-row items-center justify-between p-8 space-y-8 md:space-y-0">
+      <div className="flex-col container md:mx-auto flex md:flex-row items-center justify-between p-8 space-y-8 md:space-y-0">
         <div className="w-full md:w-[40%] flex flex-col items-center">
           <h1 className="text-2xl md:text-4xl font-extrabold mb-4">
             Welcome to Wallet
